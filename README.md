@@ -2,12 +2,12 @@
 
 DJOG Uno's 2020-2021.
 
-## Doel
+## Goal
 
- * Tank Battalion namaken
- * Leren programmeren met Processing
- * Leren werken met `git` en GitHub
- * Oefenen in teamwerk
+ * Re-create Tank Battalion
+ * Learn how to program using Processing
+ * Learn how to work with `git` en GitHub
+ * Practice in teamwork
 
 ## Sprites
 
@@ -30,7 +30,7 @@ DJOG Uno's 2020-2021.
 
 ## Links
 
- * Hoe werkt `git`: [https://github.com/djog/help](https://github.com/djog/help)
- * Tank_Battalion Wikipedia pagina: [https://en.wikipedia.org/wiki/Tank_Battalion](https://en.wikipedia.org/wiki/Tank_Battalion)
- * YouTube video: [https://youtu.be/vNNPbVpZutw](https://youtu.be/vNNPbVpZutw)
+ * Dutch guide about `git`: [https://github.com/djog/help](https://github.com/djog/help)
+ * Tank Battalion Wikipedia page: [https://en.wikipedia.org/wiki/Tank_Battalion](https://en.wikipedia.org/wiki/Tank_Battalion)
+ * YouTube video: [https://yout.be/vNNPbVpZutw](https://youtu.be/vNNPbVpZutw)
 
