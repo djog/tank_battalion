@@ -30,7 +30,7 @@ DJOG Uno's 2020-2021.
 
 ## Links
 
- * Dutch guide about `git`: [https://github.com/djog/help](https://github.com/djog/help)
+ * Dutch guide about `git`: [djog.github.io/help/](https://djog.github.io/help/)
  * Tank Battalion Wikipedia page: [https://en.wikipedia.org/wiki/Tank_Battalion](https://en.wikipedia.org/wiki/Tank_Battalion)
  * YouTube video: [https://yout.be/vNNPbVpZutw](https://youtu.be/vNNPbVpZutw)
 
