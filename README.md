@@ -5,8 +5,9 @@ DJOG Uno's 2020-2021.
 ## Doel
 
  * Tank Battalion namaken
+ * Leren programmeren met Processing
  * Leren werken met `git` en GitHub
- * Oefenen in samenwerken
+ * Oefenen in teamwerk
 
 ## Sprites
 
