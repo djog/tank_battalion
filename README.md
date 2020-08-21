@@ -36,8 +36,9 @@ Most recent at the top.
 
 ## Links
 
- * Dutch guide about `git`: [djog.github.io/help/](https://djog.github.io/help/)
- * Tank Battalion Wikipedia page: [https://en.wikipedia.org/wiki/Tank_Battalion](https://en.wikipedia.org/wiki/Tank_Battalion)
- * YouTube video: [https://yout.be/vNNPbVpZutw](https://youtu.be/vNNPbVpZutw)
-
+ * [git voor jonge tieners](https://github.com/richelbilderbeek/git_voor_jonge_tieners)
+ * [djog.github.io/help](https://djog.github.io/help/)
+ * [Tank Battalion Wikipedia page](https://en.wikipedia.org/wiki/Tank_Battalion)
+ * [YouTube video](https://youtu.be/vNNPbVpZutw)
+ * [Play the game online](https://www.retrogames.cc/msx1-games/tank-battalion.html)
 
