@@ -10,7 +10,10 @@ float tank_y;
 
 void setup() {
   // Settings  
-  fullScreen();
+ 
+  
+  //fullScreen();
+  size(1600, 900);
   frameRate(60);
   
   // Load files
@@ -28,6 +31,7 @@ void draw() {
   
   rectMode(CORNER);
   image(background_image, 0, 0, width, height);
+  
   rectMode(CENTER);
   image(tank_image, tank_x, tank_y, 64, 64);
 }
