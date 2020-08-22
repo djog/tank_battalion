@@ -39,6 +39,7 @@ void draw() {
   
   rectMode(CORNER);
   image(background_image, 0, 0, width, height);
+  
   rectMode(CENTER);
   image(tank_image, tank_x, tank_y, 64, 64);
   
