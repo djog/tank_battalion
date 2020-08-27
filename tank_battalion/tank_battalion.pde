@@ -15,6 +15,8 @@ PFont game_font;
 float tank_x;
 float tank_y;
 
+Grid grid;
+  
 void setup() {
   // Settings  
   size(1600, 900);
@@ -31,20 +33,22 @@ void setup() {
   // Center the tank
   tank_x = ARENA_CENTER_X;
   tank_y = ARENA_CENTER_Y;
-}
-
+  
+  // Initialize grid
+  grid = new Grid();
+}  
 
 void draw() {
   background(0);
   
+  // Draw brackground
   rectMode(CORNER);
   image(background_image, 0, 0, width, height);
   
+  // Draw the grid
+  grid.draw();
+  
+  // Draw tank/player
   rectMode(CENTER);
   image(tank_image, tank_x, tank_y, 64, 64);
-  
-  // Text demo - Remove this!
-  textFont(game_font);
-  textAlign(CENTER, CENTER);
-  text("Retro Gaming Font Demo", ARENA_CENTER_X, ARENA_CENTER_Y - 300);
 }
