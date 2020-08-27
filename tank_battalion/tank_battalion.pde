@@ -23,11 +23,14 @@ Player player;
 
 void setup() {
   // Settings  
+  // I'm using P2D because it's much faster than default
   size(1600, 900, P2D);
   frameRate(60);
   
   // For the pixelart & retro effect
   smooth(0);
+  
+  // Comment if you're NOT using P2D renderer
   ((PGraphicsOpenGL)g).textureSampling(3);
   
   // Load files
