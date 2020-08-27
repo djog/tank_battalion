@@ -15,6 +15,8 @@ PFont game_font;
 float tank_x;
 float tank_y;
 
+Player player;
+
 void setup() {
   // Settings  
   size(1600, 900);
@@ -40,8 +42,8 @@ void draw() {
   rectMode(CORNER);
   image(background_image, 0, 0, width, height);
   
-  rectMode(CENTER);
-  image(tank_image, tank_x, tank_y, 64, 64);
+  //rectMode(CENTER);
+  //image(tank_image, tank_x, tank_y, 64, 64);
   
   // Text demo - Remove this!
   textFont(game_font);
