@@ -72,6 +72,8 @@ void draw() {
 
   // Draw the Round HUD
   textFont(game_font);
-  textSize(24);
-  
+  textSize(29);
+  textAlign(CENTER,CENTER);
+  fill(255, 255, 255);
+  text("ROUND",width - 300, 750);
 }
