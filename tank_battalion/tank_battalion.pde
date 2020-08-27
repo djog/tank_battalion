@@ -6,8 +6,9 @@ final int ARENA_Y = 32;
 final int ARENA_SIZE = 836;
 final int ARENA_CENTER_X = ARENA_X + ARENA_SIZE / 2;
 final int ARENA_CENTER_Y = ARENA_Y + ARENA_SIZE / 2;
-int HIGHSCORE = 0;
-int SCORE = 0;
+
+int high_score = 0;
+int score = 0;
 
 // Images
 PImage background_image;
@@ -35,8 +36,6 @@ void setup() {
   tank_y = ARENA_CENTER_Y;
 }
 
-
-
 void draw() {
   background(0);
   
@@ -46,17 +45,18 @@ void draw() {
   rectMode(CENTER);
   image(tank_image, tank_x, tank_y, 64, 64);
   
+  // Draw the Score HUD
   textFont(game_font);
   textSize(24);
   textAlign(CENTER,CENTER);
-  fill(255,0,0);
+  fill(255, 0, 0);
   text("HIGH",width - 350, 50); 
-  text("SCORE",width - 350,75);
+  text("SCORE",width - 350, 75);
   fill(255);
-  text(HIGHSCORE,width - 350,100);
+  text(high_score,width - 350,100);
   
   fill(255,0,0);
-  text("SCORE",width - 350,150);
+  text("SCORE", width - 350, 150);
   fill(255);
-  text(SCORE,width - 350,175);
+  text(score, width - 350, 175);
 }
