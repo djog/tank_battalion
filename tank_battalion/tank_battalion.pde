@@ -12,11 +12,7 @@ int score = 0;
 
 // Images
 PImage background_image;
-PImage tank_image;
 PFont game_font;
-
-float tank_x;
-float tank_y;
 
 Grid grid;
 Player player;
@@ -35,12 +31,7 @@ void setup() {
   
   // Load files
   background_image = loadImage(SPRITES_FOLDER + "Background.png");
-  tank_image = loadImage(SPRITES_FOLDER + "PlayerUp.png");
   game_font = createFont(FONTS_FOLDER + "RetroGaming.ttf", 48.0);
-  
-  // Center the tank
-  tank_x = ARENA_CENTER_X;
-  tank_y = ARENA_CENTER_Y;
 
   // Initialize grid
   grid = new Grid();
