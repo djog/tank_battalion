@@ -1,6 +1,6 @@
 class Grid {
-   final int GRID_SIZE = 32;
-   final int NODE_SIZE = ARENA_SIZE / GRID_SIZE;
+   static final int GRID_SIZE = 32;
+   static final int NODE_SIZE = ARENA_SIZE / GRID_SIZE;
    
    int[][] nodes;
    
@@ -23,10 +23,18 @@ class Grid {
      for (int x = 0; x < GRID_SIZE; x++) {
       for (int y = 0; y < GRID_SIZE; y++) {
         if (nodes[x][y] == 1) {
-          image(brick_image, ARENA_X + x * NODE_SIZE, ARENA_Y + y * NODE_SIZE, NODE_SIZE, NODE_SIZE);
+          PVector position = gridToScreenCoords(x, y);
+          image(brick_image, position.x, position.y, NODE_SIZE, NODE_SIZE);
         }
-        
       }
     }
    }
+}
+
+public static PVector gridToScreenCoords(int x, int y) {
+  return new PVector(ARENA_X + x * Grid.NODE_SIZE, ARENA_Y + y * Grid.NODE_SIZE);
+}
+
+public static PVector screenToGridCoords(int x, int y) {
+  return new PVector((x - ARENA_X) / Grid.NODE_SIZE, (y - ARENA_Y) / Grid.NODE_SIZE);
 }

@@ -65,6 +65,9 @@ class Player {
       x += MOVE_SPEED;
     }
     rectMode(CENTER);
+    ellipseMode(CENTER);
+    ellipse(x, y, 64, 64);
+    imageMode(CENTER);
     image(tank_image, x, y, 64, 64);
   }
 }
