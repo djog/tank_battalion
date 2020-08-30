@@ -7,6 +7,8 @@ static final int ARENA_SIZE = 836;
 static final int ARENA_CENTER_X = ARENA_X + ARENA_SIZE / 2;
 static final int ARENA_CENTER_Y = ARENA_Y + ARENA_SIZE / 2;
 
+boolean debug_collision = false;
+
 int high_score = 0;
 int score = 0;
 
@@ -40,10 +42,18 @@ void setup() {
 
 void keyPressed() {
   player.input(keyCode, true);
+  if (keyCode == 'P' || keyCode == 'p')
+  {
+    debug_collision = true;
+  }
 }
 
 void keyReleased() {
   player.input(keyCode, false);
+  if (keyCode == 'P' || keyCode == 'p')
+  {
+    debug_collision = false;
+  }
 }
 
 void draw() {
@@ -57,8 +67,13 @@ void draw() {
   grid.draw();
   player.draw();
   
-  print(screenToGridCoords(player.x, player.y));
-
+  // Do the collision detection for the player
+  if (collision_detection(player.x, player.y, Player.SIZE, Player.SIZE, grid.get_nodes()))
+  {
+    // For now just prevent the player from moving
+    player.move_speed = 0;
+  }
+  
   // Draw the Score HUD
   textFont(game_font);
   textSize(24);

@@ -1,7 +1,8 @@
-int MOVE_SPEED = 3;
-
 class Player {
+  static final int SIZE = 64;
+  
   int x, y;
+  int move_speed = 3;
   
   boolean up, down, left, right = false;
   
@@ -50,24 +51,23 @@ class Player {
   void draw() {
     if(up){
       tank_image = player_up;
-      y -= MOVE_SPEED;
+      y -= move_speed;
     }
     else if(down){
       tank_image = player_down;
-      y += MOVE_SPEED;
+      y += move_speed;
     }
     else if(left){
       tank_image = player_left;
-      x -= MOVE_SPEED;
+      x -= move_speed;
     }
     else if(right){
       tank_image = player_right;
-      x += MOVE_SPEED;
+      x += move_speed;
     }
-    rectMode(CENTER);
-    ellipseMode(CENTER);
-    ellipse(x, y, 64, 64);
+    
+    
     imageMode(CENTER);
-    image(tank_image, x, y, 64, 64);
+    image(tank_image, x, y, SIZE, SIZE);
   }
 }
