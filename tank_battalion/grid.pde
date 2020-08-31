@@ -21,7 +21,11 @@ class Grid {
         }
         else
         {
-          nodes[x][y] = (int)random(0,2);
+          int random_int = (int)random(0,10);
+          if (random_int == 0)
+            nodes[x][y] = 1;
+          else
+            nodes[x][y] = 0;
         }
       }
     }

@@ -65,14 +65,10 @@ void draw() {
   
   // Draw the grid
   grid.draw();
-  player.draw();
   
-  // Do the collision detection for the player
-  if (collision_detection(player.x, player.y, Player.SIZE, Player.SIZE, grid.get_nodes()))
-  {
-    // For now just prevent the player from moving
-    player.move_speed = 0;
-  }
+  // Update & draw the player
+  player.update(grid.get_nodes());
+  player.draw();
   
   // Draw the Score HUD
   textFont(game_font);

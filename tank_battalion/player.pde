@@ -48,25 +48,34 @@ class Player {
     }
   }
   
-  void draw() {
+  void update(int[][] grid_nodes) {
+    int target_x = x;
+    int target_y = y;
     if(up){
       tank_image = player_up;
-      y -= move_speed;
+      target_y -= move_speed;
     }
     else if(down){
       tank_image = player_down;
-      y += move_speed;
+      target_y += move_speed;
     }
     else if(left){
       tank_image = player_left;
-      x -= move_speed;
+      target_x -= move_speed;
     }
     else if(right){
       tank_image = player_right;
-      x += move_speed;
+      target_x += move_speed;
     }
-    
-    
+    // Only move the player if the target position does not hit an obstacle
+    if (!collision_detection(target_x, target_y, SIZE, SIZE, grid_nodes))
+    {
+      x = target_x;
+      y = target_y;
+    }
+  }
+  
+  void draw() {   
     imageMode(CENTER);
     image(tank_image, x, y, SIZE, SIZE);
   }
