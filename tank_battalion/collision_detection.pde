@@ -41,7 +41,7 @@ public boolean collision_detection(int screen_x, int screen_y, int object_width,
     for (int y = - NODE_COLLISION_LAYERS; y <= NODE_COLLISION_LAYERS; y++) {
       int target_x = center_x + x;
       int target_y = center_y + y;
-      if (target_x >= 0 && target_x < Grid.SIZE && target_y >= 0 && target_y < Grid.SIZE)
+      if (target_x >= 0 && target_x < Grid.SIZE_X && target_y >= 0 && target_y < Grid.SIZE_Y)
       {
         int node_value = nodes[target_x][target_y];
         if (node_value == 1)
