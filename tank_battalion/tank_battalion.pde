@@ -54,8 +54,12 @@ void draw() {
   // Draw tank/player
   rectMode(CENTER);
   image(tank_image, tank_x, tank_y, 64, 64);
-  
-  // Draw the Score HUD
+  drawScore();
+}
+
+
+void drawScore(){
+   // Draw the Score HUD
   textFont(game_font);
   textSize(24);
   textAlign(CENTER,CENTER);
@@ -68,5 +72,5 @@ void draw() {
   fill(255,0,0);
   text("SCORE", width - 350, 150);
   fill(255);
-  text(score, width - 350, 175);
+  text(score, width - 350, 175); 
 }
