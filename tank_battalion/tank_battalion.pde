@@ -22,14 +22,14 @@ Player player;
 void setup() {
   // Settings  
   // I'm using P2D because it's much faster than default
-  size(1600, 900, P2D);
+  size(1600, 900);
   frameRate(60);
   
   // For the pixelart & retro effect
   smooth(0);
   
   // Comment if you're NOT using P2D renderer
-  ((PGraphicsOpenGL)g).textureSampling(3);
+  // ((PGraphicsOpenGL)g).textureSampling(3);
   
   // Load files
   background_image = loadImage(SPRITES_FOLDER + "Background.png");
@@ -38,6 +38,11 @@ void setup() {
   // Initialize grid
   grid = new Grid();
   player = new Player(ARENA_CENTER_X, ARENA_CENTER_Y);
+
+  enemies = new Enemy[10];
+  for(int i = 0; i < 10; i++){
+    enemies[i] = new Enemy((int)random(ARENA_X, ARENA_X + ARENA_SIZE), (int)random(ARENA_Y, ARENA_Y + ARENA_SIZE));
+  }
 }
 
 void keyPressed() {
