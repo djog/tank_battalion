@@ -18,6 +18,7 @@ PFont game_font;
 
 Grid grid;
 Player player;
+Enemy[] enemies;
 
 void setup() {
   // Settings  
@@ -37,8 +38,9 @@ void setup() {
 
   // Initialize grid
   grid = new Grid();
+  
   player = new Player(ARENA_CENTER_X, ARENA_CENTER_Y);
-
+  
   enemies = new Enemy[10];
   for(int i = 0; i < 10; i++){
     enemies[i] = new Enemy((int)random(ARENA_X, ARENA_X + ARENA_SIZE), (int)random(ARENA_Y, ARENA_Y + ARENA_SIZE));
@@ -74,6 +76,11 @@ void draw() {
   // Update & draw the player
   player.update(grid.get_nodes());
   player.draw();
+  
+  for(Enemy enemy: enemies){
+    enemy.update(grid.get_nodes());
+    enemy.draw();
+  }
   
   // Draw the Score HUD
   textFont(game_font);
