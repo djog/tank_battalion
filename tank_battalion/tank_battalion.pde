@@ -42,7 +42,7 @@ void setup() {
 
   // Initialize grid
   grid = new Grid();
-  player = new Player(ARENA_CENTER_X, ARENA_CENTER_Y);
+  player = new Player(ARENA_X, ARENA_Y + 43 * Grid.NODE_SIZE_Y);
   //for(int i = 0; i < 10; i++){
   //  enemies.add(new Enemy(ARENA_CENTER_X + 64 * i, ARENA_CENTER_Y + 64 * i));
   //}
@@ -72,7 +72,7 @@ void draw() {
   timer -= delta_time;
   
   if(timer < 0){
-    enemies.add(new Enemy(ARENA_X + int(random(4, 41)) * Grid.NODE_SIZE, ARENA_Y + 4 * Grid.NODE_SIZE));
+    enemies.add(new Enemy(ARENA_X + int(random(4, 41)) * Grid.NODE_SIZE_X, ARENA_Y + 4 * Grid.NODE_SIZE_Y));
     timer = random(10, 25);
   }
   

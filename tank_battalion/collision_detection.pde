@@ -53,9 +53,9 @@ public boolean collision_detection(int screen_x, int screen_y, int object_width,
             fill(0, 200, 0, 255);
             stroke(0);
             strokeWeight(1);
-            rect(screenCoords.x, screenCoords.y, Grid.NODE_SIZE, Grid.NODE_SIZE);
+            rect(screenCoords.x, screenCoords.y, Grid.NODE_SIZE_X, Grid.NODE_SIZE_Y);
           }
-          obstacles.add(new AABB((int)screenCoords.x, (int)screenCoords.x + Grid.NODE_SIZE, (int)screenCoords.y, (int)screenCoords.y + Grid.NODE_SIZE));
+          obstacles.add(new AABB((int)screenCoords.x, (int)screenCoords.x + Grid.NODE_SIZE_X, (int)screenCoords.y, (int)screenCoords.y + Grid.NODE_SIZE_Y));
         }
       }
     }
