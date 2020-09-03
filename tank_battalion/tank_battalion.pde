@@ -12,8 +12,12 @@ boolean debug_collision = false;
 int high_score = 0;
 int score = 0;
 
+float x;
+float y;
+
 // Images
 PImage background_image;
+PImage Flag_image;
 PFont game_font;
 
 Grid grid;
@@ -34,6 +38,7 @@ void setup() {
   
   // Load files
   background_image = loadImage(SPRITES_FOLDER + "Background.png");
+  Flag_image = loadImage(SPRITES_FOLDER + "Flag.png");
   game_font = createFont(FONTS_FOLDER + "RetroGaming.ttf", 48.0);
 
   // Initialize grid
@@ -67,6 +72,8 @@ void draw() {
   // Draw brackground
   imageMode(CORNER);
   image(background_image, 0, 0, width, height);
+  rectMode(CENTER);
+  image(Flag_image, 620, 760, 64, 64);
   
   // Draw the grid
   grid.draw();
