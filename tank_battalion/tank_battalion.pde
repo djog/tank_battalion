@@ -18,7 +18,10 @@ PFont game_font;
 
 Grid grid;
 Player player;
-Enemy[] enemies;
+ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+
+float timer = random(10, 25);
+float previous_time;
 
 void setup() {
   // Settings  
@@ -39,10 +42,9 @@ void setup() {
   // Initialize grid
   grid = new Grid();
   player = new Player(ARENA_CENTER_X, ARENA_CENTER_Y);
-  enemies = new Enemy[10];
-  for(int i = 0; i < 10; i++){
-    enemies[i] = new Enemy(ARENA_CENTER_X + 64 * i, ARENA_CENTER_Y + 64 * i);
-  }
+  //for(int i = 0; i < 10; i++){
+  //  enemies.add(new Enemy(ARENA_CENTER_X + 64 * i, ARENA_CENTER_Y + 64 * i));
+  //}
 }
 
 void keyPressed() {
@@ -63,6 +65,15 @@ void keyReleased() {
 
 void draw() {
   background(0);
+  
+  float delta_time = (millis() - previous_time) / 1000;
+  previous_time = millis();
+  timer -= delta_time;
+  
+  if(timer < 0){
+    enemies.add(new Enemy(ARENA_X + int(random(4, 41)) * Grid.NODE_SIZE, ARENA_Y + 4 * Grid.NODE_SIZE));
+    timer = random(10, 25);
+  }
   
   // Draw brackground
   imageMode(CORNER);
