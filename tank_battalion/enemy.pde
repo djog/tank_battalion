@@ -19,7 +19,7 @@ class Enemy {
   void update(int[][] grid_nodes) {
     int target_x = x;
     int target_y = y;
-    int direction = int(random(0, 4));
+    int direction = -1; //int(random(0, 4));
     if(direction == 1){
       actual_image = enemy_up;
       target_y -= move_speed;
