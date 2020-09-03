@@ -77,12 +77,18 @@ void draw() {
   player.update(grid.get_nodes());
   player.draw();
   
+  // update enemies
   for(Enemy enemy: enemies){
     enemy.update(grid.get_nodes());
     enemy.draw();
   }
   
   // Draw the Score HUD
+  draw_score();
+}
+
+
+void draw_score() {
   textFont(game_font);
   textSize(24);
   textAlign(CENTER,CENTER);
@@ -95,5 +101,5 @@ void draw() {
   fill(255,0,0);
   text("SCORE", width - 350, 150);
   fill(255);
-  text(score, width - 350, 175);
+  text(score, width - 350, 175); 
 }
