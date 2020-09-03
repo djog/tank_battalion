@@ -32,6 +32,13 @@ DJOG Uno's 2020-2021.
 ![](assets/sprites/Shell.png)
 ![](assets/sprites/Background.png)
 
+## Code of Conduct
+
+See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+
+In case it is undesirable to email Richel Bilderbeek,
+contact Carleen Baarda, the director of DJO.
+
 ## Screenshots
 
 Most recent at the top.
