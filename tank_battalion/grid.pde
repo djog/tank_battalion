@@ -28,7 +28,7 @@ class Grid {
             nodes[x][y] = 0;
         }
       }
-    }
+    }  
   
     brick_image = loadImage(SPRITES_FOLDER + "Bricks.png");
   }

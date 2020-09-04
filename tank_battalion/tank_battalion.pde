@@ -18,19 +18,22 @@ PFont game_font;
 
 Grid grid;
 Player player;
-Enemy[] enemies;
+ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+
+float timer = random(10, 25);
+float previous_time;
 
 void setup() {
   // Settings  
-  // I'm using P2D because it's much faster than default
-  size(1600, 900);
+  // P2D might not work on Linux
+  size(1600, 900, P2D);
   frameRate(60);
   
   // For the pixelart & retro effect
   smooth(0);
   
   // Comment if you're NOT using P2D renderer
-  // ((PGraphicsOpenGL)g).textureSampling(3);
+  ((PGraphicsOpenGL)g).textureSampling(3);
   
   // Load files
   background_image = loadImage(SPRITES_FOLDER + "Background.png");
@@ -40,11 +43,6 @@ void setup() {
   grid = new Grid();
   
   player = new Player(ARENA_CENTER_X, ARENA_CENTER_Y);
-  
-  enemies = new Enemy[10];
-  for(int i = 0; i < 10; i++){
-    enemies[i] = new Enemy((int)random(ARENA_X, ARENA_X + ARENA_SIZE), (int)random(ARENA_Y, ARENA_Y + ARENA_SIZE));
-  }
 }
 
 void keyPressed() {
@@ -65,6 +63,15 @@ void keyReleased() {
 
 void draw() {
   background(0);
+  
+  float delta_time = (millis() - previous_time) / 1000;
+  previous_time = millis();
+  timer -= delta_time;
+  
+  if(timer < 0){
+    enemies.add(new Enemy((int)random(ARENA_X, ARENA_X + ARENA_SIZE), (int)random(ARENA_Y, ARENA_Y + ARENA_SIZE)));
+    timer = random(10, 25);
+  }
   
   // Draw brackground
   imageMode(CORNER);
