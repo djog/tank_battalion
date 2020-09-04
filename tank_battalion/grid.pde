@@ -18,27 +18,6 @@ class Grid {
         nodes[x][y] = node_values[x];
       }
     }
-    
-    //for (int x = 0; x < SIZE; x++) {
-    //  for (int y = 0; y < SIZE; y++) {
-    //    if (x <= 1 || y <= 1 || x >= SIZE - 2 || y >= SIZE - 2)
-    //    {
-    //      nodes[x][y] = 1;
-    //    }
-    //    else if (x >= SIZE/2 - CENTER_SIZE/2 && x <= SIZE/2 + CENTER_SIZE/2 && y >= SIZE/2 - CENTER_SIZE/2 && y <= SIZE/2 + CENTER_SIZE/2)
-    //    {
-    //      nodes[x][y] = 0;
-    //    }
-    //    else
-    //    {
-    //      int random_int = (int)random(0,10);
-    //      if (random_int == 0)
-    //        nodes[x][y] = 1;
-    //      else
-    //        nodes[x][y] = 0;
-    //    }
-    //  }
-    //}  
   
     brick_image = loadImage(SPRITES_FOLDER + "Bricks.png");
   }
