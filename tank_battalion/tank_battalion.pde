@@ -3,6 +3,8 @@ static final String SPRITES_FOLDER = "../assets/sprites/";
 static final String FONTS_FOLDER = "../assets/fonts/";
 static final int ARENA_X = 233;
 static final int ARENA_Y = 32;
+static final int FLAG_X = 620;
+static final int FLAG_Y = 760;
 static final int ARENA_SIZE = 836;
 static final int ARENA_CENTER_X = ARENA_X + ARENA_SIZE / 2;
 static final int ARENA_CENTER_Y = ARENA_Y + ARENA_SIZE / 2;
@@ -12,8 +14,9 @@ boolean debug_collision = false;
 int high_score = 0;
 int score = 0;
 
-float x;
-float y;
+float Flag_x;
+float Flag_y;
+
 
 // Images
 PImage background_image;
@@ -47,6 +50,11 @@ void setup() {
   enemies = new Enemy[10];
   for(int i = 0; i < 10; i++){
     enemies[i] = new Enemy(ARENA_CENTER_X + 64 * i, ARENA_CENTER_Y + 64 * i);
+    //Flag posision
+    
+Flag_x = FLAG_X;
+Flag_y = FLAG_Y;
+
   }
 }
 
@@ -73,7 +81,7 @@ void draw() {
   imageMode(CORNER);
   image(background_image, 0, 0, width, height);
   rectMode(CENTER);
-  image(Flag_image, 620, 760, 64, 64);
+  image(Flag_image,Flag_x, Flag_y, 64 , 64);
   
   // Draw the grid
   grid.draw();
