@@ -25,7 +25,7 @@ float previous_time;
 
 void setup() {
   // Settings  
-  // I'm using P2D because it's much faster than default
+  // P2D might not work on Linux
   size(1600, 900, P2D);
   frameRate(60);
   
@@ -41,10 +41,8 @@ void setup() {
 
   // Initialize grid
   grid = new Grid();
+  
   player = new Player(ARENA_CENTER_X, ARENA_CENTER_Y);
-  //for(int i = 0; i < 10; i++){
-  //  enemies.add(new Enemy(ARENA_CENTER_X + 64 * i, ARENA_CENTER_Y + 64 * i));
-  //}
 }
 
 void keyPressed() {
@@ -71,7 +69,7 @@ void draw() {
   timer -= delta_time;
   
   if(timer < 0){
-    enemies.add(new Enemy(ARENA_X + int(random(4, 41)) * Grid.NODE_SIZE, ARENA_Y + 4 * Grid.NODE_SIZE));
+    enemies.add(new Enemy((int)random(ARENA_X, ARENA_X + ARENA_SIZE), (int)random(ARENA_Y, ARENA_Y + ARENA_SIZE)));
     timer = random(10, 25);
   }
   
@@ -86,12 +84,18 @@ void draw() {
   player.update(grid.get_nodes());
   player.draw();
   
+  // update enemies
   for(Enemy enemy: enemies){
     enemy.update(grid.get_nodes());
     enemy.draw();
   }
   
   // Draw the Score HUD
+  draw_score();
+}
+
+
+void draw_score() {
   textFont(game_font);
   textSize(24);
   textAlign(CENTER,CENTER);
@@ -104,5 +108,5 @@ void draw() {
   fill(255,0,0);
   text("SCORE", width - 350, 150);
   fill(255);
-  text(score, width - 350, 175);
+  text(score, width - 350, 175); 
 }
