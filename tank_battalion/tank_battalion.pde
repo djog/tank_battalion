@@ -1,6 +1,7 @@
 // Consts
 static final String SPRITES_FOLDER = "../assets/sprites/";
 static final String FONTS_FOLDER = "../assets/fonts/";
+static final String LEVEL_FOLDER = "../assets/levels/";
 static final int ARENA_X = 233;
 static final int ARENA_Y = 32;
 static final int ARENA_SIZE = 836;
@@ -41,8 +42,7 @@ void setup() {
 
   // Initialize grid
   grid = new Grid();
-  
-  player = new Player(ARENA_CENTER_X, ARENA_CENTER_Y);
+  player = new Player(ARENA_X, ARENA_Y + 43 * Grid.NODE_SIZE_Y);
 }
 
 void keyPressed() {

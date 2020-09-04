@@ -41,7 +41,7 @@ public boolean collision_detection(int screen_x, int screen_y, int object_width,
     for (int y = - NODE_COLLISION_LAYERS; y <= NODE_COLLISION_LAYERS; y++) {
       int target_x = center_x + x;
       int target_y = center_y + y;
-      if (target_x >= 0 && target_x < Grid.SIZE && target_y >= 0 && target_y < Grid.SIZE)
+      if (target_x >= 0 && target_x < Grid.SIZE_X && target_y >= 0 && target_y < Grid.SIZE_Y)
       {
         int node_value = nodes[target_x][target_y];
         if (node_value == 1)
@@ -53,9 +53,9 @@ public boolean collision_detection(int screen_x, int screen_y, int object_width,
             fill(0, 200, 0, 255);
             stroke(0);
             strokeWeight(1);
-            rect(screenCoords.x, screenCoords.y, Grid.NODE_SIZE, Grid.NODE_SIZE);
+            rect(screenCoords.x, screenCoords.y, Grid.NODE_SIZE_X, Grid.NODE_SIZE_Y);
           }
-          obstacles.add(new AABB((int)screenCoords.x, (int)screenCoords.x + Grid.NODE_SIZE, (int)screenCoords.y, (int)screenCoords.y + Grid.NODE_SIZE));
+          obstacles.add(new AABB((int)screenCoords.x, (int)screenCoords.x + Grid.NODE_SIZE_X, (int)screenCoords.y, (int)screenCoords.y + Grid.NODE_SIZE_Y));
         }
       }
     }
