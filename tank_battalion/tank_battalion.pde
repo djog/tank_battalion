@@ -47,7 +47,7 @@ void setup() {
 
   // Initialize grid
   grid = new Grid();
-  player = new Player(ARENA_X, ARENA_Y + 43 * Grid.NODE_SIZE_Y);
+  player = new Player(ARENA_X + 40, ARENA_Y + 43 * Grid.NODE_SIZE_Y);
 }
 
 void keyPressed() {

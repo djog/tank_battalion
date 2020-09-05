@@ -40,7 +40,7 @@ public class PhysicsManager
   private int collider_id_counter = 0;
   private ArrayList<AABB> static_colliders = new ArrayList<AABB>();
   
-  private int[][] grid_nodes = new int[Grid.SIZE][Grid.SIZE];
+  private int[][] grid_nodes = new int[Grid.SIZE_X][Grid.SIZE_Y];
   
   public PhysicsManager()
   {
@@ -78,13 +78,13 @@ public class PhysicsManager
       for (int y = - NODE_COLLISION_LAYERS; y <= NODE_COLLISION_LAYERS; y++) {
         int target_x = center_x + x;
         int target_y = center_y + y;
-        if (target_x >= 0 && target_x < Grid.SIZE && target_y >= 0 && target_y < Grid.SIZE)
+        if (target_x >= 0 && target_x < Grid.SIZE_X && target_y >= 0 && target_y < Grid.SIZE_Y)
         {
           int node_value = grid_nodes[target_x][target_y];
           if (node_value > 0)
           {
             PVector screenCoords = grid_to_screen_coords(target_x, target_y);        
-            grid_obstacles.add(new AABB((int)screenCoords.x + Grid.NODE_SIZE/2, (int)screenCoords.y + Grid.NODE_SIZE/2, Grid.NODE_SIZE, Grid.NODE_SIZE));
+            grid_obstacles.add(new AABB((int)screenCoords.x + Grid.NODE_SIZE_X/2, (int)screenCoords.y + Grid.NODE_SIZE_Y/2, Grid.NODE_SIZE_X, Grid.NODE_SIZE_Y));
           }
         } 
       }
