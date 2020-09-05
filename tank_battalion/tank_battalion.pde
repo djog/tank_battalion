@@ -3,7 +3,7 @@ static final String SPRITES_FOLDER = "../assets/sprites/";
 static final String FONTS_FOLDER = "../assets/fonts/";
 static final String LEVEL_FOLDER = "../assets/levels/";
 static final int ARENA_X = 233;
-static final int ARENA_Y = 32;
+static final int ARENA_Y = 27;
 static final int ARENA_SIZE = 836;
 static final int ARENA_CENTER_X = ARENA_X + ARENA_SIZE / 2;
 static final int ARENA_CENTER_Y = ARENA_Y + ARENA_SIZE / 2;
@@ -27,7 +27,7 @@ float previous_time;
 void setup() {
   // Settings  
   // P2D might not work on Linux
-  size(1600, 900, P2D);
+  size(1600, 887, P2D);
   frameRate(60);
   
   // For the pixelart & retro effect
@@ -73,10 +73,6 @@ void draw() {
     timer = random(10, 25);
   }
   
-  // Draw brackground
-  imageMode(CORNER);
-  image(background_image, 0, 0, width, height);
-  
   // Draw the grid
   grid.draw();
   
@@ -92,6 +88,10 @@ void draw() {
   
   // Draw the Score HUD
   draw_score();
+  
+  //Draw background
+  imageMode(CORNER);
+  image(background_image, 0, 0, width, height);
 }
 
 
