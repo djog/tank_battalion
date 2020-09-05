@@ -81,17 +81,16 @@ public class PhysicsManager
         if (target_x >= 0 && target_x < Grid.SIZE && target_y >= 0 && target_y < Grid.SIZE)
         {
           int node_value = grid_nodes[target_x][target_y];
-          if (node_value == 1)
+          if (node_value > 0)
           {
-            PVector screenCoords = grid_to_screen_coords(target_x, target_y);
-            //<>//
+            PVector screenCoords = grid_to_screen_coords(target_x, target_y);        
             grid_obstacles.add(new AABB((int)screenCoords.x + Grid.NODE_SIZE/2, (int)screenCoords.y + Grid.NODE_SIZE/2, Grid.NODE_SIZE, Grid.NODE_SIZE));
           }
         } 
       }
     }
     
-    ArrayList<AABB> dynamic_obstacles = new ArrayList<AABB>(); //<>//
+    ArrayList<AABB> dynamic_obstacles = new ArrayList<AABB>(); 
     for(Map.Entry<Integer, AABB> entry : dynamic_colliders.entrySet())
     {
       Integer id = entry.getKey();
