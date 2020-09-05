@@ -3,7 +3,7 @@ static final String SPRITES_FOLDER = "../assets/sprites/";
 static final String FONTS_FOLDER = "../assets/fonts/";
 static final String LEVEL_FOLDER = "../assets/levels/";
 static final int ARENA_X = 233;
-static final int ARENA_Y = 32;
+static final int ARENA_Y = 27;
 static final int ARENA_BORDER = 32;
 static final int ARENA_SIZE = 836;
 static final int ARENA_CENTER_X = ARENA_X + ARENA_SIZE / 2;
@@ -32,7 +32,7 @@ float previous_time;
 void setup() {
   // Settings  
   // P2D might not work on Linux
-  size(1600, 900, P2D);
+  size(1600, 887, P2D);
   frameRate(60);
   
   // For the pixelart & retro effect
@@ -78,10 +78,6 @@ void draw() {
     enemy_spawn_timer = random(MIN_SPAWN_DEALY, MAX_SPAWN_DEALY);
   }
   
-  // Draw brackground
-  imageMode(CORNER);
-  image(background_image, 0, 0, width, height);
-  
   // Draw the grid
   grid.draw();
   
@@ -97,6 +93,10 @@ void draw() {
   
   // Draw the Score HUD
   draw_score();
+  
+  //Draw background
+  imageMode(CORNER);
+  image(background_image, 0, 0, width, height);
 }
 
 
@@ -105,7 +105,7 @@ void draw_score() {
   textSize(24);
   textAlign(CENTER,CENTER);
   fill(255, 0, 0);
-  text("HIGH",width - 350, 50); 
+  text("HIGH-",width - 350, 50); 
   text("SCORE",width - 350, 75);
   fill(255);
   text(high_score,width - 350,100);
