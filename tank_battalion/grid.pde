@@ -5,7 +5,7 @@ class Grid {
   static final int NODE_SIZE_Y = ARENA_SIZE / SIZE_Y;
   static final int CENTER_SIZE = 10;
   
-  int[][] nodes;
+  private int[][] nodes;
   
   PImage brick_image, brick_1, brick_2, brick_3, brick_4;
   
@@ -18,8 +18,8 @@ class Grid {
         nodes[x][y] = node_values[x];
       }
     }
+    physics_manager.update_grid(nodes);
   
-    brick_image = loadImage(SPRITES_FOLDER + "Bricks.png");
     brick_1 = loadImage(SPRITES_FOLDER + "Brick_1.png");
     brick_2 = loadImage(SPRITES_FOLDER + "Brick_2.png");
     brick_3 = loadImage(SPRITES_FOLDER + "Brick_3.png");
@@ -46,10 +46,6 @@ class Grid {
         }
       }
     }
-  }
-
-  public int[][] get_nodes() {
-    return nodes;
   }
 }
 
