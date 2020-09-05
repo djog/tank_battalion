@@ -44,7 +44,7 @@ public boolean collision_detection(int screen_x, int screen_y, int object_width,
       if (target_x >= 0 && target_x < Grid.SIZE_X && target_y >= 0 && target_y < Grid.SIZE_Y)
       {
         int node_value = nodes[target_x][target_y];
-        if (node_value == 1)
+        if (node_value > 0)
         {
           PVector screenCoords = grid_to_screen_coords(target_x, target_y);
           if (debug_collision)

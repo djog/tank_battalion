@@ -7,7 +7,7 @@ class Grid {
   
   int[][] nodes;
   
-  PImage brick_image;
+  PImage brick_image, brick_1, brick_2, brick_3, brick_4;
   
   public Grid() {
     nodes = new int[SIZE_X][SIZE_Y];
@@ -20,6 +20,10 @@ class Grid {
     }
   
     brick_image = loadImage(SPRITES_FOLDER + "Bricks.png");
+    brick_1 = loadImage(SPRITES_FOLDER + "Brick_1.png");
+    brick_2 = loadImage(SPRITES_FOLDER + "Brick_2.png");
+    brick_3 = loadImage(SPRITES_FOLDER + "Brick_3.png");
+    brick_4 = loadImage(SPRITES_FOLDER + "Brick_4.png");
   }
   
   void draw() {
@@ -27,9 +31,18 @@ class Grid {
     rectMode(CORNER);
     for (int x = 0; x < SIZE_X; x++) {
       for (int y = 0; y < SIZE_Y; y++) {
+        PVector position = grid_to_screen_coords(x, y);
         if (nodes[x][y] == 1) {
-          PVector position = grid_to_screen_coords(x, y);
-          image(brick_image, position.x, position.y, NODE_SIZE_X, NODE_SIZE_Y);
+          image(brick_1, position.x, position.y, NODE_SIZE_X, NODE_SIZE_Y);
+        }
+        else if (nodes[x][y] == 2) {
+          image(brick_2, position.x, position.y, NODE_SIZE_X, NODE_SIZE_Y);
+        }
+        else if (nodes[x][y] == 3) {
+          image(brick_3, position.x, position.y, NODE_SIZE_X, NODE_SIZE_Y);
+        }
+        else if (nodes[x][y] == 4) {
+          image(brick_4, position.x, position.y, NODE_SIZE_X, NODE_SIZE_Y);
         }
       }
     }
