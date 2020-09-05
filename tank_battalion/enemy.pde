@@ -2,6 +2,7 @@ class Enemy {
   static final int SIZE = 64;
   int x, y;
   int move_speed = 3;
+  int collider_id;
   
   final String SPRITES_FOLDER = "../assets/sprites/";
   PImage enemy_up, enemy_down, enemy_left, enemy_right, actual_image;
@@ -14,12 +15,13 @@ class Enemy {
     enemy_left = loadImage(SPRITES_FOLDER + "EnemyLeft.png");
     enemy_right = loadImage(SPRITES_FOLDER + "EnemyRight.png");
     actual_image = enemy_down;
+    collider_id = physics_manager.get_collider_id();
   }
   
-  void update(int[][] grid_nodes) {
+  void update() {
     int target_x = x;
     int target_y = y;
-    int direction = -1; //int(random(0, 4));
+    int direction = int(random(0, 5));
     if(direction == 1){
       actual_image = enemy_up;
       target_y -= move_speed;
@@ -36,12 +38,12 @@ class Enemy {
       actual_image = enemy_right;
       target_x += move_speed;
     }
-    // Only move the player if the target position does not hit an obstacle
-    if (!collision_detection(target_x, target_y, SIZE, SIZE, grid_nodes))
+    if (!physics_manager.check_collision(target_x, target_y, SIZE, SIZE, collider_id))
     {
       x = target_x;
       y = target_y;
     }
+    physics_manager.update_collider(collider_id, new AABB(x, y, SIZE, SIZE));
   }
   
   void draw() {   

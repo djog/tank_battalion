@@ -3,7 +3,7 @@ class Grid {
   static final int NODE_SIZE = ARENA_SIZE / SIZE;
   static final int CENTER_SIZE = 10;
   
-  int[][] nodes;
+  private int[][] nodes;
   
   PImage brick_image;
   
@@ -11,17 +11,13 @@ class Grid {
     nodes = new int[SIZE][SIZE];
     for (int x = 0; x < SIZE; x++) {
       for (int y = 0; y < SIZE; y++) {
-        if (x <= 1 || y <= 1 || x >= SIZE - 2 || y >= SIZE - 2)
-        {
-          nodes[x][y] = 1;
-        }
-        else if (x >= SIZE/2 - CENTER_SIZE/2 && x <= SIZE/2 + CENTER_SIZE/2 && y >= SIZE/2 - CENTER_SIZE/2 && y <= SIZE/2 + CENTER_SIZE/2)
+        if (x >= SIZE/2 - CENTER_SIZE/2 && x <= SIZE/2 + CENTER_SIZE/2 && y >= SIZE/2 - CENTER_SIZE/2 && y <= SIZE/2 + CENTER_SIZE/2)
         {
           nodes[x][y] = 0;
         }
         else
         {
-          int random_int = (int)random(0,10);
+          int random_int = (int)random(0,40);
           if (random_int == 0)
             nodes[x][y] = 1;
           else
@@ -31,6 +27,7 @@ class Grid {
     }  
   
     brick_image = loadImage(SPRITES_FOLDER + "Bricks.png");
+    physics_manager.update_grid(nodes);
   }
   
   void draw() {
@@ -44,10 +41,6 @@ class Grid {
         }
       }
     }
-  }
-
-  public int[][] get_nodes() {
-    return nodes;
   }
 }
 

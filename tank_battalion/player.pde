@@ -3,7 +3,8 @@ class Player {
   
   int x, y;
   int move_speed = 3;
-  
+  int collider_id;
+
   boolean up, down, left, right = false;
   
   final String SPRITES_FOLDER = "../assets/sprites/";
@@ -13,6 +14,7 @@ class Player {
   Player(int xpos, int ypos) {
     x = xpos;
     y = ypos;
+    collider_id = physics_manager.get_collider_id();
     player_up = loadImage(SPRITES_FOLDER + "PlayerUp.png");
     player_down = loadImage(SPRITES_FOLDER + "PlayerDown.png");
     player_left = loadImage(SPRITES_FOLDER + "PlayerLeft.png");
@@ -48,7 +50,7 @@ class Player {
     }
   }
   
-  void update(int[][] grid_nodes) {
+  void update() {
     int target_x = x;
     int target_y = y;
     if(up){
@@ -68,11 +70,12 @@ class Player {
       target_x += move_speed;
     }
     // Only move the player if the target position does not hit an obstacle
-    if (!collision_detection(target_x, target_y, SIZE, SIZE, grid_nodes))
+    if (!physics_manager.check_collision(target_x, target_y, SIZE, SIZE, collider_id))
     {
       x = target_x;
       y = target_y;
     }
+    physics_manager.update_collider(collider_id, new AABB(x, y, SIZE, SIZE));
   }
   
   void draw() {   
