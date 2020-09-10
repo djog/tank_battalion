@@ -43,6 +43,8 @@ contact Carleen Baarda, the director of DJO.
 
 Most recent at the top.
 
+![](pics/20200905.png)
+
 ![](pics/20200821.png)
 
 ## Links

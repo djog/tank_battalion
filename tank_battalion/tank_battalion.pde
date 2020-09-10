@@ -1,13 +1,15 @@
 // Consts
 static final String SPRITES_FOLDER = "../assets/sprites/";
 static final String FONTS_FOLDER = "../assets/fonts/";
+static final String LEVEL_FOLDER = "../assets/levels/";
 static final int ARENA_X = 233;
-static final int ARENA_Y = 32;
-static final int FLAG_X = 620;
-static final int FLAG_Y = 760;
+static final int ARENA_Y = 27;
+static final int ARENA_BORDER = 32;
 static final int ARENA_SIZE = 836;
 static final int ARENA_CENTER_X = ARENA_X + ARENA_SIZE / 2;
 static final int ARENA_CENTER_Y = ARENA_Y + ARENA_SIZE / 2;
+static final float MIN_SPAWN_DEALY = 3.0f;
+static final float MAX_SPAWN_DEALY = 6.0f;
 
 boolean debug_collision = false;
 
@@ -25,12 +27,17 @@ PFont game_font;
 
 Grid grid;
 Player player;
-Enemy[] enemies;
+ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+PhysicsManager physics_manager = new PhysicsManager();
+
+float enemy_spawn_timer = random(MIN_SPAWN_DEALY, MAX_SPAWN_DEALY);
+
+float previous_time;
 
 void setup() {
   // Settings  
-  // I'm using P2D because it's much faster than default
-  size(1600, 900, P2D);
+  // P2D might not work on Linux
+  size(1600, 887, P2D);
   frameRate(60);
   
   // For the pixelart & retro effect
@@ -46,16 +53,7 @@ void setup() {
 
   // Initialize grid
   grid = new Grid();
-  player = new Player(ARENA_CENTER_X, ARENA_CENTER_Y);
-  enemies = new Enemy[10];
-  for(int i = 0; i < 10; i++){
-    enemies[i] = new Enemy(ARENA_CENTER_X + 64 * i, ARENA_CENTER_Y + 64 * i);
-    //Flag posision
-    
-Flag_x = FLAG_X;
-Flag_y = FLAG_Y;
-
-  }
+  player = new Player(ARENA_X + 40, ARENA_Y + 43 * Grid.NODE_SIZE_Y);
 }
 
 void keyPressed() {
@@ -77,30 +75,43 @@ void keyReleased() {
 void draw() {
   background(0);
   
-  // Draw brackground
-  imageMode(CORNER);
-  image(background_image, 0, 0, width, height);
-  rectMode(CENTER);
-  image(Flag_image,Flag_x, Flag_y, 64 , 64);
+  float delta_time = (millis() - previous_time) / 1000;
+  previous_time = millis();
+  enemy_spawn_timer -= delta_time;
+  
+  if(enemy_spawn_timer < 0){
+    enemies.add(new Enemy((int)random(ARENA_X, ARENA_X + ARENA_SIZE), (int)random(ARENA_Y, ARENA_Y + ARENA_SIZE)));
+    enemy_spawn_timer = random(MIN_SPAWN_DEALY, MAX_SPAWN_DEALY);
+  }
   
   // Draw the grid
   grid.draw();
   
   // Update & draw the player
-  player.update(grid.get_nodes());
+  player.update();
   player.draw();
   
+  // update enemies
   for(Enemy enemy: enemies){
-    enemy.update(grid.get_nodes());
+    enemy.update();
     enemy.draw();
   }
   
   // Draw the Score HUD
+  draw_score();
+  
+  //Draw background
+  imageMode(CORNER);
+  image(background_image, 0, 0, width, height);
+}
+
+
+void draw_score() {
   textFont(game_font);
   textSize(24);
   textAlign(CENTER,CENTER);
   fill(255, 0, 0);
-  text("HIGH",width - 350, 50); 
+  text("HIGH-",width - 350, 50); 
   text("SCORE",width - 350, 75);
   fill(255);
   text(high_score,width - 350,100);
@@ -108,5 +119,5 @@ void draw() {
   fill(255,0,0);
   text("SCORE", width - 350, 150);
   fill(255);
-  text(score, width - 350, 175);
+  text(score, width - 350, 175); 
 }
