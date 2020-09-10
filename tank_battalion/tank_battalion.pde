@@ -73,6 +73,12 @@ void draw() {
 
 void update()
 {
+  background(0);
+  
+  //Draw background
+  imageMode(CORNER);
+  image(background_image, 0, 0, width, height);
+  
   float delta_time = (millis() - previous_time) / 1000;
   previous_time = millis();
   enemy_spawn_timer -= delta_time;
