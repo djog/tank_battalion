@@ -2,7 +2,7 @@ class Player {
   static final int SIZE = 64;
   
   int x, y;
-  int move_speed = 3;
+  int move_speed = 4;
   int collider_id;
 
   boolean up, down, left, right = false;
