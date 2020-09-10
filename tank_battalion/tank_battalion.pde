@@ -32,14 +32,14 @@ float previous_time;
 void setup() {
   // Settings  
   // P2D might not work on Linux
-  size(1600, 887, P2D);
+  size(1600, 887);
   frameRate(60);
   
   // For the pixelart & retro effect
   smooth(0);
   
   // Comment if you're NOT using P2D renderer
-  ((PGraphicsOpenGL)g).textureSampling(3);
+  // ((PGraphicsOpenGL)g).textureSampling(3);
   
   // Load files
   background_image = loadImage(SPRITES_FOLDER + "Background.png");
@@ -67,12 +67,12 @@ void keyReleased() {
 }
 
 void draw() {
-  background(0);
-  
-  //Draw background
-  imageMode(CORNER);
-  image(background_image, 0, 0, width, height);
-  
+  update();
+  draw_game();
+}
+
+void update()
+{
   float delta_time = (millis() - previous_time) / 1000;
   previous_time = millis();
   enemy_spawn_timer -= delta_time;
@@ -90,25 +90,38 @@ void draw() {
       }
     }
   }
+
+  // Update enemies
+  for(Enemy enemy: enemies){
+    enemy.update(delta_time);
+  }
+
+  // Update player
+  player.update();
+}
+
+void draw_game()
+{
+  background(0);
+  
+  //Draw background
+  imageMode(CORNER);
+  image(background_image, 0, 0, width, height);
   
   // Draw the grid
   grid.draw();
   
-  // Update & draw the player
-  player.update();
-  player.draw();
-  
-  // update enemies
+  // Draw enemies
   for(Enemy enemy: enemies){
-    enemy.update();
     enemy.draw();
   }
+
+  // Draw the player
+  player.draw();
   
   // Draw the Score HUD
   draw_score();
-
 }
-
 
 void draw_score() {
   textFont(game_font);
