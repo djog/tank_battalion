@@ -86,14 +86,28 @@ void update()
   // Spawn an enemy if timer is over
   if(enemy_spawn_timer < 0) {
     // Check all possible locations for an enemy to spawn
-    for(int x = ARENA_X; x < ARENA_X + ARENA_SIZE; x++)  {
+    int step_size = Enemy.SIZE / 8;
+    ArrayList<PVector> possibilities = new ArrayList<PVector>();
+    for(int x = ARENA_X; x < ARENA_X + ARENA_SIZE; x += step_size)  {
       int test_x = x;
       int test_y = ARENA_Y + ARENA_BORDER + 10;
       if (!physics_manager.check_collision(test_x, test_y, Enemy.SIZE, Enemy.SIZE, -1)) {
-        enemies.add(new Enemy(test_x, test_y));
-        enemy_spawn_timer = random(MIN_SPAWN_DEALY, MAX_SPAWN_DEALY);
-        break;
+        possibilities.add(new PVector(test_x, test_y));
       }
+    }
+    if (possibilities.size() >= 0)
+    { 
+      // Pick a random possibility
+      int random_index = floor(random(0, possibilities.size() - 1));
+      PVector spawn_pos = possibilities.get(random_index);
+     
+      // Spawn a new enemy
+      enemy_spawn_timer = random(MIN_SPAWN_DEALY, MAX_SPAWN_DEALY);
+      enemies.add(new Enemy((int)spawn_pos.x, (int)spawn_pos.y));
+    }
+    else
+    {
+      println("ERROR: There is not enough room to spawn a new tank! A new one will be spawned when there's enough space.");
     }
   }
 
