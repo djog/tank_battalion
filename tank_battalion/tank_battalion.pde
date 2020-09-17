@@ -33,14 +33,14 @@ float previous_time;
 void setup() {
   // Settings  
   // P2D might not work on Linux
-  size(1600, 887, P2D);
+  size(1600, 887);
   frameRate(60);
   
   // For the pixelart & retro effect
   smooth(0);
   
   // Comment if you're NOT using P2D renderer
-  ((PGraphicsOpenGL)g).textureSampling(3);
+  // ((PGraphicsOpenGL)g).textureSampling(3);
   
   // Load files
   background_image = loadImage(SPRITES_FOLDER + "Background.png");
@@ -76,38 +76,67 @@ void keyReleased() {
 }
 
 void draw() {
+  update();
+  draw_game();
+}
+
+void update()
+{
   background(0);
+  
+  //Draw background
+  imageMode(CORNER);
+  image(background_image, 0, 0, width, height);
   
   float delta_time = (millis() - previous_time) / 1000;
   previous_time = millis();
   enemy_spawn_timer -= delta_time;
   
-  if(enemy_spawn_timer < 0){
-    enemies.add(new Enemy((int)random(ARENA_X, ARENA_X + ARENA_SIZE), (int)random(ARENA_Y, ARENA_Y + ARENA_SIZE)));
-    enemy_spawn_timer = random(MIN_SPAWN_DEALY, MAX_SPAWN_DEALY);
+  // Spawn an enemy if timer is over
+  if(enemy_spawn_timer < 0) {
+    // Check all possible locations for an enemy to spawn
+    for(int x = ARENA_X; x < ARENA_X + ARENA_SIZE; x++)  {
+      int test_x = x;
+      int test_y = ARENA_Y + ARENA_BORDER + 10;
+      if (!physics_manager.check_collision(test_x, test_y, Enemy.SIZE, Enemy.SIZE, -1)) {
+        enemies.add(new Enemy(test_x, test_y));
+        enemy_spawn_timer = random(MIN_SPAWN_DEALY, MAX_SPAWN_DEALY);
+        break;
+      }
+    }
   }
-  
-  // Draw the grid
-  grid.draw();
-  
-  // Update & draw the player
-  player.update();
-  player.draw();
-  
-  // update enemies
+
+  // Update enemies
   for(Enemy enemy: enemies){
-    enemy.update();
-    enemy.draw();
+    enemy.update(delta_time);
   }
-  
-  // Draw the Score HUD
-  draw_score();
+
+  // Update player
+  player.update();
+}
+
+void draw_game()
+{
+  background(0);
   
   //Draw background
   imageMode(CORNER);
   image(background_image, 0, 0, width, height);
-}
+  
+  // Draw the grid
+  grid.draw();
+  
+  // Draw enemies
+  for(Enemy enemy: enemies){
+    enemy.draw();
+  }
 
+  // Draw the player
+  player.draw();
+  
+  // Draw the Score HUD
+  draw_score();
+}
 
 void draw_score() {
   textFont(game_font);
