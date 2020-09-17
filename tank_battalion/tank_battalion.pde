@@ -15,6 +15,7 @@ boolean debug_collision = false;
 
 int high_score = 0;
 int score = 0;
+int round = 0;
 
 // Images
 PImage background_image;
@@ -56,10 +57,18 @@ void keyPressed() {
   {
     debug_collision = true;
   }
+  else if (keyCode == '.' && round > 1)
+  {
+      round --;
+  }
+  else if (keyCode == '/' &&  round < 99)
+  {
+       round ++;
+  }
 }
 
 void keyReleased() {
-  player.input(keyCode, false);
+  player.input(keyCode, false );
   if (keyCode == 'P' || keyCode == 'p')
   {
     debug_collision = false;
@@ -139,22 +148,31 @@ void draw_game()
   // Draw the player
   player.draw();
   
-  // Draw the Score HUD
-  draw_score();
+  // Draw the HUD
+  draw_hud();
 }
 
-void draw_score() {
+// Draw the HUD - Heads up display
+void draw_hud() {
+  // Draw text settings
   textFont(game_font);
   textSize(24);
-  textAlign(CENTER,CENTER);
+  textAlign(LEFT,CENTER);
+  
+  // Draw the highscore
   fill(255, 0, 0);
   text("HIGH-",width - 350, 50); 
   text("SCORE",width - 350, 75);
   fill(255);
   text(high_score,width - 350,100);
   
+  // Draw the score
   fill(255,0,0);
   text("SCORE", width - 350, 150);
   fill(255);
-  text(score, width - 350, 175); 
+  text(score, width - 350, 175);
+
+  // Draw the Round
+  fill(255, 255, 255);
+  text("ROUND " + round,width - 300, 750);
 }
