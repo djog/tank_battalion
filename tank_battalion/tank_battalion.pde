@@ -134,27 +134,31 @@ void draw_game()
   // Draw the player
   player.draw();
   
-  // Draw the Score HUD
-  draw_score();
+  // Draw the HUD
+  draw_hud();
 }
 
-void draw_score() {
+// Draw the HUD - Heads up display
+void draw_hud() {
+  // Draw text settings
   textFont(game_font);
   textSize(24);
-  textAlign(CENTER,CENTER);
+  textAlign(LEFT,CENTER);
   
+  // Draw the highscore
   fill(255, 0, 0);
   text("HIGH-",width - 350, 50); 
   text("SCORE",width - 350, 75);
   fill(255);
   text(high_score,width - 350,100);
   
+  // Draw the score
   fill(255,0,0);
   text("SCORE", width - 350, 150);
   fill(255);
   text(score, width - 350, 175);
 
-  // Draw the Round HUD
+  // Draw the Round
   fill(255, 255, 255);
   text("ROUND " + round,width - 300, 750);
 }
