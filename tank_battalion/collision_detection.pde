@@ -107,21 +107,21 @@ public class PhysicsManager
     obstacles.addAll(static_colliders);
     obstacles.addAll(dynamic_obstacles);
     
-    if (debug_collision)
-    {
-      rectMode(CORNER);
-      stroke(0);
-      strokeWeight(1);
-      for (AABB collider : obstacles)
-      {
-          fill(0, 200, 0, 50);
-          rect(collider.x1, collider.y1, collider.x2 - collider.x1, collider.y2 - collider.y1);
-      }
-      fill(50, 60, 255, 100);
-      stroke(255);
-      strokeWeight(1);
-      rect(check_box.x1, check_box.y1, check_box.x2 - check_box.x1, check_box.y2 - check_box.y1);
-    }
+    //if (debug_collision)
+    //{
+    //  rectMode(CORNER);
+    //  stroke(0);
+    //  strokeWeight(1);
+    //  for (AABB collider : obstacles)
+    //  {
+    //      fill(0, 200, 0, 50);
+    //      rect(collider.x1, collider.y1, collider.x2 - collider.x1, collider.y2 - collider.y1);
+    //  }
+    //  fill(50, 60, 255, 100);
+    //  stroke(255);
+    //  strokeWeight(1);
+    //  rect(check_box.x1, check_box.y1, check_box.x2 - check_box.x1, check_box.y2 - check_box.y1);
+    //}
 
     ArrayList<PVector> points = check_box.get_points();
     for(AABB obstacle : obstacles)
@@ -133,12 +133,12 @@ public class PhysicsManager
         && point.y >= obstacle.y1 && point.y <= obstacle.y2)
         {
             did_collide = true;
-            if (debug_collision)
-            {
-              rectMode(CORNER);
-              fill(255, 0, 0, 255);
-              rect(obstacle.x1, obstacle.y1, obstacle.x2 - obstacle.x1, obstacle.y2 - obstacle.y1);
-            }
+            //if (debug_collision)
+            //{
+            //  rectMode(CORNER);
+            //  fill(255, 0, 0, 255);
+            //  rect(obstacle.x1, obstacle.y1, obstacle.x2 - obstacle.x1, obstacle.y2 - obstacle.y1);
+            //}
             break;
         }
       }
@@ -150,12 +150,12 @@ public class PhysicsManager
         && point.y >= check_box.y1 && point.y <= check_box.y2)
         {
           did_collide = true;
-          if (debug_collision)
-          {
-            rectMode(CORNER);
-            fill(255, 0, 0, 255);
-            rect(obstacle.x1, obstacle.y1, obstacle.x2 - obstacle.x1, obstacle.y2 - obstacle.y1);
-          }
+          //if (debug_collision)
+          //{
+          //  rectMode(CORNER);
+          //  fill(255, 0, 0, 255);
+          //  rect(obstacle.x1, obstacle.y1, obstacle.x2 - obstacle.x1, obstacle.y2 - obstacle.y1);
+          //}
           break;
         }
       }
