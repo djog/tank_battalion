@@ -1,11 +1,15 @@
 class Player {
   static final int SIZE = 64;
+  static final int SPACE = 32;
   
   int x, y;
   int move_speed = 4;
   int collider_id;
+  float FIRE_COOLDOWN = 1.0f;
+  float cooldown = FIRE_COOLDOWN;
+  String direction = "up";
 
-  boolean up, down, left, right = false;
+  boolean up, down, left, right, fire = false;
   
   final String SPRITES_FOLDER = "../assets/sprites/";
   
@@ -24,6 +28,12 @@ class Player {
   
   void input(int k, boolean value){
     switch(k) {
+      case SPACE:
+        if(cooldown < 0.0f){         
+          fire = true;
+        }
+        break;
+        
       case UP:
       case 'w':
       case 'W':
@@ -50,24 +60,34 @@ class Player {
     }
   }
   
-  void update() {
+  void update(ArrayList<Shell> shells, float delta_time) {
     int target_x = x;
     int target_y = y;
+    cooldown -= delta_time;
     if(up){
       tank_image = player_up;
       target_y -= move_speed;
+      direction = "up";
     }
     else if(down){
       tank_image = player_down;
       target_y += move_speed;
+      direction = "down";
     }
     else if(left){
       tank_image = player_left;
       target_x -= move_speed;
+      direction = "left";
     }
     else if(right){
       tank_image = player_right;
       target_x += move_speed;
+      direction = "right";
+    }
+    if(fire){
+      shells.add(new Shell(x, y, direction));
+      cooldown = FIRE_COOLDOWN;
+      fire = false;
     }
     // Only move the player if the target position does not hit an obstacle
     if (!physics_manager.check_collision(target_x, target_y, SIZE, SIZE, collider_id))
