@@ -33,7 +33,7 @@ class GameState extends State
 
     // Initialize grid
     grid = new Grid();
-    player = new Player(ARENA_X + 40, ARENA_Y + 43 * Grid.NODE_SIZE_Y);   
+    player = new Player(ARENA_X + 40, ARENA_Y + 43 * Grid.NODE_SIZE_Y);  
   }
 
   void on_input(boolean is_key_down) {
