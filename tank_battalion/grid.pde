@@ -11,7 +11,7 @@ class Grid {
   
   public Grid() {
     nodes = new int[SIZE_X][SIZE_Y];
-    String[] lines = loadStrings(LEVEL_FOLDER + "maze.ini");
+    String[] lines = loadStrings(LEVEL_FOLDER + "layout-1.ini");
     for(int y = 0; y < SIZE_Y; y++){
       int[] node_values = int(split(lines[y], " "));
       for (int x = 0; x < SIZE_X; x++){
