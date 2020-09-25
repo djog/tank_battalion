@@ -28,22 +28,18 @@ class Shell{
   }
   
   void update() {
-    int target_x = x;
-    int target_y = y;
     if(up){
-      target_y -= move_speed;
+      y -= move_speed;
     }
     else if(down){
-      target_y += move_speed;
+      y += move_speed;
     }
     else if(left){
-      target_x -= move_speed;
+      x -= move_speed;
     }
     else if(right){
-      target_x += move_speed;
+      x += move_speed;
     }
-    x = target_x;
-    y = target_y;
   }
   
   void draw() {   

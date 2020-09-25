@@ -1,11 +1,11 @@
 class Player {
   static final int SIZE = 64;
   static final int SPACE = 32;
+  static final float FIRE_COOLDOWN = 1.0f;
   
   int x, y;
   int move_speed = 4;
   int collider_id;
-  float FIRE_COOLDOWN = 1.0f;
   float cooldown = FIRE_COOLDOWN;
   String direction = "up";
 
