@@ -24,6 +24,7 @@ class GameState extends State
   Grid grid;
   Player player;
   ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+  ArrayList<Shell> shells = new ArrayList<Shell>();
 
   float enemy_spawn_timer = random(MIN_SPAWN_DEALY, MAX_SPAWN_DEALY);
 
@@ -68,9 +69,13 @@ class GameState extends State
     for(Enemy enemy: enemies){
       enemy.update(delta_time);
     }
+    
+    for(Shell shell: shells){
+      shell.update();
+    }
 
     // Update player
-    player.update();
+    player.update(shells, delta_time);
   }
   
   void spawn_enemies(float delta_time)
@@ -119,6 +124,10 @@ class GameState extends State
     // Draw enemies
     for(Enemy enemy: enemies){
       enemy.draw();
+    }
+    
+    for(Shell shell: shells){
+      shell.draw();
     }
 
     // Draw the player
