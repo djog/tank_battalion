@@ -23,7 +23,7 @@ class MenuState extends State
     textAlign(CENTER,CENTER);
     fill(255, 255, 255); // White
     textSize(64);
-    text("TANK BATTALTION", width/2, height/2 - 100);
+    text("TANK BATTALION", width/2, height/2 - 100);
     textSize(32);
     text("This is the menu screen placeholder", width/2, height/2);
     text("Press SPACE to play the game!", width/2, height/2 + 100);

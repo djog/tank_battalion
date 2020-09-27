@@ -93,7 +93,7 @@ class GameState extends State
           possibilities.add(new PVector(test_x, test_y));
         }
       }
-      if (possibilities.size() >= 0)
+      if (possibilities.size() > 0)
       { 
         // Pick a random possibility
         int random_index = floor(random(0, possibilities.size() - 1));
