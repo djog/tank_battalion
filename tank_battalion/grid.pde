@@ -9,9 +9,9 @@ class Grid {
   
   PImage brick_image, brick_1, brick_2, brick_3, brick_4;
   
-  public Grid() {
+  public Grid(int round) {
     nodes = new int[SIZE_X][SIZE_Y];
-    String[] lines = loadStrings(LEVEL_FOLDER + "layout-1.ini");
+    String[] lines = loadStrings(LEVEL_FOLDER + "layout-" + round + ".ini");
     for(int y = 0; y < SIZE_Y; y++){
       int[] node_values = int(split(lines[y], " "));
       for (int x = 0; x < SIZE_X; x++){
