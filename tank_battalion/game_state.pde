@@ -97,7 +97,7 @@ class GameState extends State
       for(int x = ARENA_X; x < ARENA_X + ARENA_SIZE; x += step_size)  {
         int test_x = x;
         int test_y = ARENA_Y + ARENA_BORDER + 10;
-        if (!physics_manager.check_collision(test_x, test_y, Enemy.SIZE, Enemy.SIZE, -1, null)) {
+        if (!physics_manager.check_collision(test_x, test_y, Enemy.SIZE, Enemy.SIZE, -1, false, grid)) {
           possibilities.add(new PVector(test_x, test_y));
         }
       }

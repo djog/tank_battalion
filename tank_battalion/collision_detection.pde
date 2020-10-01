@@ -1,18 +1,29 @@
 import java.util.Map;
 
+enum ColliderType {
+  BORDER,
+  BRICK,
+  CHECKBOX,
+  FLAG,
+  SHELL,
+  TANK,
+}
+  
 class AABB // Axis Aligned Bounding Box
 {
   public int x1;
   public int x2;
   public int y1;
   public int y2;
+  public ColliderType type;
   
-  public AABB(int center_x, int center_y, int collider_width, int collider_height)
+  public AABB(int center_x, int center_y, int collider_width, int collider_height, ColliderType c_type)
   {
     this.x1 = center_x - collider_width/2;
     this.x2 = center_x + collider_width/2;
     this.y1 = center_y - collider_height/2;
     this.y2 = center_y + collider_height/2;
+    this.type = c_type;
   }
   
   public ArrayList<PVector> get_points()
@@ -46,10 +57,10 @@ public class PhysicsManager
   {
     // Messy piece of sh*t code but it just works for now :D
     int total_arena_size = ARENA_SIZE + 2 * ARENA_BORDER;
-    static_colliders.add(new AABB(ARENA_X - ARENA_BORDER + total_arena_size/2, ARENA_Y - ARENA_BORDER/2, total_arena_size, ARENA_BORDER));
-    static_colliders.add(new AABB(ARENA_X - ARENA_BORDER + total_arena_size/2, ARENA_Y + ARENA_SIZE + ARENA_BORDER/2, total_arena_size, ARENA_BORDER));
-    static_colliders.add(new AABB(ARENA_X - ARENA_BORDER/2, ARENA_Y - ARENA_BORDER + total_arena_size/2, ARENA_BORDER, total_arena_size));
-    static_colliders.add(new AABB(ARENA_X + ARENA_SIZE + ARENA_BORDER/2, ARENA_Y - ARENA_BORDER + total_arena_size/2, ARENA_BORDER, total_arena_size));
+    static_colliders.add(new AABB(ARENA_X - ARENA_BORDER + total_arena_size/2, ARENA_Y - ARENA_BORDER/2, total_arena_size, ARENA_BORDER, ColliderType.BORDER));
+    static_colliders.add(new AABB(ARENA_X - ARENA_BORDER + total_arena_size/2, ARENA_Y + ARENA_SIZE + ARENA_BORDER/2, total_arena_size, ARENA_BORDER, ColliderType.BORDER));
+    static_colliders.add(new AABB(ARENA_X - ARENA_BORDER/2, ARENA_Y - ARENA_BORDER + total_arena_size/2, ARENA_BORDER, total_arena_size, ColliderType.BORDER));
+    static_colliders.add(new AABB(ARENA_X + ARENA_SIZE + ARENA_BORDER/2, ARENA_Y - ARENA_BORDER + total_arena_size/2, ARENA_BORDER, total_arena_size, ColliderType.BORDER));
   }
   
   public void update_grid(int[][] nodes)
@@ -78,7 +89,7 @@ public class PhysicsManager
     dynamic_colliders.remove(collider);
   }
 
-  public boolean check_collision(int screen_x, int screen_y, int object_width, int object_height, int ignore_id, Shell shell) {
+  public boolean check_collision(int screen_x, int screen_y, int object_width, int object_height, int ignore_id, boolean shell, Grid grid) {
     PVector gridCoords = screen_to_grid_coords(screen_x, screen_y);
     int center_x = (int)gridCoords.x;
     int center_y = (int)gridCoords.y;
@@ -94,7 +105,7 @@ public class PhysicsManager
           if (node_value > 0)
           {
             PVector screenCoords = grid_to_screen_coords(target_x, target_y);        
-            grid_obstacles.add(new AABB((int)screenCoords.x + Grid.NODE_SIZE_X/2, (int)screenCoords.y + Grid.NODE_SIZE_Y/2, Grid.NODE_SIZE_X, Grid.NODE_SIZE_Y));
+            grid_obstacles.add(new AABB((int)screenCoords.x + Grid.NODE_SIZE_X/2, (int)screenCoords.y + Grid.NODE_SIZE_Y/2, Grid.NODE_SIZE_X, Grid.NODE_SIZE_Y, ColliderType.BRICK));
           }
         } 
       }
@@ -110,7 +121,7 @@ public class PhysicsManager
         dynamic_obstacles.add(collider);
       }
     }
-    AABB check_box = new AABB(screen_x,  screen_y, object_width, object_height);
+    AABB check_box = new AABB(screen_x,  screen_y, object_width, object_height, ColliderType.CHECKBOX);
     boolean did_collide = false;
     
     ArrayList<AABB> obstacles = (ArrayList)grid_obstacles.clone();
@@ -144,7 +155,9 @@ public class PhysicsManager
         && point.y >= obstacle.y1 && point.y <= obstacle.y2)
         {
             did_collide = true;
-            collided_objects.add(obstacle);
+            if(obstacle.type == ColliderType.BRICK){             
+              collided_objects.add(obstacle);
+            }
             //if (debug_collision)
             //{
             //  rectMode(CORNER);
@@ -162,7 +175,9 @@ public class PhysicsManager
         && point.y >= check_box.y1 && point.y <= check_box.y2)
         {
           did_collide = true;
-          collided_objects.add(obstacle);
+          if(obstacle.type == ColliderType.BRICK){             
+            collided_objects.add(obstacle);
+          }
           //if (debug_collision)
           //{
           //  rectMode(CORNER);
@@ -173,8 +188,14 @@ public class PhysicsManager
         }
       }
     }
-    if(shell != null){
-      shell.set_collided_objects(collided_objects);
+    if(shell){
+      for(AABB object : collided_objects){
+        PVector point = screen_to_grid_coords(object.x1, object.y1);
+        if(point.x >= 0 && point.y >= 0){
+          grid.nodes[int(point.x)][int(point.y)] = 0;
+          physics_manager.remove_collider(object);
+        }
+      }
     }
     return did_collide;
   }
