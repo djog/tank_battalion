@@ -67,7 +67,7 @@ class GameState extends State
 
     // Update enemies
     for(Enemy enemy: enemies){
-      enemy.update(delta_time);
+      enemy.update(shells, delta_time);
     }
     
     for(Shell shell: shells){
