@@ -21,6 +21,7 @@ class GameState extends State
      
   Grid grid;
   Player player;
+  Flag flag;
   ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
   float enemy_spawn_timer = random(MIN_SPAWN_DEALY, MAX_SPAWN_DEALY);
@@ -33,7 +34,8 @@ class GameState extends State
 
     // Initialize grid
     grid = new Grid();
-    player = new Player(ARENA_X + 40, ARENA_Y + 43 * Grid.NODE_SIZE_Y);  
+    player = new Player(ARENA_X + 40, ARENA_Y + 43 * Grid.NODE_SIZE_Y);
+    flag = new Flag (612, 820);
   }
 
   void on_input(boolean is_key_down) {
@@ -117,7 +119,9 @@ class GameState extends State
     for(Enemy enemy: enemies){
       enemy.draw();
     }
-
+    //flag Draw
+    flag.draw();
+    
     // Draw the player
     player.draw();
     
