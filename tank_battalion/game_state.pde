@@ -15,14 +15,17 @@ class GameState extends State
   int high_score = 0;
   int score = 0;
   int round = 0;
+  int n_lives = 3;
 
   PImage background_image;
+  PImage tank_image;
   PFont game_font;
      
   Grid grid;
   Player player;
   Flag flag;
   ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+  ArrayList<Shell> shells = new ArrayList<Shell>();
 
   float enemy_spawn_timer = random(MIN_SPAWN_DEALY, MAX_SPAWN_DEALY);
 
@@ -30,6 +33,7 @@ class GameState extends State
   void on_start() {
     // Load files
     background_image = loadImage(SPRITES_FOLDER + "Background.png");
+    tank_image = loadImage(SPRITES_FOLDER + "PlayerUp.png");
     game_font = createFont(FONTS_FOLDER + "RetroGaming.ttf", 48.0);
 
     // Initialize grid
@@ -67,9 +71,13 @@ class GameState extends State
     for(Enemy enemy: enemies){
       enemy.update(delta_time);
     }
+    
+    for(Shell shell: shells){
+      shell.update();
+    }
 
     // Update player
-    player.update();
+    player.update(shells, delta_time);
   }
   
   void spawn_enemies(float delta_time)
@@ -119,9 +127,14 @@ class GameState extends State
     for(Enemy enemy: enemies){
       enemy.draw();
     }
-    //flag Draw
+    
+    // Flag draw
     flag.draw();
     
+    for(Shell shell: shells){
+      shell.draw();
+    }
+
     // Draw the player
     player.draw();
     
@@ -152,5 +165,11 @@ class GameState extends State
     // Draw the Round
     fill(255, 255, 255);
     text("ROUND " + round,width - 300, 750);
+    
+    for(int i = 0; i < n_lives; i++)
+    {
+      image(tank_image, width - 300 + i * 100, 300, 64, 64);  
+    }
+    
   }
 }
