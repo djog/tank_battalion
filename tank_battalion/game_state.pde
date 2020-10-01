@@ -25,6 +25,7 @@ class GameState extends State
      
   Grid grid;
   Player player;
+  Flag flag;
   ArrayList<Enemy> enemies = new ArrayList<Enemy>();
   ArrayList<Shell> shells = new ArrayList<Shell>();
 
@@ -39,7 +40,8 @@ class GameState extends State
 
     // Initialize grid
     grid = new Grid();
-    player = new Player(ARENA_X + 40, ARENA_Y + 43 * Grid.NODE_SIZE_Y);  
+    player = new Player(ARENA_X + 40, ARENA_Y + 43 * Grid.NODE_SIZE_Y);
+    flag = new Flag (612, 820);
   }
 
   void on_input(boolean is_key_down) {
@@ -131,6 +133,9 @@ class GameState extends State
     for(Enemy enemy: enemies){
       enemy.draw();
     }
+    
+    // Flag draw
+    flag.draw();
     
     for(Shell shell: shells){
       shell.draw();
