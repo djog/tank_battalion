@@ -5,24 +5,24 @@ class Shell{
   PImage shell_sprite;
   boolean up, down, left, right = false;
   
-  public Shell(int tx, int ty, String direction){
+  public Shell(int tx, int ty, int direction){
     x = tx;
     y = ty;
-    if(direction == "left"){
-      left = true;
-      x -= Player.SIZE / 2;
-    }
-    else if(direction == "right"){
-      right = true;
-      x += Player.SIZE / 2;
-    }
-    else if(direction == "up"){
+    if(direction == 1){
       up = true;
       y -= Player.SIZE / 2;
     }
-    else if(direction == "down"){
+    else if(direction == 2){
       down = true;
       y += Player.SIZE / 2;
+    }
+    else if(direction == 3){
+      left = true;
+      x -= Player.SIZE / 2;
+    }
+    else if(direction == 4){ 
+      right = true;
+      x += Player.SIZE / 2;
     }
     shell_sprite = loadImage(SPRITES_FOLDER + "Shell.png");
   }

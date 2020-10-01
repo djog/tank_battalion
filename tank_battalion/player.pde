@@ -7,7 +7,7 @@ class Player {
   int move_speed = 4;
   int collider_id;
   float cooldown = FIRE_COOLDOWN;
-  String direction = "up";
+  int direction = 1;
 
   boolean up, down, left, right, fire = false;
   
@@ -67,22 +67,22 @@ class Player {
     if(up){
       tank_image = player_up;
       target_y -= move_speed;
-      direction = "up";
+      direction = 1;
     }
     else if(down){
       tank_image = player_down;
       target_y += move_speed;
-      direction = "down";
+      direction = 2;
     }
     else if(left){
       tank_image = player_left;
       target_x -= move_speed;
-      direction = "left";
+      direction = 3;
     }
     else if(right){
       tank_image = player_right;
       target_x += move_speed;
-      direction = "right";
+      direction = 4;
     }
     if(fire){
       shells.add(new Shell(x, y, direction));
