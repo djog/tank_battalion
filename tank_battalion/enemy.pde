@@ -9,13 +9,19 @@ class Enemy {
   float rotate_timer = 0.0f;
   float rotate_delay = 0.0f;
   int direction = 1;
+  boolean rainbow ;
+  color tint =color(255,0,0);
+  float tint_cooldown = 0.2f;
+  color color_blue =color(0,0,255);
+  color color_red =color(255,0,0);
 
   final String SPRITES_FOLDER = "../assets/sprites/";
   PImage enemy_up, enemy_down, enemy_left, enemy_right, actual_image;
   
-  Enemy(int xpos, int ypos){
+  Enemy(int xpos,boolean Rainboww, int ypos){
     x = xpos;
     y = ypos;
+    rainbow = true; 
     enemy_up = loadImage(SPRITES_FOLDER + "EnemyUp.png");
     enemy_down = loadImage(SPRITES_FOLDER + "EnemyDown.png");
     enemy_left = loadImage(SPRITES_FOLDER + "EnemyLeft.png");
@@ -24,7 +30,17 @@ class Enemy {
     collider_id = physics_manager.get_collider_id();
   }
   
+  
   void update(float deltaTime) {
+    tint_cooldown -= deltaTime;
+    if(tint_cooldown<0){
+      if(tint == color_blue){
+        tint =color_red;
+      }else{
+        tint = color_blue;
+      }
+      tint_cooldown= 0.2f;
+    }
     int target_x = x;
     int target_y = y;
     rotate_timer += deltaTime;
@@ -61,6 +77,10 @@ class Enemy {
   
   void draw() {   
     imageMode(CENTER);
+    if(rainbow == true){
+      tint(tint,255);
+    }
     image(actual_image, x, y, SIZE, SIZE);
+    tint(255,255,255,255);
   }
 }

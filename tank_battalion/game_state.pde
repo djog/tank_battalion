@@ -96,7 +96,13 @@ class GameState extends State
       
         // Spawn a new enemy
         enemy_spawn_timer = random(MIN_SPAWN_DEALY, MAX_SPAWN_DEALY);
-        enemies.add(new Enemy((int)spawn_pos.x, (int)spawn_pos.y));
+        int rainbow_odd;
+        rainbow_odd =(int)random(0,20);
+        boolean rainbow = false;
+        if(rainbow_odd ==0){
+          rainbow=true;
+        }
+        enemies.add(new Enemy((int)spawn_pos.x,rainbow, (int)spawn_pos.y));
       }
       else
       {
@@ -154,7 +160,7 @@ class GameState extends State
     
     for(int i = 0; i < n_lives; i++)
     {
-      image(tank_image, width - 300 + i * 100, 300, 64, 64);  
+      image(tank_image, width - 340 + i * 64, 600, 64, 64);  
     }
     
   }
