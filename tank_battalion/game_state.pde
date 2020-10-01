@@ -1,3 +1,5 @@
+import java.util.Iterator;
+
 // Game state consts
 static final int ARENA_X = 233;
 static final int ARENA_Y = 27;
@@ -70,8 +72,12 @@ class GameState extends State
       enemy.update(shells, delta_time);
     }
     
-    for(Shell shell: shells){
-      shell.update();
+    for(Iterator<Shell> iterator = shells.iterator(); iterator.hasNext();){
+      Shell shell = iterator.next();
+      shell.update(grid);
+      if(shell.remove){
+        iterator.remove();
+      }
     }
 
     // Update player
@@ -89,7 +95,7 @@ class GameState extends State
       for(int x = ARENA_X; x < ARENA_X + ARENA_SIZE; x += step_size)  {
         int test_x = x;
         int test_y = ARENA_Y + ARENA_BORDER + 10;
-        if (!physics_manager.check_collision(test_x, test_y, Enemy.SIZE, Enemy.SIZE, -1)) {
+        if (!physics_manager.check_collision(test_x, test_y, Enemy.SIZE, Enemy.SIZE, -1, null)) {
           possibilities.add(new PVector(test_x, test_y));
         }
       }

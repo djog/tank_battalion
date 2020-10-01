@@ -67,8 +67,18 @@ public class PhysicsManager
   {
     dynamic_colliders.put(id, value);
   }
+  
+  public void remove_collider(int id)
+  {
+    dynamic_colliders.remove(id);
+  }
+  
+  public void remove_collider(AABB collider)
+  {
+    dynamic_colliders.remove(collider);
+  }
 
-  public boolean check_collision(int screen_x, int screen_y, int object_width, int object_height, int ignore_id) {
+  public boolean check_collision(int screen_x, int screen_y, int object_width, int object_height, int ignore_id, Shell shell) {
     PVector gridCoords = screen_to_grid_coords(screen_x, screen_y);
     int center_x = (int)gridCoords.x;
     int center_y = (int)gridCoords.y;
@@ -124,6 +134,7 @@ public class PhysicsManager
     //}
 
     ArrayList<PVector> points = check_box.get_points();
+    ArrayList<AABB> collided_objects = new ArrayList<AABB>();
     for(AABB obstacle : obstacles)
     {
       // Check if box is in obstacle
@@ -133,6 +144,7 @@ public class PhysicsManager
         && point.y >= obstacle.y1 && point.y <= obstacle.y2)
         {
             did_collide = true;
+            collided_objects.add(obstacle);
             //if (debug_collision)
             //{
             //  rectMode(CORNER);
@@ -150,6 +162,7 @@ public class PhysicsManager
         && point.y >= check_box.y1 && point.y <= check_box.y2)
         {
           did_collide = true;
+          collided_objects.add(obstacle);
           //if (debug_collision)
           //{
           //  rectMode(CORNER);
@@ -159,6 +172,9 @@ public class PhysicsManager
           break;
         }
       }
+    }
+    if(shell != null){
+      shell.set_collided_objects(collided_objects);
     }
     return did_collide;
   }

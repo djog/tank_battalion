@@ -90,7 +90,7 @@ class Player {
       fire = false;
     }
     // Only move the player if the target position does not hit an obstacle
-    if (!physics_manager.check_collision(target_x, target_y, SIZE, SIZE, collider_id))
+    if (!physics_manager.check_collision(target_x, target_y, SIZE, SIZE, collider_id, null))
     {
       x = target_x;
       y = target_y;
