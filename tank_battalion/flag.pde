@@ -4,7 +4,6 @@ static final int size = 64;
   int x, y;
   
   
-  final String SPRITES_FOLDER = "../assets/sprites/";
   PImage flag;
   
   Flag(int xpos, int ypos)
