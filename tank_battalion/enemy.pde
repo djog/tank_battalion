@@ -25,7 +25,7 @@ class Enemy {
   Enemy(int xpos,boolean Rainboww, int ypos){
     x = xpos;
     y = ypos;
-    rainbow = true; 
+    rainbow = Rainboww; 
     enemy_up = loadImage(SPRITES_FOLDER + "EnemyUp.png");
     enemy_down = loadImage(SPRITES_FOLDER + "EnemyDown.png");
     enemy_left = loadImage(SPRITES_FOLDER + "EnemyLeft.png");
