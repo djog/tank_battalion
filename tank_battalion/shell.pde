@@ -45,4 +45,5 @@ class Shell{
   void draw() {   
     image(shell_sprite, x, y, SIZE, SIZE);
   }
+
 }

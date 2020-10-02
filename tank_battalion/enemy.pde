@@ -5,6 +5,8 @@ class Enemy {
   static final float MIN_FIRE_DELAY = 1.0f;
   static final float MAX_FIRE_DELAY = 3.0f;
   
+  public boolean is_dead = true;
+  
   int x, y;
   int move_speed = 3;
   int collider_id;
@@ -72,5 +74,10 @@ class Enemy {
   void draw() {   
     imageMode(CENTER);
     image(actual_image, x, y, SIZE, SIZE);
+  }
+  
+  public void die() {
+    physics_manager.remove_collider(collider_id);
+    is_dead = true;
   }
 }

@@ -67,7 +67,17 @@ public class PhysicsManager
   {
     dynamic_colliders.put(id, value);
   }
-
+  
+  public void remove_collider(int id)
+  {
+    dynamic_colliders.remove(id);
+  }
+  
+  public void cleanup()
+  {
+    dynamic_colliders.clear();
+  }
+  
   public boolean check_collision(int screen_x, int screen_y, int object_width, int object_height, int ignore_id) {
     PVector gridCoords = screen_to_grid_coords(screen_x, screen_y);
     int center_x = (int)gridCoords.x;

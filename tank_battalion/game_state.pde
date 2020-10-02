@@ -14,9 +14,10 @@ class GameState extends State
 
   int high_score = 0;
   int score = 0;
-  int round = 0;
+  int round = 1;
   int n_lives = 3;
-
+  int opponents_left = 0;
+  
   PImage background_image;
   PImage tank_image;
   PFont game_font;
@@ -29,17 +30,23 @@ class GameState extends State
 
   float enemy_spawn_timer = random(MIN_SPAWN_DEALY, MAX_SPAWN_DEALY);
 
-
   void on_start() {
     // Load files
     background_image = loadImage(SPRITES_FOLDER + "Background.png");
     tank_image = loadImage(SPRITES_FOLDER + "PlayerUp.png");
     game_font = createFont(FONTS_FOLDER + "RetroGaming.ttf", 48.0);
 
-    // Initialize grid
-    grid = new Grid();
+    setup_round();
+  }
+  
+  // Setup the round according the the round variable
+  void setup_round() {
+    opponents_left = 4 + round * 3;
+    grid = new Grid(round);
     player = new Player(ARENA_X + 40, ARENA_Y + 43 * Grid.NODE_SIZE_Y);
     flag = new Flag (612, 820);
+    enemies.clear();
+    physics_manager.cleanup();
   }
 
   void on_input(boolean is_key_down) {
@@ -51,13 +58,16 @@ class GameState extends State
     }
     if (is_key_down)
     {
-      if (keyCode == '.' && round > 1)
+      if (keyCode == DELETE)
       {
-          round --;
-      }
-      else if (keyCode == '/' &&  round < 99)
-      {
-          round ++;
+        // kill all enemies - for debugging purposses
+        while (enemies.size() > 0)
+        {
+         enemies.get(0).die();
+         enemies.remove(0); 
+         opponents_left--;
+         score += random(0, 100); // Temporary remove this 
+        }
       }
     }    
   }
@@ -65,8 +75,15 @@ class GameState extends State
   void on_update(float delta_time)
   {
     // Maybe spawn some new enemies
-    spawn_enemies(delta_time);
-
+    if (opponents_left > 0)
+      spawn_enemies(delta_time);
+  
+    if (opponents_left <= 0 && enemies.size() == 0)
+    {
+      round++;
+      setup_round();
+    }
+    
     // Update enemies
     for(Enemy enemy: enemies){
       enemy.update(shells, delta_time);
@@ -85,30 +102,35 @@ class GameState extends State
     // Spawn an enemy if timer is over
     enemy_spawn_timer -= delta_time;
     if(enemy_spawn_timer < 0) {
-      // Check all possible locations for an enemy to spawn
-      int step_size = Enemy.SIZE / 8;
-      ArrayList<PVector> possibilities = new ArrayList<PVector>();
-      for(int x = ARENA_X; x < ARENA_X + ARENA_SIZE; x += step_size)  {
-        int test_x = x;
-        int test_y = ARENA_Y + ARENA_BORDER + 10;
-        if (!physics_manager.check_collision(test_x, test_y, Enemy.SIZE, Enemy.SIZE, -1)) {
-          possibilities.add(new PVector(test_x, test_y));
-        }
+      spawn_enemy();
+    }
+  }
+  
+  void spawn_enemy()
+  {
+    // Check all possible locations for an enemy to spawn
+    int step_size = Enemy.SIZE / 8;
+    ArrayList<PVector> possibilities = new ArrayList<PVector>();
+    for(int x = ARENA_X; x < ARENA_X + ARENA_SIZE; x += step_size)  {
+      int test_x = x;
+      int test_y = ARENA_Y + ARENA_BORDER + 10;
+      if (!physics_manager.check_collision(test_x, test_y, Enemy.SIZE, Enemy.SIZE, -1)) {
+        possibilities.add(new PVector(test_x, test_y));
       }
-      if (possibilities.size() >= 0)
-      { 
-        // Pick a random possibility
-        int random_index = floor(random(0, possibilities.size() - 1));
-        PVector spawn_pos = possibilities.get(random_index);
-      
-        // Spawn a new enemy
-        enemy_spawn_timer = random(MIN_SPAWN_DEALY, MAX_SPAWN_DEALY);
-        enemies.add(new Enemy((int)spawn_pos.x, (int)spawn_pos.y));
-      }
-      else
-      {
-        println("ERROR: There is not enough room to spawn a new tank! A new one will be spawned when there's enough space.");
-      }
+    }
+    if (possibilities.size() > 0)
+    { 
+      // Pick a random possibility
+      int random_index = floor(random(0, possibilities.size() - 1));
+      PVector spawn_pos = possibilities.get(random_index);
+    
+      // Spawn a new enemy
+      enemy_spawn_timer = random(MIN_SPAWN_DEALY, MAX_SPAWN_DEALY);
+      enemies.add(new Enemy((int)spawn_pos.x, (int)spawn_pos.y));
+    }
+    else
+    {
+      println("ERROR: There is not enough room to spawn a new tank! A new one will be spawned when there's enough space.");
     }
   }
 
