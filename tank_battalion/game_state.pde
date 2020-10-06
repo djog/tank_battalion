@@ -123,7 +123,7 @@ class GameState extends State
       // Pick a random possibility
       int random_index = floor(random(0, possibilities.size() - 1));
       PVector spawn_pos = possibilities.get(random_index);
-    
+        
       // Spawn a new enemy
       enemy_spawn_timer = random(MIN_SPAWN_DEALY, MAX_SPAWN_DEALY);
       int rainbow_chance =(int)random(0, 100);
