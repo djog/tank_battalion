@@ -42,6 +42,8 @@ public class PhysicsManager
   
   private int[][] grid_nodes = new int[Grid.SIZE_X][Grid.SIZE_Y];
   
+  public boolean is_debugging;
+  
   public PhysicsManager()
   {
     // Messy piece of sh*t code but it just works for now :D
@@ -116,22 +118,6 @@ public class PhysicsManager
     ArrayList<AABB> obstacles = (ArrayList)grid_obstacles.clone();
     obstacles.addAll(static_colliders);
     obstacles.addAll(dynamic_obstacles);
-    
-    //if (debug_collision)
-    //{
-    //  rectMode(CORNER);
-    //  stroke(0);
-    //  strokeWeight(1);
-    //  for (AABB collider : obstacles)
-    //  {
-    //      fill(0, 200, 0, 50);
-    //      rect(collider.x1, collider.y1, collider.x2 - collider.x1, collider.y2 - collider.y1);
-    //  }
-    //  fill(50, 60, 255, 100);
-    //  stroke(255);
-    //  strokeWeight(1);
-    //  rect(check_box.x1, check_box.y1, check_box.x2 - check_box.x1, check_box.y2 - check_box.y1);
-    //}
 
     ArrayList<PVector> points = check_box.get_points();
     for(AABB obstacle : obstacles)
@@ -143,12 +129,7 @@ public class PhysicsManager
         && point.y >= obstacle.y1 && point.y <= obstacle.y2)
         {
             did_collide = true;
-            //if (debug_collision)
-            //{
-            //  rectMode(CORNER);
-            //  fill(255, 0, 0, 255);
-            //  rect(obstacle.x1, obstacle.y1, obstacle.x2 - obstacle.x1, obstacle.y2 - obstacle.y1);
-            //}
+
             break;
         }
       }
@@ -160,16 +141,43 @@ public class PhysicsManager
         && point.y >= check_box.y1 && point.y <= check_box.y2)
         {
           did_collide = true;
-          //if (debug_collision)
-          //{
-          //  rectMode(CORNER);
-          //  fill(255, 0, 0, 255);
-          //  rect(obstacle.x1, obstacle.y1, obstacle.x2 - obstacle.x1, obstacle.y2 - obstacle.y1);
-          //}
           break;
         }
       }
     }
     return did_collide;
+  }
+  
+  public void draw_debug()
+  {
+    if (!is_debugging)
+    {
+      return;
+    }
+    ArrayList<AABB> colliders = new ArrayList<AABB>();
+    colliders.addAll(static_colliders);
+    for(Map.Entry<Integer, AABB> entry : dynamic_colliders.entrySet())
+    {
+      colliders.add(entry.getValue());
+    }
+    for(int x = 0; x < Grid.SIZE_X; x++)
+    {
+      for(int y = 0; y < Grid.SIZE_Y; y++)
+      {
+        if (grid_nodes[x][y] > 0)
+        {
+          PVector screenCoords = grid_to_screen_coords(x, y);        
+          colliders.add(new AABB((int)screenCoords.x + Grid.NODE_SIZE_X/2, (int)screenCoords.y + Grid.NODE_SIZE_Y/2, Grid.NODE_SIZE_X, Grid.NODE_SIZE_Y));
+        }
+      }
+    }
+    rectMode(CORNER);
+    fill(0, 20, 200, 150);
+    stroke(240);
+    strokeWeight(1);
+    for (AABB collider : colliders)
+    {
+      rect(collider.x1, collider.y1, collider.x2 - collider.x1, collider.y2 - collider.y1);
+    }
   }
 }

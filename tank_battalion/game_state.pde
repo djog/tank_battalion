@@ -10,8 +10,6 @@ static final float MAX_SPAWN_DEALY = 6.0f;
 
 class GameState extends State
 {
-  boolean debug_collision = false;
-
   int high_score = 0;
   int score = 0;
   int round = 1;
@@ -54,10 +52,6 @@ class GameState extends State
   void on_input(boolean is_key_down) {
     player.input(keyCode, is_key_down);
 
-    if (keyCode == 'P' || keyCode == 'p')
-    {
-      debug_collision = is_key_down;
-    }
     if (is_key_down)
     {
       if (keyCode == DELETE)
@@ -71,6 +65,11 @@ class GameState extends State
          score += random(0, 100); // Temporary remove this 
         }
       }
+      // Toggle physics debug mode
+      if (keyCode == 'P' || keyCode == 'p')
+      {
+        physics_manager.is_debugging = !physics_manager.is_debugging;
+      }
     }    
   }
   
@@ -78,7 +77,7 @@ class GameState extends State
   void on_update(float delta_time)
   {
     // Maybe spawn some new enemies
-    if (opponents_left > 0)
+    if (opponents_left - enemies.size() > 0)
       spawn_enemies(delta_time);
   
     if (opponents_left <= 0 && enemies.size() == 0)
@@ -168,6 +167,8 @@ class GameState extends State
 
     // Draw the player
     player.draw();
+    
+    physics_manager.draw_debug();
     
     // Draw the HUD
     draw_hud();

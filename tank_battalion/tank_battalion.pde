@@ -10,10 +10,10 @@ static final String LEVEL_FOLDER = "../assets/levels/";
 void setup() {
   // P2D - Might not work on Linux
   // Comment the 2 lines below if you're NOT using P2D renderer
-  // size(1600, 887, P2D);
-  // ((PGraphicsOpenGL)g).textureSampling(3);
+  size(1600, 887, P2D);
+  ((PGraphicsOpenGL)g).textureSampling(2);
   // No P2D - Uncomment the line below if you're NOT using P2D renderer
-  size(1600, 887);
+  // size(1600, 887);
   
   // Settings  
   frameRate(60); // Just 60 for now
