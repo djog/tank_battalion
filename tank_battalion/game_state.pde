@@ -29,7 +29,8 @@ class GameState extends State
   ArrayList<Shell> shells = new ArrayList<Shell>();
 
   float enemy_spawn_timer = random(MIN_SPAWN_DEALY, MAX_SPAWN_DEALY);
-
+  
+  @Override
   void on_start() {
     // Load files
     background_image = loadImage(SPRITES_FOLDER + "Background.png");
@@ -48,7 +49,8 @@ class GameState extends State
     enemies.clear();
     physics_manager.cleanup();
   }
-
+  
+  @Override
   void on_input(boolean is_key_down) {
     player.input(keyCode, is_key_down);
 
@@ -71,7 +73,8 @@ class GameState extends State
       }
     }    
   }
-
+  
+  @Override
   void on_update(float delta_time)
   {
     // Maybe spawn some new enemies
@@ -138,7 +141,8 @@ class GameState extends State
       println("ERROR: There is not enough room to spawn a new tank! A new one will be spawned when there's enough space.");
     }
   }
-
+  
+  @Override
   void on_draw()
   {
     background(0);
