@@ -2,6 +2,8 @@ class Enemy {
   static final int SIZE = 64;
   static final float MIN_ROTATE_DELAY = .2f;
   static final float MAX_ROTATE_DELAY = .5f;
+  static final float MIN_FIRE_DELAY = 1.0f;
+  static final float MAX_FIRE_DELAY = 3.0f;
   
   public boolean is_dead = true;
   
@@ -10,14 +12,22 @@ class Enemy {
   int collider_id;
   float rotate_timer = 0.0f;
   float rotate_delay = 0.0f;
+  float fire_timer = 0.0f;
+  float fire_delay = 0.0f;
   int direction = 1;
+  boolean rainbow ;
+  color tint = color(255,0,0);
+  float tint_cooldown = 0.2f;
+  color color_blue = color(0,0,255);
+  color color_red = color(255,0,0);
 
   final String SPRITES_FOLDER = "../assets/sprites/";
   PImage enemy_up, enemy_down, enemy_left, enemy_right, actual_image;
   
-  Enemy(int xpos, int ypos){
+  Enemy(int xpos,boolean Rainboww, int ypos){
     x = xpos;
     y = ypos;
+    rainbow = Rainboww; 
     enemy_up = loadImage(SPRITES_FOLDER + "EnemyUp.png");
     enemy_down = loadImage(SPRITES_FOLDER + "EnemyDown.png");
     enemy_left = loadImage(SPRITES_FOLDER + "EnemyLeft.png");
@@ -26,15 +36,31 @@ class Enemy {
     collider_id = physics_manager.get_collider_id();
   }
   
-  void update(float deltaTime) {
+  void update(ArrayList<Shell> shells, float deltaTime) {
     int target_x = x;
     int target_y = y;
     rotate_timer += deltaTime;
+    fire_timer += deltaTime;
+    tint_cooldown -= deltaTime;
     if (rotate_timer > rotate_delay)
     {
-      direction = int(random(0, 5));
+      direction = int(random(1, 5));
       rotate_timer = 0.0f;
       rotate_delay = random(MIN_ROTATE_DELAY, MAX_ROTATE_DELAY);
+    }
+    if(fire_timer > fire_delay){
+      fire_timer = 0.0f;
+      fire_delay = random(MIN_FIRE_DELAY, MAX_ROTATE_DELAY);
+      shells.add(new Shell(x, y, direction));
+    }
+    
+    if(tint_cooldown < 0){
+      if(tint == color_blue){
+        tint = color_red;
+      }else{
+        tint = color_blue;
+      }
+      tint_cooldown = 0.2f;
     }
     
     if(direction == 1){
@@ -63,7 +89,11 @@ class Enemy {
   
   void draw() {   
     imageMode(CENTER);
+    if(rainbow == true){
+      tint(tint, 255);
+    }
     image(actual_image, x, y, SIZE, SIZE);
+    tint(255 ,255 ,255 ,255);
   }
   
   public void die() {
