@@ -15,7 +15,7 @@ class Enemy {
   float fire_timer = 0.0f;
   float fire_delay = 0.0f;
   int direction = 1;
-  boolean rainbow ;
+  boolean is_rainbow;
   color tint = color(255,0,0);
   float tint_cooldown = 0.2f;
   color color_blue = color(0,0,255);
@@ -24,10 +24,10 @@ class Enemy {
   final String SPRITES_FOLDER = "../assets/sprites/";
   PImage enemy_up, enemy_down, enemy_left, enemy_right, actual_image;
   
-  Enemy(int xpos,boolean Rainboww, int ypos){
+  Enemy(int xpos, int ypos, boolean is_rainbow){
     x = xpos;
     y = ypos;
-    rainbow = Rainboww; 
+    this.is_rainbow = is_rainbow; 
     enemy_up = loadImage(SPRITES_FOLDER + "EnemyUp.png");
     enemy_down = loadImage(SPRITES_FOLDER + "EnemyDown.png");
     enemy_left = loadImage(SPRITES_FOLDER + "EnemyLeft.png");
@@ -89,7 +89,7 @@ class Enemy {
   
   void draw() {   
     imageMode(CENTER);
-    if(rainbow == true){
+    if(is_rainbow == true){
       tint(tint, 255);
     }
     image(actual_image, x, y, SIZE, SIZE);
