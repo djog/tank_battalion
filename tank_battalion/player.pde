@@ -1,8 +1,8 @@
 class Player {
-  static final int SIZE = 64;
+  static final int SIZE = 52;
   static final int SPACE = 32;
   static final float FIRE_COOLDOWN = 1.0f;
-  
+
   int x, y;
   int move_speed = 4;
   int collider_id;
@@ -10,11 +10,11 @@ class Player {
   int direction = 1;
 
   boolean up, down, left, right, fire = false;
-  
+
   final String SPRITES_FOLDER = "../assets/sprites/";
-  
+
   PImage player_up, player_down, player_left, player_right, tank_image;
-  
+
   Player(int xpos, int ypos) {
     x = xpos;
     y = ypos;
@@ -25,66 +25,63 @@ class Player {
     player_right = loadImage(SPRITES_FOLDER + "PlayerRight.png");
     tank_image = player_up;
   }
-  
-  void input(int k, boolean value){
+
+  void input(int k, boolean value) {
     switch(k) {
-      case SPACE:
-        if(cooldown < 0.0f){         
-          fire = true;
-        }
-        break;
-        
-      case UP:
-      case 'w':
-      case 'W':
-        up = value;
-        break;
-      
-      case DOWN:
-      case 's':
-      case 'S':
-        down = value;
-        break;
-        
-      case LEFT:
-      case 'a':
-      case 'A':
-        left = value;
-        break;
-        
-      case RIGHT:
-      case 'd':
-      case 'D':
-        right = value;
-        break;
+    case SPACE:
+      if (cooldown < 0.0f) {         
+        fire = true;
+      }
+      break;
+
+    case UP:
+    case 'w':
+    case 'W':
+      up = value;
+      break;
+
+    case DOWN:
+    case 's':
+    case 'S':
+      down = value;
+      break;
+
+    case LEFT:
+    case 'a':
+    case 'A':
+      left = value;
+      break;
+
+    case RIGHT:
+    case 'd':
+    case 'D':
+      right = value;
+      break;
     }
   }
-  
+
   void update(ArrayList<Shell> shells, float delta_time) {
     int target_x = x;
     int target_y = y;
     cooldown -= delta_time;
-    if(up){
+    if (up) {
       tank_image = player_up;
       target_y -= move_speed;
       direction = 1;
-    }
-    else if(down){
+    } else if (down) {
       tank_image = player_down;
       target_y += move_speed;
       direction = 2;
-    }
-    else if(left){
+    } else if (left) {
       tank_image = player_left;
       target_x -= move_speed;
       direction = 3;
-    }
-    else if(right){
+    } else if (right) {
       tank_image = player_right;
       target_x += move_speed;
       direction = 4;
     }
-    if(fire){
+    if (fire) {
       shells.add(new Shell(x, y, direction));
       cooldown = FIRE_COOLDOWN;
       fire = false;
@@ -97,7 +94,7 @@ class Player {
     }
     physics_manager.update_collider(collider_id, new AABB(x, y, SIZE, SIZE));
   }
-  
+
   void draw() {   
     imageMode(CENTER);
     image(tank_image, x, y, SIZE, SIZE);
