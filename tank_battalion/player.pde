@@ -87,12 +87,12 @@ class Player {
       fire = false;
     }
     // Only move the player if the target position does not hit an obstacle
-    if (!physics_manager.check_collision(target_x, target_y, SIZE, SIZE, collider_id, false, null))
+    if (!physics_manager.check_collision(target_x, target_y, SIZE, SIZE, collider_id))
     {
       x = target_x;
       y = target_y;
     }
-    physics_manager.update_collider(collider_id, new AABB(x, y, SIZE, SIZE, ColliderType.TANK));
+    physics_manager.update_collider(collider_id, new AABB(x, y, SIZE, SIZE));
   }
 
   void draw() {   
