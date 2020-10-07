@@ -76,12 +76,12 @@ class Enemy {
       actual_image = enemy_right;
       target_x += move_speed;
     }
-    if (!physics_manager.check_collision(target_x, target_y, SIZE, SIZE, collider_id))
+    if (!physics_manager.check_collision(target_x, target_y, SIZE, SIZE, collider_id, false, null))
     {
       x = target_x;
       y = target_y;
     }
-    physics_manager.update_collider(collider_id, new AABB(x, y, SIZE, SIZE));
+    physics_manager.update_collider(collider_id, new AABB(x, y, SIZE, SIZE, ColliderType.TANK));
   }
 
   void draw() {   
