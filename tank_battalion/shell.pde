@@ -4,8 +4,11 @@ class Shell {
   int move_speed = 12;
   PImage shell_sprite;
   boolean up, down, left, right = false;
-
-  public Shell(int tx, int ty, int direction) {
+  int collider_id;
+  boolean is_destroyed = false;
+  byte layer_mask;
+  
+  public Shell(int tx, int ty, int direction, byte layer_mask) {
     x = tx;
     y = ty;
     if (direction == 1) {
@@ -22,9 +25,12 @@ class Shell {
       x += Player.SIZE / 2;
     }
     shell_sprite = loadImage(SPRITES_FOLDER + "Shell.png");
+    collider_id = physics_manager.get_collider_id();
+    this.layer_mask = layer_mask;
   }
 
   void update() {
+    if (is_destroyed) return;
     if (up) {
       y -= move_speed;
     } else if (down) {
@@ -33,6 +39,16 @@ class Shell {
       x -= move_speed;
     } else if (right) {
       x += move_speed;
+    }
+    
+    if (physics_manager.check_collision(x, y, SIZE, SIZE, collider_id, layer_mask))
+    {
+      is_destroyed = true;
+      physics_manager.remove_collider(collider_id);
+    }
+    else
+    {
+      physics_manager.update_collider(collider_id, new AABB(x, y, SIZE, SIZE, layer_mask));
     }
   }
 

@@ -1,18 +1,27 @@
 import java.util.Map;
 
+static final byte DEFAULT_LAYER = 0b0001; 
+static final byte ENVIRONMENT_LAYER = 0b0010;
+static final byte PLAYER_LAYER = 0b0100;
+static final byte ENEMY_LAYER = 0b1000;
+static final byte ALL_LAYERS = 0b1111;
+
 class AABB // Axis Aligned Bounding Box
 {
   public int x1;
   public int x2;
   public int y1;
   public int y2;
-
-  public AABB(int center_x, int center_y, int collider_width, int collider_height)
+  
+  public int layer_mask;
+  
+  public AABB(int center_x, int center_y, int collider_width, int collider_height, byte layer_mask)
   {
     this.x1 = center_x - collider_width/2;
     this.x2 = center_x + collider_width/2;
     this.y1 = center_y - collider_height/2;
     this.y2 = center_y + collider_height/2;
+    this.layer_mask = layer_mask;
   }
 
   public ArrayList<PVector> get_points()
@@ -49,13 +58,13 @@ public class PhysicsManager
     // Messy piece of sh*t code but it just works for now :D
     int total_arena_size = ARENA_SIZE + 2 * ARENA_BORDER;
     // Top
-    static_colliders.add(new AABB(ARENA_X - ARENA_BORDER + total_arena_size/2, ARENA_BORDER/2, total_arena_size, ARENA_BORDER));
+    static_colliders.add(new AABB(ARENA_X - ARENA_BORDER + total_arena_size/2, ARENA_BORDER/2, total_arena_size, ARENA_BORDER, ENVIRONMENT_LAYER));
     // Bottom
-    static_colliders.add(new AABB(ARENA_X - ARENA_BORDER + total_arena_size/2, ARENA_Y + ARENA_SIZE + ARENA_BORDER/2, total_arena_size, ARENA_BORDER));
+    static_colliders.add(new AABB(ARENA_X - ARENA_BORDER + total_arena_size/2, ARENA_Y + ARENA_SIZE + ARENA_BORDER/2, total_arena_size, ARENA_BORDER, ENVIRONMENT_LAYER));
     // Left
-    static_colliders.add(new AABB(ARENA_X + ARENA_BORDER/2 - ARENA_BORDER, ARENA_Y - ARENA_BORDER + total_arena_size/2, ARENA_BORDER, total_arena_size));
+    static_colliders.add(new AABB(ARENA_X + ARENA_BORDER/2 - ARENA_BORDER, ARENA_Y - ARENA_BORDER + total_arena_size/2, ARENA_BORDER, total_arena_size, ENVIRONMENT_LAYER));
     // Right
-    static_colliders.add(new AABB(ARENA_X + ARENA_BORDER/2 + ARENA_SIZE, ARENA_Y - ARENA_BORDER + total_arena_size/2, ARENA_BORDER, total_arena_size));
+    static_colliders.add(new AABB(ARENA_X + ARENA_BORDER/2 + ARENA_SIZE, ARENA_Y - ARENA_BORDER + total_arena_size/2, ARENA_BORDER, total_arena_size, ENVIRONMENT_LAYER));
   }
 
   public void update_grid(int[][] nodes)
@@ -84,7 +93,7 @@ public class PhysicsManager
     dynamic_colliders.clear();
   }
 
-  public boolean check_collision(int screen_x, int screen_y, int object_width, int object_height, int ignore_id) {
+  public boolean check_collision(int screen_x, int screen_y, int object_width, int object_height, int ignore_id, byte layer_mask) {
     PVector gridCoords = screen_to_grid_coords(screen_x, screen_y);
     int center_x = (int)gridCoords.x;
     int center_y = (int)gridCoords.y;
@@ -100,7 +109,7 @@ public class PhysicsManager
           if (node_value > 0)
           {
             PVector screenCoords = grid_to_screen_coords(target_x, target_y);        
-            grid_obstacles.add(new AABB((int)screenCoords.x + Grid.NODE_SIZE/2, (int)screenCoords.y + Grid.NODE_SIZE/2, Grid.NODE_SIZE, Grid.NODE_SIZE));
+            grid_obstacles.add(new AABB((int)screenCoords.x + Grid.NODE_SIZE/2, (int)screenCoords.y + Grid.NODE_SIZE/2, Grid.NODE_SIZE, Grid.NODE_SIZE, ENVIRONMENT_LAYER));
           }
         }
       }
@@ -116,7 +125,7 @@ public class PhysicsManager
         dynamic_obstacles.add(collider);
       }
     }
-    AABB check_box = new AABB(screen_x, screen_y, object_width, object_height);
+    AABB check_box = new AABB(screen_x, screen_y, object_width, object_height, layer_mask);
     boolean did_collide = false;
 
     ArrayList<AABB> obstacles = (ArrayList)grid_obstacles.clone();
@@ -126,6 +135,10 @@ public class PhysicsManager
     ArrayList<PVector> points = check_box.get_points();
     for (AABB obstacle : obstacles)
     {
+      if ((obstacle.layer_mask & check_box.layer_mask) == 0)
+      {
+        continue;
+      }
       // Check if box is in obstacle
       for (PVector point : points)
       {
@@ -171,7 +184,7 @@ public class PhysicsManager
         if (grid_nodes[x][y] > 0)
         {
           PVector screenCoords = grid_to_screen_coords(x, y);        
-          colliders.add(new AABB((int)screenCoords.x + Grid.NODE_SIZE/2, (int)screenCoords.y + Grid.NODE_SIZE/2, Grid.NODE_SIZE, Grid.NODE_SIZE));
+          colliders.add(new AABB((int)screenCoords.x + Grid.NODE_SIZE/2, (int)screenCoords.y + Grid.NODE_SIZE/2, Grid.NODE_SIZE, Grid.NODE_SIZE, ENVIRONMENT_LAYER));
         }
       }
     }

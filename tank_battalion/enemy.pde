@@ -4,6 +4,8 @@ class Enemy {
   static final float MAX_ROTATE_DELAY = .5f;
   static final float MIN_FIRE_DELAY = 1.0f;
   static final float MAX_FIRE_DELAY = 3.0f;
+  
+  static final byte SHELL_LAYER_MASK = (DEFAULT_LAYER | ENVIRONMENT_LAYER | PLAYER_LAYER);
 
   public boolean is_dead = true;
 
@@ -20,8 +22,7 @@ class Enemy {
   float tint_cooldown = 0.2f;
   color color_blue = color(0, 0, 255);
   color color_red = color(255, 0, 0);
-
-  final String SPRITES_FOLDER = "../assets/sprites/";
+  
   PImage enemy_up, enemy_down, enemy_left, enemy_right, actual_image;
 
   Enemy(int xpos, int ypos, boolean is_rainbow) {
@@ -51,7 +52,7 @@ class Enemy {
     if (fire_timer > fire_delay) {
       fire_timer = 0.0f;
       fire_delay = random(MIN_FIRE_DELAY, MAX_ROTATE_DELAY);
-      shells.add(new Shell(x, y, direction));
+      shells.add(new Shell(x, y, direction, SHELL_LAYER_MASK));
     }
 
     if (tint_cooldown < 0) {
@@ -76,12 +77,12 @@ class Enemy {
       actual_image = enemy_right;
       target_x += move_speed;
     }
-    if (!physics_manager.check_collision(target_x, target_y, SIZE, SIZE, collider_id))
+    if (!physics_manager.check_collision(target_x, target_y, SIZE, SIZE, collider_id, ALL_LAYERS))
     {
       x = target_x;
       y = target_y;
     }
-    physics_manager.update_collider(collider_id, new AABB(x, y, SIZE, SIZE));
+    physics_manager.update_collider(collider_id, new AABB(x, y, SIZE, SIZE, ENEMY_LAYER));
   }
 
   void draw() {   

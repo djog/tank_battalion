@@ -2,7 +2,9 @@ class Player {
   static final int SIZE = 52;
   static final int SPACE = 32;
   static final float FIRE_COOLDOWN = 1.0f;
-
+  
+  static final byte SHELL_LAYER_MASK = (DEFAULT_LAYER | ENVIRONMENT_LAYER | ENEMY_LAYER);
+  
   int x, y;
   int move_speed = 4;
   int collider_id;
@@ -82,17 +84,17 @@ class Player {
       direction = 4;
     }
     if (fire) {
-      shells.add(new Shell(x, y, direction));
+      shells.add(new Shell(x, y, direction, SHELL_LAYER_MASK));
       cooldown = FIRE_COOLDOWN;
       fire = false;
     }
     // Only move the player if the target position does not hit an obstacle
-    if (!physics_manager.check_collision(target_x, target_y, SIZE, SIZE, collider_id))
+    if (!physics_manager.check_collision(target_x, target_y, SIZE, SIZE, collider_id, ALL_LAYERS))
     {
       x = target_x;
       y = target_y;
     }
-    physics_manager.update_collider(collider_id, new AABB(x, y, SIZE, SIZE));
+    physics_manager.update_collider(collider_id, new AABB(x, y, SIZE, SIZE, PLAYER_LAYER));
   }
 
   void draw() {   
