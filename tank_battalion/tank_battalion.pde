@@ -1,9 +1,11 @@
 // Globals
 StateManager state_manager;
 PhysicsManager physics_manager = new PhysicsManager();
+AudioManager audio_manager = new AudioManager(this);
 
 // Some consts
 static final String SPRITES_FOLDER = "../assets/sprites/";
+static final String SOUNDS_FOLDER = "../assets/audio/";
 static final String FONTS_FOLDER = "../assets/fonts/";
 static final String LEVEL_FOLDER = "../assets/levels/";
 static final int WINDOW_WIDTH = 1600;
@@ -12,10 +14,10 @@ static final int WINDOW_HEIGHT = 896;
 void setup() {
   // P2D - Might not work on Linux
   // Comment the 2 lines below if you're NOT using P2D renderer
-  size(1600, 896, P2D);
-  ((PGraphicsOpenGL)g).textureSampling(2);
+  // size(1600, 896, P2D);
+  // ((PGraphicsOpenGL)g).textureSampling(2);
   // No P2D - Uncomment the line below if you're NOT using P2D renderer
-  // size(1600, 896);
+  size(1600, 896);
 
   // Settings  
   frameRate(60); // Just 60 for now
