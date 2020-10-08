@@ -43,7 +43,7 @@ class Shell {
     
     if (physics_manager.check_collision(x, y, SIZE, SIZE, collider_id, layer_mask))
     {
-      if ((layer_mask & ENEMY_LAYER) == 1){
+      if ((layer_mask & PLAYER_LAYER) == 0){
         ArrayList<AABB> collided_objects = physics_manager.get_collided_objects();
         for (AABB object : collided_objects){
           for (Enemy enemy : enemies){
