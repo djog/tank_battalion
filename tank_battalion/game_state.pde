@@ -20,6 +20,7 @@ class GameState extends State
 
   PImage background_image;
   PImage tank_image;
+  PImage enemy_image;
   PFont game_font;
 
   Grid grid;
@@ -35,6 +36,7 @@ class GameState extends State
     // Load files
     background_image = loadImage(SPRITES_FOLDER + "Background.png");
     tank_image = loadImage(SPRITES_FOLDER + "PlayerUp.png");
+    enemy_image = loadImage(SPRITES_FOLDER + "EnemyUp.png");
     game_font = createFont(FONTS_FOLDER + "RetroGaming.ttf", 48.0);
 
     setup_round();
@@ -191,6 +193,8 @@ class GameState extends State
     text("HIGH-", width - 350, 50); 
     text("SCORE", width - 350, 75);
     fill(255);
+    
+    
     text(high_score, width - 350, 100);
 
     // Draw the score
@@ -207,6 +211,19 @@ class GameState extends State
     for (int i = 0; i < n_lives; i++)
     {
       image(tank_image, width - 340 + i * (Player.SIZE + 10), 600, Player.SIZE, Player.SIZE);
+    }
+    //Draw enemies left
+    int x = 0;
+    int y = 0;
+    for (int j = 0; j < opponents_left; j++)
+    {
+      if (x == 4)
+      {
+        y++;
+        x = 0;
+      }
+      image(enemy_image, width - 340 + x * (Enemy.SIZE + 10), 400 + y * (Enemy.SIZE + 10), Enemy.SIZE / 1.5, Enemy.SIZE / 1.5);
+        x++;
     }
   }
 }
