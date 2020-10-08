@@ -92,6 +92,7 @@ class GameState extends State
     for(Iterator<Enemy> iterator = enemies.iterator(); iterator.hasNext();){
       Enemy enemy = iterator.next();
       if(enemy.is_dead){
+        score += random(30, 1601);
         iterator.remove();
         continue;
       }
