@@ -12,9 +12,9 @@ class AABB // Axis Aligned Bounding Box
   public int x2;
   public int y1;
   public int y2;
-  
+
   public int layer_mask;
-  
+
   public AABB(int center_x, int center_y, int collider_width, int collider_height, byte layer_mask)
   {
     this.x1 = center_x - collider_width/2;
@@ -49,7 +49,7 @@ public class PhysicsManager
   private int collider_id_counter = 0;
   private ArrayList<AABB> static_colliders = new ArrayList<AABB>();
 
-  private int[][] grid_nodes = new int[Grid.SIZE][Grid.SIZE];
+  private Grid grid_ref;
 
   public boolean is_debugging;
 
@@ -67,9 +67,9 @@ public class PhysicsManager
     static_colliders.add(new AABB(ARENA_X + ARENA_BORDER/2 + ARENA_SIZE, ARENA_Y - ARENA_BORDER + total_arena_size/2, ARENA_BORDER, total_arena_size, ENVIRONMENT_LAYER));
   }
 
-  public void update_grid(int[][] nodes)
+  public void update_grid(Grid grid)
   {
-    grid_nodes = nodes;
+    grid_ref = grid;
   }
 
   public int get_collider_id()
@@ -93,27 +93,90 @@ public class PhysicsManager
     dynamic_colliders.clear();
   }
 
-  public boolean check_collision(int screen_x, int screen_y, int object_width, int object_height, int ignore_id, byte layer_mask) {
+  ArrayList<AABB> get_nearby_node_colliders(int grid_x, int grid_y)
+  {
+    ArrayList<AABB> node_colliders = new ArrayList<AABB>();
+    for (int x = - NODE_COLLISION_LAYERS; x <= NODE_COLLISION_LAYERS; x++) {
+      for (int y = - NODE_COLLISION_LAYERS; y <= NODE_COLLISION_LAYERS; y++) {
+        int target_x = grid_x + x;
+        int target_y = grid_y + y;
+        if (target_x >= 0 && target_x < Grid.SIZE && target_y >= 0 && target_y < Grid.SIZE)
+        {
+          int node_value = grid_ref.nodes[target_x][target_y];
+          if (node_value > 0)
+          {
+            PVector screenCoords = grid_to_screen_coords(target_x, target_y);        
+            node_colliders.add(new AABB((int)screenCoords.x + Grid.NODE_SIZE/2, (int)screenCoords.y + Grid.NODE_SIZE/2, Grid.NODE_SIZE, Grid.NODE_SIZE, ENVIRONMENT_LAYER));
+          }
+        }
+      }
+    }
+    return node_colliders;
+  }
+
+  public void remove_colliding_grid_nodes(int screen_x, int screen_y, int object_width, int object_height)
+  {
     PVector gridCoords = screen_to_grid_coords(screen_x, screen_y);
     int center_x = (int)gridCoords.x;
     int center_y = (int)gridCoords.y;
 
-    ArrayList<AABB> grid_obstacles = new ArrayList<AABB>();
+    AABB check_box = new AABB(screen_x, screen_y, object_width, object_height, byte(0));
+    ArrayList<PVector> points = check_box.get_points();
+
     for (int x = - NODE_COLLISION_LAYERS; x <= NODE_COLLISION_LAYERS; x++) {
       for (int y = - NODE_COLLISION_LAYERS; y <= NODE_COLLISION_LAYERS; y++) {
         int target_x = center_x + x;
         int target_y = center_y + y;
         if (target_x >= 0 && target_x < Grid.SIZE && target_y >= 0 && target_y < Grid.SIZE)
         {
-          int node_value = grid_nodes[target_x][target_y];
+          int node_value = grid_ref.nodes[target_x][target_y];
           if (node_value > 0)
           {
-            PVector screenCoords = grid_to_screen_coords(target_x, target_y);        
-            grid_obstacles.add(new AABB((int)screenCoords.x + Grid.NODE_SIZE/2, (int)screenCoords.y + Grid.NODE_SIZE/2, Grid.NODE_SIZE, Grid.NODE_SIZE, ENVIRONMENT_LAYER));
+            PVector screenCoords = grid_to_screen_coords(target_x, target_y);   
+            AABB node_collider = new AABB((int)screenCoords.x + Grid.NODE_SIZE/2, (int)screenCoords.y + Grid.NODE_SIZE/2, Grid.NODE_SIZE, Grid.NODE_SIZE, byte(0));
+
+            // Check collision with the grid node
+            boolean did_collide = false;
+
+            // Check if box is in obstacle
+            for (PVector point : points)
+            {
+              if (point.x >= node_collider.x1 && point.x <= node_collider.x2
+                && point.y >= node_collider.y1 && point.y <= node_collider.y2)
+              {
+                did_collide = true;
+                break;
+              }
+            }
+
+            // Check if obstacle is in box
+            for (PVector point : node_collider.get_points())
+            {
+              if (point.x >= check_box.x1 && point.x <= check_box.x2
+                && point.y >= check_box.y1 && point.y <= check_box.y2)
+              {
+                did_collide = true;
+                break;
+              }
+            }
+
+            // Remove the node if collided
+            if (did_collide)
+            {
+              grid_ref.nodes[target_x][target_y] = 0;
+            }
           }
         }
       }
     }
+  }
+
+  public boolean check_collision(int screen_x, int screen_y, int object_width, int object_height, int ignore_id, byte layer_mask) {
+    PVector gridCoords = screen_to_grid_coords(screen_x, screen_y);
+    int center_x = (int)gridCoords.x;
+    int center_y = (int)gridCoords.y;
+
+    ArrayList<AABB> grid_obstacles = get_nearby_node_colliders(center_x, center_y);
 
     ArrayList<AABB> dynamic_obstacles = new ArrayList<AABB>(); 
     for (Map.Entry<Integer, AABB> entry : dynamic_colliders.entrySet())
@@ -181,7 +244,7 @@ public class PhysicsManager
     {
       for (int y = 0; y < Grid.SIZE; y++)
       {
-        if (grid_nodes[x][y] > 0)
+        if (grid_ref.nodes[x][y] > 0)
         {
           PVector screenCoords = grid_to_screen_coords(x, y);        
           colliders.add(new AABB((int)screenCoords.x + Grid.NODE_SIZE/2, (int)screenCoords.y + Grid.NODE_SIZE/2, Grid.NODE_SIZE, Grid.NODE_SIZE, ENVIRONMENT_LAYER));

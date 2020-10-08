@@ -44,6 +44,7 @@ class Shell {
     if (physics_manager.check_collision(x, y, SIZE, SIZE, collider_id, layer_mask))
     {
       is_destroyed = true;
+      physics_manager.remove_colliding_grid_nodes(x, y, Player.SIZE, Player.SIZE);
       physics_manager.remove_collider(collider_id);
     }
     else

@@ -56,7 +56,7 @@ class GameState extends State
 
     if (is_key_down)
     {
-      if (keyCode == DELETE)
+      if (keyCode == DELETE || keyCode == 'M')
       {
         // kill all enemies - for debugging purposses
         while (enemies.size() > 0)

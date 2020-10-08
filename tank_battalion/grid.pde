@@ -15,7 +15,7 @@ class Grid {
         nodes[x][y] = node_values[x];
       }
     }
-    physics_manager.update_grid(nodes);
+    physics_manager.update_grid(this);
 
     brick_1 = loadImage(SPRITES_FOLDER + "Brick_1.png");
     brick_2 = loadImage(SPRITES_FOLDER + "Brick_2.png");
