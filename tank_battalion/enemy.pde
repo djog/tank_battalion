@@ -7,7 +7,7 @@ class Enemy {
   
   static final byte SHELL_LAYER_MASK = (DEFAULT_LAYER | ENVIRONMENT_LAYER | PLAYER_LAYER);
 
-  public boolean is_dead = true;
+  public boolean is_dead = false;
 
   int x, y;
   int move_speed = 3;

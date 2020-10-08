@@ -50,6 +50,8 @@ public class PhysicsManager
   private ArrayList<AABB> static_colliders = new ArrayList<AABB>();
 
   private Grid grid_ref;
+  
+  private ArrayList<AABB> collided_objects = new ArrayList<AABB>();
 
   public boolean is_debugging;
 
@@ -91,6 +93,14 @@ public class PhysicsManager
   public void cleanup()
   {
     dynamic_colliders.clear();
+  }
+  
+  public ArrayList<AABB> get_collided_objects(){
+    return collided_objects;
+  }
+  
+  public AABB get_collider_by_id(int id){
+    return dynamic_colliders.get(id);
   }
 
   ArrayList<AABB> get_nearby_node_colliders(int grid_x, int grid_y)
@@ -172,6 +182,8 @@ public class PhysicsManager
   }
 
   public boolean check_collision(int screen_x, int screen_y, int object_width, int object_height, int ignore_id, byte layer_mask) {
+    collided_objects.clear();
+    
     PVector gridCoords = screen_to_grid_coords(screen_x, screen_y);
     int center_x = (int)gridCoords.x;
     int center_y = (int)gridCoords.y;
@@ -209,7 +221,7 @@ public class PhysicsManager
           && point.y >= obstacle.y1 && point.y <= obstacle.y2)
         {
           did_collide = true;
-
+          collided_objects.add(obstacle);
           break;
         }
       }
@@ -221,6 +233,7 @@ public class PhysicsManager
           && point.y >= check_box.y1 && point.y <= check_box.y2)
         {
           did_collide = true;
+          collided_objects.add(obstacle);
           break;
         }
       }

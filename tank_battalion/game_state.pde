@@ -87,15 +87,20 @@ class GameState extends State
       round++;
       setup_round();
     }
-
+    
     // Update enemies
-    for (Enemy enemy : enemies) {
+    for(Iterator<Enemy> iterator = enemies.iterator(); iterator.hasNext();){
+      Enemy enemy = iterator.next();
+      if(enemy.is_dead){
+        iterator.remove();
+        continue;
+      }
       enemy.update(shells, delta_time);
     }
 
-     for(Iterator<Shell> iterator = shells.iterator(); iterator.hasNext();){
+    for(Iterator<Shell> iterator = shells.iterator(); iterator.hasNext();){
       Shell shell = iterator.next();
-      shell.update();
+      shell.update(enemies);
       if(shell.is_destroyed){
         iterator.remove();
       }
