@@ -6,6 +6,13 @@ static final byte PLAYER_LAYER = 0b0100;
 static final byte ENEMY_LAYER = 0b1000;
 static final byte ALL_LAYERS = 0b1111;
 
+enum ColliderParentType
+{
+  NONE, 
+  PLAYER, 
+  ENEMY,
+}
+
 class AABB // Axis Aligned Bounding Box
 {
   public int x1;
@@ -14,6 +21,8 @@ class AABB // Axis Aligned Bounding Box
   public int y2;
 
   public int layer_mask;
+  public Object parent;
+  public ColliderParentType parent_type = ColliderParentType.NONE;
 
   public AABB(int center_x, int center_y, int collider_width, int collider_height, byte layer_mask)
   {
@@ -22,6 +31,18 @@ class AABB // Axis Aligned Bounding Box
     this.y1 = center_y - collider_height/2;
     this.y2 = center_y + collider_height/2;
     this.layer_mask = layer_mask;
+  }
+
+  public AABB(int center_x, int center_y, int collider_width, int collider_height, byte layer_mask, ColliderParentType parent_type, Object parent)
+  {
+    this.x1 = center_x - collider_width/2;
+    this.x2 = center_x + collider_width/2;
+    this.y1 = center_y - collider_height/2;
+    this.y2 = center_y + collider_height/2;
+    this.layer_mask = layer_mask;
+
+    this.parent = parent;
+    this.parent_type = parent_type;
   }
 
   public ArrayList<PVector> get_points()
@@ -50,7 +71,7 @@ public class PhysicsManager
   private ArrayList<AABB> static_colliders = new ArrayList<AABB>();
 
   private Grid grid_ref;
-  
+
   private ArrayList<AABB> collided_objects = new ArrayList<AABB>();
 
   public boolean is_debugging;
@@ -94,13 +115,9 @@ public class PhysicsManager
   {
     dynamic_colliders.clear();
   }
-  
-  public ArrayList<AABB> get_collided_objects(){
+
+  public ArrayList<AABB> get_collided_objects() {
     return collided_objects;
-  }
-  
-  public AABB get_collider_by_id(int id){
-    return dynamic_colliders.get(id);
   }
 
   ArrayList<AABB> get_nearby_node_colliders(int grid_x, int grid_y)
@@ -183,7 +200,7 @@ public class PhysicsManager
 
   public boolean check_collision(int screen_x, int screen_y, int object_width, int object_height, int ignore_id, byte layer_mask) {
     collided_objects.clear();
-    
+
     PVector gridCoords = screen_to_grid_coords(screen_x, screen_y);
     int center_x = (int)gridCoords.x;
     int center_y = (int)gridCoords.y;
@@ -210,10 +227,12 @@ public class PhysicsManager
     ArrayList<PVector> points = check_box.get_points();
     for (AABB obstacle : obstacles)
     {
+      // Skip if obstacle layer can't collide with check
       if ((obstacle.layer_mask & check_box.layer_mask) == 0)
       {
         continue;
       }
+
       // Check if box is in obstacle
       for (PVector point : points)
       {

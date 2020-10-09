@@ -82,7 +82,7 @@ class Enemy {
       x = target_x;
       y = target_y;
     }
-    physics_manager.update_collider(collider_id, new AABB(x, y, SIZE, SIZE, ENEMY_LAYER));
+    physics_manager.update_collider(collider_id, new AABB(x, y, SIZE, SIZE, ENEMY_LAYER, ColliderParentType.ENEMY, this));
   }
 
   void draw() {   

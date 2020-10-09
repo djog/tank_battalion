@@ -7,7 +7,7 @@ class Shell {
   int collider_id;
   boolean is_destroyed = false;
   byte layer_mask;
-  
+
   public Shell(int tx, int ty, int direction, byte layer_mask) {
     x = tx;
     y = ty;
@@ -40,20 +40,25 @@ class Shell {
     } else if (right) {
       x += move_speed;
     }
-    
+
     if (physics_manager.check_collision(x, y, SIZE, SIZE, collider_id, layer_mask))
     {
-      if ((layer_mask & PLAYER_LAYER) == 0){
-        ArrayList<AABB> collided_objects = physics_manager.get_collided_objects();
-        for (AABB object : collided_objects){
-          for (Enemy enemy : enemies){
-            AABB enemy_collider = physics_manager.get_collider_by_id(enemy.collider_id);
-            if (enemy_collider == object){
-              enemy.die();
-            }
-          }
+      ArrayList<AABB> collided_objects = physics_manager.get_collided_objects();
+      for (AABB collider : collided_objects) {
+        // Damage enemy if collided with an enemy
+        if (collider.parent_type == ColliderParentType.ENEMY)
+        {
+          Enemy enemy = (Enemy)collider.parent;
+          enemy.die();
+        }
+        // Damage player if collided with a player
+        if (collider.parent_type == ColliderParentType.PLAYER)
+        {
+          Player player = (Player)collider.parent;
+          player.die();
         }
       }
+
       is_destroyed = true;
       int size_x = Grid.NODE_SIZE;
       int size_y = Grid.NODE_SIZE;
@@ -64,8 +69,7 @@ class Shell {
       }
       physics_manager.remove_colliding_grid_nodes(x, y, size_x, size_y);
       physics_manager.remove_collider(collider_id);
-    }
-    else
+    } else
     {
       physics_manager.update_collider(collider_id, new AABB(x, y, SIZE, SIZE, layer_mask));
     }

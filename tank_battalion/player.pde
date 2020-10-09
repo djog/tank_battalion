@@ -1,7 +1,7 @@
 class Player {
   static final int SIZE = 52;
   static final int SPACE = 32;
-  static final float FIRE_COOLDOWN = 1.0f;
+  static final float FIRE_COOLDOWN = 0.4f;
   
   static final byte SHELL_LAYER_MASK = (DEFAULT_LAYER | ENVIRONMENT_LAYER | ENEMY_LAYER);
   
@@ -12,8 +12,7 @@ class Player {
   int direction = 1;
 
   boolean up, down, left, right, fire = false;
-
-  final String SPRITES_FOLDER = "../assets/sprites/";
+  boolean is_dead;
 
   PImage player_up, player_down, player_left, player_right, tank_image;
 
@@ -94,11 +93,17 @@ class Player {
       x = target_x;
       y = target_y;
     }
-    physics_manager.update_collider(collider_id, new AABB(x, y, SIZE, SIZE, PLAYER_LAYER));
+    physics_manager.update_collider(collider_id, new AABB(x, y, SIZE, SIZE, PLAYER_LAYER, ColliderParentType.PLAYER, this));
   }
 
   void draw() {   
     imageMode(CENTER);
     image(tank_image, x, y, SIZE, SIZE);
+  }
+  
+  public void die()
+  {
+    is_dead = true;
+    physics_manager.remove_collider(collider_id);
   }
 }

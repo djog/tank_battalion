@@ -44,7 +44,7 @@ class GameState extends State
   void setup_round() {
     opponents_left = 4 + round * 3;
     grid = new Grid(round);
-    player = new Player(ARENA_X + Player.SIZE, ARENA_Y + ARENA_SIZE - Player.SIZE);
+    spawn_player();
     flag = new Flag(ARENA_CENTER_X + Flag.SIZE/2, ARENA_Y + ARENA_SIZE - Flag.SIZE + Flag.SIZE/2);
     enemies.clear();
     physics_manager.cleanup();
@@ -56,7 +56,7 @@ class GameState extends State
 
     if (is_key_down)
     {
-      if (keyCode == DELETE || keyCode == 'M')
+      if (keyCode == DELETE || keyCode == 'K')
       {
         // kill all enemies - for debugging purposses
         while (enemies.size() > 0)
@@ -93,6 +93,7 @@ class GameState extends State
       Enemy enemy = iterator.next();
       if(enemy.is_dead){
         score += random(30, 1601);
+        opponents_left--;
         iterator.remove();
         continue;
       }
@@ -108,9 +109,30 @@ class GameState extends State
     }
 
     // Update player
-    player.update(shells, delta_time);
+    if (player.is_dead)
+    {
+      if (n_lives > 0)
+      {
+        // Repsawn player
+        spawn_player();
+        n_lives--;
+      }
+      else
+      {
+        state_manager.switch_state(StateType.GAME_OVER);  
+      }
+    }
+    else
+    {
+      player.update(shells, delta_time);
+    }
   }
-
+  
+  void spawn_player()
+  {
+    player = new Player(ARENA_X + Player.SIZE, ARENA_Y + ARENA_SIZE - Player.SIZE);
+  }
+  
   void spawn_enemies(float delta_time)
   {
     // Spawn an enemy if timer is over
