@@ -56,6 +56,9 @@ class GameState extends State
 
     if (is_key_down)
     {
+      if (keyCode == 'B') {
+       audio_manager.play_sound("bruh.mp3"); 
+      }
       if (keyCode == DELETE || keyCode == 'K')
       {
         // kill all enemies - for debugging purposses
