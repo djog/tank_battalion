@@ -29,7 +29,7 @@ class Shell {
     this.layer_mask = layer_mask;
   }
 
-  void update() {
+  void update(ArrayList<Enemy> enemies) {
     if (is_destroyed) return;
     if (up) {
       y -= move_speed;
@@ -43,8 +43,26 @@ class Shell {
     
     if (physics_manager.check_collision(x, y, SIZE, SIZE, collider_id, layer_mask))
     {
+      if ((layer_mask & PLAYER_LAYER) == 0){
+        ArrayList<AABB> collided_objects = physics_manager.get_collided_objects();
+        for (AABB object : collided_objects){
+          for (Enemy enemy : enemies){
+            AABB enemy_collider = physics_manager.get_collider_by_id(enemy.collider_id);
+            if (enemy_collider == object){
+              enemy.die();
+            }
+          }
+        }
+      }
       is_destroyed = true;
-      physics_manager.remove_colliding_grid_nodes(x, y, Grid.NODE_SIZE, Grid.NODE_SIZE);
+      int size_x = Grid.NODE_SIZE;
+      int size_y = Grid.NODE_SIZE;
+      if (up || down) {
+        size_x = Player.SIZE;
+      } else {
+        size_y = Player.SIZE;
+      }
+      physics_manager.remove_colliding_grid_nodes(x, y, size_x, size_y);
       physics_manager.remove_collider(collider_id);
     }
     else
