@@ -11,18 +11,30 @@ static final String LEVEL_FOLDER = "../assets/levels/";
 static final int WINDOW_WIDTH = 1600;
 static final int WINDOW_HEIGHT = 896;
 
-void setup() {
-  // P2D - Might not work on Linux
-  // Comment the 2 lines below if you're NOT using P2D renderer
-  // size(1600, 896, P2D);
-  // ((PGraphicsOpenGL)g).textureSampling(2);
-  // No P2D - Uncomment the line below if you're NOT using P2D renderer
-  size(1600, 896);
+static final String OPERATING_SYSTEM = System.getProperty("os.name");
 
-  // Settings  
-  frameRate(60); // Just 60 for now
+void settings()
+{
+  println("Running on: " + OPERATING_SYSTEM);
+  if (OPERATING_SYSTEM.contains("linux"))
+  {
+    println("Using PD2 renderer.");
+    size(WINDOW_WIDTH, WINDOW_HEIGHT, P2D);
+    ((PGraphicsOpenGL)g).textureSampling(2);
+  }
+  else
+  {
+    println("Using legacy renderer.");
+    size(WINDOW_WIDTH, WINDOW_HEIGHT);  
+  }
+  
+  
+
   smooth(0); // For the pixelart & retro effect
+}
 
+void setup() {
+    frameRate(60); // Just 60 for now
   state_manager = new StateManager();
 }
 

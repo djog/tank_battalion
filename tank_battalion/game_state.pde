@@ -9,13 +9,14 @@ static final int ARENA_CENTER_X = ARENA_X + ARENA_SIZE / 2;
 static final int ARENA_CENTER_Y = ARENA_Y + ARENA_SIZE / 2;
 static final float MIN_SPAWN_DEALY = 3.0f;
 static final float MAX_SPAWN_DEALY = 6.0f;
+static final int LIVES_PER_ROUND = 3;
 
 class GameState extends State
 {
   int high_score = 0;
   int score = 0;
   int round = 1;
-  int n_lives = 3;
+  int n_lives = LIVES_PER_ROUND;
   int opponents_left = 0;
 
   PImage background_image;
@@ -43,6 +44,7 @@ class GameState extends State
   // Setup the round according the the round variable
   void setup_round() {
     opponents_left = 4 + round * 3;
+    n_lives = LIVES_PER_ROUND;
     grid = new Grid(round);
     spawn_player();
     flag = new Flag(ARENA_CENTER_X + Flag.SIZE/2, ARENA_Y + ARENA_SIZE - Flag.SIZE + Flag.SIZE/2);
