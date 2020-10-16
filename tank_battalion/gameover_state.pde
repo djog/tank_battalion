@@ -1,5 +1,13 @@
 class GameOverState extends State
 {
-  // We will likely need this state in the future...
-  // The the time being it is just not implemented
+  @Override
+  void on_draw()
+  {
+    background(#060606);
+    
+    textSize(50);
+    fill(250);
+    textAlign(CENTER, CENTER);
+    text("GAME OVER", width/2, height/2);
+  }
 }
