@@ -16,11 +16,11 @@ static final String OPERATING_SYSTEM = System.getProperty("os.name");
 void settings()
 {
   println("Running on: " + OPERATING_SYSTEM);
-  if (OPERATING_SYSTEM.contains("linux"))
+  if (!OPERATING_SYSTEM.contains("linux"))
   {
     println("Using PD2 renderer.");
     size(WINDOW_WIDTH, WINDOW_HEIGHT, P2D);
-    ((PGraphicsOpenGL)g).textureSampling(2);
+
   }
   else
   {
@@ -34,7 +34,12 @@ void settings()
 }
 
 void setup() {
-    frameRate(60); // Just 60 for now
+  frameRate(60); // Just 60 for 
+  if (!OPERATING_SYSTEM.contains("linux"))
+  {
+    ((PGraphicsOpenGL)g).textureSampling(2);
+  }
+  
   state_manager = new StateManager();
 }
 
