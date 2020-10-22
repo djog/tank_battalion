@@ -2,6 +2,11 @@
 StateManager state_manager;
 PhysicsManager physics_manager = new PhysicsManager();
 AudioManager audio_manager = new AudioManager(this);
+GameData game_data = new GameData();
+
+// Game settings
+static final boolean ENABLE_EASTER_EGGS = true;
+static final boolean ENABLE_DEBUG_MODE = true;
 
 // Some consts
 static final String SPRITES_FOLDER = "../assets/sprites/";

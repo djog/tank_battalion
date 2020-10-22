@@ -39,8 +39,12 @@ class MenuState extends State
   {
     background(#060606);
     
+    // Set font
+    textFont(menu_font);
+    
     textSize(94);
     fill(#d34545);
+    textAlign(CENTER, CENTER);
     text("TANK BATTALION", width/2, height/2 - 240);
     textSize(32);
     fill(#F98383);
@@ -53,8 +57,6 @@ class MenuState extends State
     textAlign(RIGHT, BOTTOM);
     text("github.com/djog/djog_unos_2020", width - PADDING, height - PADDING);
     
-    // Set font
-    textFont(menu_font);
     
     
     play_button.draw();

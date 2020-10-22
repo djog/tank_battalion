@@ -37,4 +37,11 @@ class AudioManager
       sound.stop();
     }
   }
+  
+  public void stop_all_sounds()
+  {
+    for (SoundFile sound : sounds.values()) {
+      sound.stop();
+    }
+  }
 }

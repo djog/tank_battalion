@@ -13,8 +13,6 @@ static final int LIVES_PER_ROUND = 3;
 
 class GameState extends State
 {
-  int high_score = 0;
-  int score = 0;
   int round = 1;
   int n_lives = LIVES_PER_ROUND;
   int opponents_left = 0;
@@ -37,7 +35,8 @@ class GameState extends State
     background_image = loadImage(SPRITES_FOLDER + "Background.png");
     tank_image = loadImage(SPRITES_FOLDER + "PlayerUp.png");
     game_font = createFont(FONTS_FOLDER + "RetroGaming.ttf", 48.0);
-
+    game_data.reset_score();
+    
     setup_round();
   }
 
@@ -58,24 +57,28 @@ class GameState extends State
 
     if (is_key_down)
     {
-      if (keyCode == 'B') {
+      if (keyCode == 'B' && ENABLE_EASTER_EGGS) {
        audio_manager.play_sound("bruh.mp3"); 
       }
-      if (keyCode == DELETE || keyCode == 'K')
+      if (keyCode == DELETE || keyCode == 'K' && ENABLE_DEBUG_MODE)
       {
         // kill all enemies - for debugging purposses
         while (enemies.size() > 0)
         {
           enemies.get(0).die();
           enemies.remove(0); 
+          game_data.add_score(10);
           opponents_left--;
-          score += random(0, 100); // Temporary remove this
         }
       }
       // Toggle physics debug mode
-      if (keyCode == 'P' || keyCode == 'p')
+      if ((keyCode == 'P' || keyCode == 'p') && ENABLE_DEBUG_MODE)
       {
         physics_manager.is_debugging = !physics_manager.is_debugging;
+      }
+      if ((keyCode == 'I' || keyCode == 'i') && ENABLE_DEBUG_MODE)
+      {
+        spawn_enemy();
       }
     }
   }
@@ -97,7 +100,7 @@ class GameState extends State
     for(Iterator<Enemy> iterator = enemies.iterator(); iterator.hasNext();){
       Enemy enemy = iterator.next();
       if(enemy.is_dead){
-        score += random(30, 1601);
+        game_data.add_score(int(random(30, 1601)));
         opponents_left--;
         iterator.remove();
         continue;
@@ -131,6 +134,9 @@ class GameState extends State
     {
       player.update(shells, delta_time);
     }
+    
+    // Update flag
+    flag.update();
   }
   
   void spawn_player()
@@ -175,7 +181,7 @@ class GameState extends State
       enemies.add(new Enemy((int)spawn_pos.x, (int)spawn_pos.y, is_rainbow));
     } else
     {
-      println("ERROR: There is not enough room to spawn a new tank! A new one will be spawned when there's enough space.");
+      println("ERROR: There is not enough room to spawn a new tank!");
     }
   }
 
@@ -224,13 +230,13 @@ class GameState extends State
     text("HIGH-", width - 350, 50); 
     text("SCORE", width - 350, 75);
     fill(255);
-    text(high_score, width - 350, 100);
+    text(game_data.high_score, width - 350, 100);
 
     // Draw the score
     fill(255, 0, 0);
     text("SCORE", width - 350, 150);
     fill(255);
-    text(score, width - 350, 175);
+    text(game_data.score, width - 350, 175);
 
     // Draw the Round
     fill(255, 255, 255);
