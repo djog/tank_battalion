@@ -95,6 +95,7 @@ class Enemy {
   }
 
   public void die() {
+    audio_manager.play_sound("explosion.wav"); 
     physics_manager.remove_collider(collider_id);
     is_dead = true;
   }

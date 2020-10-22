@@ -28,8 +28,6 @@ void settings()
     size(WINDOW_WIDTH, WINDOW_HEIGHT);  
   }
   
-  
-
   smooth(0); // For the pixelart & retro effect
 }
 

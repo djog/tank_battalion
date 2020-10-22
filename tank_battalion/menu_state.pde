@@ -14,6 +14,7 @@ class MenuState extends State
     play_button = new Button(width / 2, height /2 + BUTTONS_OFFSET, "PLAY");
     credits_button = new Button(width / 2, height /2 + BUTTONS_OFFSET + Button.HEIGHT + BUTTONS_SPACING, "CREDITS");
     quit_button = new Button(width / 2, height /2 + BUTTONS_OFFSET + 2*Button.HEIGHT + 2*BUTTONS_SPACING, "QUIT");
+    audio_manager.play_sound("start_music.wav"); 
   }
   
   @Override
