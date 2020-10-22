@@ -9,7 +9,7 @@ static final int ARENA_CENTER_X = ARENA_X + ARENA_SIZE / 2;
 static final int ARENA_CENTER_Y = ARENA_Y + ARENA_SIZE / 2;
 static final float MIN_SPAWN_DEALY = 3.0f;
 static final float MAX_SPAWN_DEALY = 6.0f;
-static final int LIVES_PER_ROUND = 3;
+static final int LIVES_PER_ROUND = 2;
 
 class GameState extends State
 {
@@ -44,7 +44,7 @@ class GameState extends State
 
   // Setup the round according the the round variable
   void setup_round() {
-    opponents_left = 4 + round * 3;
+    opponents_left = 13 + round * 3;
     n_lives = LIVES_PER_ROUND;
     grid = new Grid(round);
     spawn_player();
@@ -253,6 +253,8 @@ class GameState extends State
     //Draw enemies left
     int x = 0;
     int y = 0;
+    final float IMAGE_SIZE = Enemy.SIZE / 1.5;
+    final int IMAGE_SPACING = 6;
     for (int j = 0; j < opponents_left; j++)
     {
       if (x == 4)
@@ -260,7 +262,10 @@ class GameState extends State
         y++;
         x = 0;
       }
-      image(enemy_image, width - 340 + x * (Enemy.SIZE + 10), 400 + y * (Enemy.SIZE + 10), Enemy.SIZE / 1.5, Enemy.SIZE / 1.5);
+      image(enemy_image, 
+        width - 340 + IMAGE_SPACING + x * (IMAGE_SIZE + IMAGE_SPACING), 
+        400 + y * (IMAGE_SIZE + IMAGE_SPACING), 
+      IMAGE_SIZE, IMAGE_SIZE);
       x++;
     }
   }
