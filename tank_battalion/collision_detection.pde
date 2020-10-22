@@ -120,7 +120,7 @@ public class PhysicsManager
     return collided_objects;
   }
 
-  public ArrayList<AABB> get_nearby_node_colliders(int grid_x, int grid_y)
+  ArrayList<AABB> get_nearby_node_colliders(int grid_x, int grid_y)
   {
     ArrayList<AABB> node_colliders = new ArrayList<AABB>();
     for (int x = - NODE_COLLISION_LAYERS; x <= NODE_COLLISION_LAYERS; x++) {

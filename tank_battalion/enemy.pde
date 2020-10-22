@@ -4,7 +4,7 @@ class Enemy {
   static final float MAX_ROTATE_DELAY = .8f;
   static final float MIN_FIRE_DELAY = 1.0f;
   static final float MAX_FIRE_DELAY = 3.0f;
-  
+
   static final byte SHELL_LAYER_MASK = (DEFAULT_LAYER | ENVIRONMENT_LAYER | PLAYER_LAYER);
 
   public boolean is_dead = false;
@@ -23,7 +23,7 @@ class Enemy {
   float tint_cooldown = 0.2f;
   color color_blue = color(0, 0, 255);
   color color_red = color(255, 0, 0);
-  
+
   PImage enemy_up, enemy_down, enemy_left, enemy_right, actual_image;
 
   Enemy(int xpos, int ypos, boolean is_rainbow) {
@@ -44,9 +44,9 @@ class Enemy {
     rotate_timer += deltaTime;
     fire_timer += deltaTime;
     tint_cooldown -= deltaTime;
-    
+
     be_smart();
-    
+
     if (rotate_timer > rotate_delay)
     {
       direction = target_direction;
@@ -88,12 +88,33 @@ class Enemy {
     }
     physics_manager.update_collider(collider_id, new AABB(x, y, SIZE, SIZE, ENEMY_LAYER, ColliderParentType.ENEMY, this));
   }
-  
+
   void be_smart()
   {
-    target_direction = int(random(0, 4));
+    boolean go_up = !physics_manager.check_collision(x, y - SIZE/2, SIZE, SIZE, collider_id, ALL_LAYERS);
+    boolean go_down = !physics_manager.check_collision(x, y + SIZE/2, SIZE, SIZE, collider_id, ALL_LAYERS);
+    boolean go_left = !physics_manager.check_collision(x - SIZE/2, y, SIZE, SIZE, collider_id, ALL_LAYERS);
+    boolean go_right = !physics_manager.check_collision(x + SIZE/2, y, SIZE, SIZE, collider_id, ALL_LAYERS);
+    
+    ArrayList<Integer> possibilities = new ArrayList<Integer>();
+    
+    if (go_down)  possibilities.add(1);
+    if (go_right) possibilities.add(3);
+    if (go_left) possibilities.add(2);
+    if (go_up) possibilities.add(0);
+    
+    if (possibilities.size() > 0)
+    {
+      int random_index = int(random(0, possibilities.size() - 1));
+      
+      target_direction = possibilities.get(random_index);
+    }
+    else
+    {
+      target_direction = int(random(0, 4));
+    }
   }
-  
+
   void draw() {   
     imageMode(CENTER);
     if (is_rainbow == true) {
