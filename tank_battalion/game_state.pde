@@ -250,7 +250,7 @@ class GameState extends State
       image(tank_image, width - 340 + i * (Player.SIZE + 10), 600, Player.SIZE, Player.SIZE);
     }
 
-    //Draw enemies left
+    // Draw enemies left
     int x = 0;
     int y = 0;
     final float IMAGE_SIZE = Enemy.SIZE / 1.5;
@@ -263,7 +263,7 @@ class GameState extends State
         x = 0;
       }
       image(enemy_image, 
-        width - 340 + IMAGE_SPACING + x * (IMAGE_SIZE + IMAGE_SPACING), 
+        width - 340 - IMAGE_SPACING + x * (IMAGE_SIZE + IMAGE_SPACING), 
         400 + y * (IMAGE_SIZE + IMAGE_SPACING), 
       IMAGE_SIZE, IMAGE_SIZE);
       x++;

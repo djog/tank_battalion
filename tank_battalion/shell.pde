@@ -11,16 +11,16 @@ class Shell {
   public Shell(int tx, int ty, int direction, byte layer_mask) {
     x = tx;
     y = ty;
-    if (direction == 1) {
+    if (direction == 0) {
       up = true;
       y -= Player.SIZE / 2;
-    } else if (direction == 2) {
+    } else if (direction == 1) {
       down = true;
       y += Player.SIZE / 2;
-    } else if (direction == 3) {
+    } else if (direction == 2) {
       left = true;
       x -= Player.SIZE / 2;
-    } else if (direction == 4) { 
+    } else if (direction == 3) { 
       right = true;
       x += Player.SIZE / 2;
     }

@@ -1,7 +1,7 @@
 class Enemy {
   static final int SIZE = 52;
   static final float MIN_ROTATE_DELAY = .2f;
-  static final float MAX_ROTATE_DELAY = .5f;
+  static final float MAX_ROTATE_DELAY = .8f;
   static final float MIN_FIRE_DELAY = 1.0f;
   static final float MAX_FIRE_DELAY = 3.0f;
   
@@ -16,6 +16,7 @@ class Enemy {
   float rotate_delay = 0.0f;
   float fire_timer = 0.0f;
   float fire_delay = 0.0f;
+  int target_direction;
   int direction = 1;
   boolean is_rainbow;
   color tint = color(255, 0, 0);
@@ -43,9 +44,12 @@ class Enemy {
     rotate_timer += deltaTime;
     fire_timer += deltaTime;
     tint_cooldown -= deltaTime;
+    
+    be_smart();
+    
     if (rotate_timer > rotate_delay)
     {
-      direction = int(random(1, 5));
+      direction = target_direction;
       rotate_timer = 0.0f;
       rotate_delay = random(MIN_ROTATE_DELAY, MAX_ROTATE_DELAY);
     }
@@ -64,16 +68,16 @@ class Enemy {
       tint_cooldown = 0.2f;
     }
 
-    if (direction == 1) {
+    if (direction == 0) {
       actual_image = enemy_up;
       target_y -= move_speed;
-    } else if (direction == 2) {
+    } else if (direction == 1) {
       actual_image = enemy_down;
       target_y += move_speed;
-    } else if (direction == 3) {
+    } else if (direction == 2) {
       actual_image = enemy_left;
       target_x -= move_speed;
-    } else if (direction == 4) {
+    } else if (direction == 3) {
       actual_image = enemy_right;
       target_x += move_speed;
     }
@@ -84,7 +88,12 @@ class Enemy {
     }
     physics_manager.update_collider(collider_id, new AABB(x, y, SIZE, SIZE, ENEMY_LAYER, ColliderParentType.ENEMY, this));
   }
-
+  
+  void be_smart()
+  {
+    target_direction = int(random(0, 4));
+  }
+  
   void draw() {   
     imageMode(CENTER);
     if (is_rainbow == true) {

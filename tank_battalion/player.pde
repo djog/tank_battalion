@@ -69,19 +69,19 @@ class Player {
     if (up) {
       tank_image = player_up;
       target_y -= move_speed;
-      direction = 1;
+      direction = 0;
     } else if (down) {
       tank_image = player_down;
       target_y += move_speed;
-      direction = 2;
+      direction = 1;
     } else if (left) {
       tank_image = player_left;
       target_x -= move_speed;
-      direction = 3;
+      direction = 2;
     } else if (right) {
       tank_image = player_right;
       target_x += move_speed;
-      direction = 4;
+      direction = 3;
     }
     if (up || down || left || right)
     {
