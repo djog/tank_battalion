@@ -1,15 +1,15 @@
 class Player {
   static final int SIZE = 52;
   static final int SPACE = 32;
-  static final float FIRE_COOLDOWN = 0.4f;
-  
+  static final float FIRE_COOLDOWN = 0.3f;
+
   static final byte SHELL_LAYER_MASK = (DEFAULT_LAYER | ENVIRONMENT_LAYER | ENEMY_LAYER);
-  
+
   int x, y;
   int move_speed = 4;
   int collider_id;
   float cooldown = FIRE_COOLDOWN;
-  int direction = 1;
+  int direction = 0;
 
   boolean up, down, left, right, fire = false;
   boolean is_dead;
@@ -65,25 +65,36 @@ class Player {
     int target_x = x;
     int target_y = y;
     cooldown -= delta_time;
+
     if (up) {
       tank_image = player_up;
       target_y -= move_speed;
-      direction = 1;
+      direction = 0;
     } else if (down) {
       tank_image = player_down;
       target_y += move_speed;
-      direction = 2;
+      direction = 1;
     } else if (left) {
       tank_image = player_left;
       target_x -= move_speed;
-      direction = 3;
+      direction = 2;
     } else if (right) {
       tank_image = player_right;
       target_x += move_speed;
-      direction = 4;
+      direction = 3;
+    }
+    if (up || down || left || right)
+    {
+      audio_manager.play_sound("driving.wav");
+    }
+    else
+    {
+      audio_manager.stop_sound("driving.wav");
     }
     if (fire) {
+      // Fire a shell
       shells.add(new Shell(x, y, direction, SHELL_LAYER_MASK));
+      audio_manager.play_sound("shoot.wav"); 
       cooldown = FIRE_COOLDOWN;
       fire = false;
     }
@@ -100,9 +111,10 @@ class Player {
     imageMode(CENTER);
     image(tank_image, x, y, SIZE, SIZE);
   }
-  
+
   public void die()
   {
+    audio_manager.play_sound("explosion.wav"); 
     is_dead = true;
     physics_manager.remove_collider(collider_id);
   }

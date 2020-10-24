@@ -47,6 +47,7 @@ class StateManager {
 
   public void switch_state(StateType state) {
     current_state.on_stop();
+    audio_manager.stop_all_sounds();
     current_state = this.build_state(state);
     current_state.on_start();
   }
