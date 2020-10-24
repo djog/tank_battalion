@@ -9,7 +9,7 @@ class Player {
   int move_speed = 4;
   int collider_id;
   float cooldown = FIRE_COOLDOWN;
-  int direction = 1;
+  int direction = 0;
 
   boolean up, down, left, right, fire = false;
   boolean is_dead;

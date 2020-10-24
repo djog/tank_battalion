@@ -29,6 +29,7 @@ class GameState extends State
   ArrayList<Shell> shells = new ArrayList<Shell>();
 
   float enemy_spawn_timer = random(MIN_SPAWN_DEALY, MAX_SPAWN_DEALY);
+  boolean spawn_opponents = true;
 
   @Override
     void on_start() {
@@ -38,7 +39,7 @@ class GameState extends State
     enemy_image = loadImage(SPRITES_FOLDER + "EnemyUp.png");
     game_font = createFont(FONTS_FOLDER + "RetroGaming.ttf", 48.0);
     game_data.reset_score();
-    
+
     setup_round();
   }
 
@@ -60,7 +61,7 @@ class GameState extends State
     if (is_key_down)
     {
       if (keyCode == 'B' && ENABLE_EASTER_EGGS) {
-       audio_manager.play_sound("bruh.mp3"); 
+        audio_manager.play_sound("bruh.mp3");
       }
       if (keyCode == DELETE || keyCode == 'K' && ENABLE_DEBUG_MODE)
       {
@@ -82,6 +83,11 @@ class GameState extends State
       {
         spawn_enemy();
       }
+      if ((keyCode == 'Y' || keyCode == 'y') && ENABLE_DEBUG_MODE)
+      {
+        spawn_opponents = !spawn_opponents;
+        println("Toggle opponent spawning: " + spawn_opponents);
+      }
     }
   }
 
@@ -89,7 +95,7 @@ class GameState extends State
     void on_update(float delta_time)
   {
     // Maybe spawn some new enemies
-    if (opponents_left - enemies.size() > 0)
+    if (opponents_left - enemies.size() > 0 && spawn_opponents)
       spawn_enemies(delta_time);
 
     if (opponents_left <= 0 && enemies.size() == 0)
@@ -97,23 +103,23 @@ class GameState extends State
       round++;
       setup_round();
     }
-    
+
     // Update enemies
-    for(Iterator<Enemy> iterator = enemies.iterator(); iterator.hasNext();){
+    for (Iterator<Enemy> iterator = enemies.iterator(); iterator.hasNext(); ) {
       Enemy enemy = iterator.next();
-      if(enemy.is_dead){
+      if (enemy.is_dead) {
         game_data.add_score(int(random(30, 1601)));
         opponents_left--;
         iterator.remove();
         continue;
       }
-      enemy.update(shells, delta_time);
+      enemy.update(shells, delta_time, new PVector(player.x, player.y), new PVector(flag.x, flag.y));
     }
 
-    for(Iterator<Shell> iterator = shells.iterator(); iterator.hasNext();){
+    for (Iterator<Shell> iterator = shells.iterator(); iterator.hasNext(); ) {
       Shell shell = iterator.next();
       shell.update(enemies);
-      if(shell.is_destroyed){
+      if (shell.is_destroyed) {
         iterator.remove();
       }
     }
@@ -126,26 +132,24 @@ class GameState extends State
         // Repsawn player
         spawn_player();
         n_lives--;
-      }
-      else
+      } else
       {
-        state_manager.switch_state(StateType.GAME_OVER);  
+        state_manager.switch_state(StateType.GAME_OVER);
       }
-    }
-    else
+    } else
     {
       player.update(shells, delta_time);
     }
-    
+
     // Update flag
     flag.update();
   }
-  
+
   void spawn_player()
   {
     player = new Player(ARENA_X + Player.SIZE, ARENA_Y + ARENA_SIZE - Player.SIZE);
   }
-  
+
   void spawn_enemies(float delta_time)
   {
     // Spawn an enemy if timer is over
@@ -170,7 +174,7 @@ class GameState extends State
     if (possibilities.size() > 0)
     { 
       // Pick a random possibility
-      int random_index = floor(random(0, possibilities.size() - 1));
+      int random_index = int(random(0, possibilities.size()));
       PVector spawn_pos = possibilities.get(random_index);
 
       // Spawn a new enemy
@@ -265,7 +269,7 @@ class GameState extends State
       image(enemy_image, 
         width - 340 - IMAGE_SPACING + x * (IMAGE_SIZE + IMAGE_SPACING), 
         400 + y * (IMAGE_SIZE + IMAGE_SPACING), 
-      IMAGE_SIZE, IMAGE_SIZE);
+        IMAGE_SIZE, IMAGE_SIZE);
       x++;
     }
   }

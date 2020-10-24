@@ -38,14 +38,14 @@ class Enemy {
     collider_id = physics_manager.get_collider_id();
   }
 
-  void update(ArrayList<Shell> shells, float deltaTime) {
+  void update(ArrayList<Shell> shells, float deltaTime, PVector player_pos, PVector flag_pos) {
     int target_x = x;
     int target_y = y;
     rotate_timer += deltaTime;
     fire_timer += deltaTime;
     tint_cooldown -= deltaTime;
 
-    be_smart();
+    be_smart(player_pos, flag_pos);
 
     if (rotate_timer > rotate_delay)
     {
@@ -89,27 +89,160 @@ class Enemy {
     physics_manager.update_collider(collider_id, new AABB(x, y, SIZE, SIZE, ENEMY_LAYER, ColliderParentType.ENEMY, this));
   }
 
-  void be_smart()
+  int get_primary_direction(PVector vector)
   {
+    // Up: 0
+    // Down: 1
+    // Right: 3
+    // Left 2
+    if (abs(vector.x) == abs(vector.y))
+    {
+      // choose random
+      int x_or_y = int(random(0, 2));
+      if (x_or_y == 0)
+      {
+        if (vector.x > 0) 
+        {
+          return 3; // Right
+        } else {
+          return 2; // Left
+        }
+      } else
+      {
+        if (vector.y > 0) 
+        {
+          return 1; // Down
+        } else {
+          return 0; // Up
+        }
+      }
+    } else if (abs(vector.x) > abs(vector.y))
+    {
+      if (vector.x > 0) 
+      {
+        return 3; // Right
+      } else {
+        return 2; // Left
+      }
+    } else if (abs(vector.x) < abs(vector.y))
+    {
+      if (vector.y > 0) 
+      {
+        return 1; // Down
+      } else {
+        return 0; // Up
+      }
+    } else // Shouldn't occur
+    {
+      return -1;
+    }
+  }
+
+  int get_secondary_direction(PVector vector)
+  {
+    // Up: 0
+    // Down: 1
+    // Right: 3
+    // Left 2
+    if (abs(vector.x) == abs(vector.y))
+    {
+      // choose random
+      int x_or_y = int(random(0, 2));
+      if (x_or_y == 0)
+      {
+        if (vector.x > 0) 
+        {
+          return 3; // Right
+        } else {
+          return 2; // Left
+        }
+      } else
+      {
+        if (vector.y > 0) 
+        {
+          return 1; // Down
+        } else {
+          return 0; // Up
+        }
+      }
+    } else if (abs(vector.x) > abs(vector.y))
+    {
+      if (vector.y > 0) 
+      {
+        return 1; // Down
+      } else {
+        return 0; // Up
+      }
+    } else if (abs(vector.x) < abs(vector.y))
+    {
+      if (vector.x > 0) 
+      {
+        return 3; // Right
+      } else {
+        return 2; // Left
+      }
+    } else // Shouldn't occur
+    {
+      return -1;
+    }
+  }
+
+  void be_smart(PVector player_pos, PVector flag_pos)
+  {
+    PVector pos = new PVector(x, y);
+    PVector player_dir = player_pos.sub(pos);
+    PVector flag_dir = flag_pos.sub(pos);
+
+    boolean target_player = false;
+    boolean target_flag = false;
+
+    if (player_dir.mag() < flag_dir.mag())
+    {
+      target_player = true;
+    } else {
+      target_flag = true;
+    }
+
     boolean go_up = !physics_manager.check_collision(x, y - SIZE/2, SIZE, SIZE, collider_id, ALL_LAYERS);
     boolean go_down = !physics_manager.check_collision(x, y + SIZE/2, SIZE, SIZE, collider_id, ALL_LAYERS);
     boolean go_left = !physics_manager.check_collision(x - SIZE/2, y, SIZE, SIZE, collider_id, ALL_LAYERS);
     boolean go_right = !physics_manager.check_collision(x + SIZE/2, y, SIZE, SIZE, collider_id, ALL_LAYERS);
-    
+
     ArrayList<Integer> possibilities = new ArrayList<Integer>();
-    
+
+    if (go_up) possibilities.add(0);
     if (go_down)  possibilities.add(1);
     if (go_right) possibilities.add(3);
     if (go_left) possibilities.add(2);
-    if (go_up) possibilities.add(0);
     
+    
+    int primary_dir = -1;
+    int secondary_dir = -1;
+    if (target_flag)
+    {
+      primary_dir = get_primary_direction(flag_dir);
+      secondary_dir = get_secondary_direction(flag_dir);
+    } else if (target_player)
+    {
+      primary_dir = get_primary_direction(player_dir);
+      secondary_dir = get_secondary_direction(player_dir);
+    }
+    
+    if (possibilities.contains(primary_dir))
+    {
+      target_direction = primary_dir;
+      return;
+    } else if (possibilities.contains(secondary_dir))
+    {
+      target_direction = secondary_dir;
+      return;
+    }
+
     if (possibilities.size() > 0)
     {
-      int random_index = int(random(0, possibilities.size() - 1));
-      
+      int random_index = int(random(0, possibilities.size()));
       target_direction = possibilities.get(random_index);
-    }
-    else
+    } else
     {
       target_direction = int(random(0, 4));
     }
