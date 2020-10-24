@@ -20,16 +20,16 @@ static final String OPERATING_SYSTEM = System.getProperty("os.name");
 
 void settings()
 {
-  println("Running on: " + OPERATING_SYSTEM);
+  if (ENABLE_DEBUG_MODE) println("Running on: " + OPERATING_SYSTEM);
   if (!OPERATING_SYSTEM.contains("linux"))
   {
-    println("Using PD2 renderer.");
+    if (ENABLE_DEBUG_MODE) println("Using PD2 renderer.");
     size(WINDOW_WIDTH, WINDOW_HEIGHT, P2D);
 
   }
   else
   {
-    println("Using legacy renderer.");
+    if (ENABLE_DEBUG_MODE) println("Using legacy renderer.");
     size(WINDOW_WIDTH, WINDOW_HEIGHT);  
   }
   

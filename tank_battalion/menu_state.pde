@@ -23,7 +23,7 @@ class MenuState extends State
     credits_button.update();
     quit_button.update();
     if (play_button.is_pressed()) {
-      state_manager.switch_state(StateType.GAME);
+      state_manager.switch_state(StateType.DIFFICULTY_SELECTION);
     }
     if (credits_button.is_pressed()) {
       // TODO: Create credits state/screen - enhancement

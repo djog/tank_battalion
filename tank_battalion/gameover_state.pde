@@ -23,7 +23,7 @@ class GameOverState extends State
     play_again_button.update();
     menu_button.update();
     if (play_again_button.is_pressed()) {
-      state_manager.switch_state(StateType.GAME);
+      state_manager.switch_state(StateType.DIFFICULTY_SELECTION);
     }
     if (menu_button.is_pressed()) {
       state_manager.switch_state(StateType.MENU);

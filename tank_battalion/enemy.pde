@@ -228,15 +228,44 @@ class Enemy {
       secondary_dir = get_secondary_direction(player_dir);
     }
     
-    if (possibilities.contains(primary_dir))
+    if (game_data.difficulty == Difficulty.IMPOSSIBLE)
     {
-      target_direction = primary_dir;
-      return;
-    } else if (possibilities.contains(secondary_dir))
+      if (possibilities.contains(primary_dir))
+      {
+        target_direction = primary_dir;
+        return;
+      } else if (possibilities.contains(secondary_dir))
+      {
+        target_direction = secondary_dir;
+        return;
+      }
+    } else if (game_data.difficulty == Difficulty.NORMAL)
     {
-      target_direction = secondary_dir;
-      return;
+      if (possibilities.contains(primary_dir) && possibilities.contains(secondary_dir))
+      {
+        int chance = int(random(0, 2));
+        if (chance == 1)
+        {
+          target_direction = primary_dir;
+          return;
+        }
+        else
+        {
+          target_direction = secondary_dir;
+          return;
+        }
+      }else if (possibilities.contains(secondary_dir))
+      {
+        target_direction = secondary_dir;
+        return;
+      } 
+      else if (possibilities.contains(primary_dir))
+      {
+        target_direction = primary_dir;
+        return;
+      } 
     }
+    
 
     if (possibilities.size() > 0)
     {

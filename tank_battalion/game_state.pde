@@ -39,7 +39,9 @@ class GameState extends State
     enemy_image = loadImage(SPRITES_FOLDER + "EnemyUp.png");
     game_font = createFont(FONTS_FOLDER + "RetroGaming.ttf", 48.0);
     game_data.reset_score();
-
+    
+    if (ENABLE_DEBUG_MODE) println("Playing difficulty: " + game_data.difficulty);
+    
     setup_round();
   }
 
