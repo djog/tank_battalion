@@ -7,8 +7,8 @@ static final int ARENA_Y = ARENA_BORDER;
 static final int ARENA_SIZE = WINDOW_HEIGHT - 2*ARENA_BORDER;
 static final int ARENA_CENTER_X = ARENA_X + ARENA_SIZE / 2;
 static final int ARENA_CENTER_Y = ARENA_Y + ARENA_SIZE / 2;
-static final float MIN_SPAWN_DEALY = 3.0f;
-static final float MAX_SPAWN_DEALY = 6.0f;
+static final float MIN_SPAWN_DEALY = 2.0f;
+static final float MAX_SPAWN_DEALY = 4.0f;
 static final int LIVES_PER_ROUND = 2;
 
 class GameState extends State
@@ -51,7 +51,7 @@ class GameState extends State
     n_lives = LIVES_PER_ROUND;
     grid = new Grid(round);
     spawn_player();
-    flag = new Flag(ARENA_CENTER_X + Flag.SIZE/2, ARENA_Y + ARENA_SIZE - Flag.SIZE + Flag.SIZE/2);
+    flag = new Flag(ARENA_CENTER_X, ARENA_Y + ARENA_SIZE - ARENA_BORDER);
     enemies.clear();
     physics_manager.cleanup();
   }
