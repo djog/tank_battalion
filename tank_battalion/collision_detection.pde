@@ -127,13 +127,13 @@ public class PhysicsManager
       for (int y = - NODE_COLLISION_LAYERS; y <= NODE_COLLISION_LAYERS; y++) {
         int target_x = grid_x + x;
         int target_y = grid_y + y;
-        if (target_x >= 0 && target_x < Grid.SIZE && target_y >= 0 && target_y < Grid.SIZE)
+        if (target_x >= 0 && target_x < Grid.SIZE_X && target_y >= 0 && target_y < Grid.SIZE_Y)
         {
           int node_value = grid_ref.nodes[target_x][target_y];
           if (node_value > 0)
           {
             PVector screenCoords = grid_to_screen_coords(target_x, target_y);        
-            node_colliders.add(new AABB((int)screenCoords.x + Grid.NODE_SIZE/2, (int)screenCoords.y + Grid.NODE_SIZE/2, Grid.NODE_SIZE, Grid.NODE_SIZE, ENVIRONMENT_LAYER));
+            node_colliders.add(new AABB((int)screenCoords.x + Grid.NODE_SIZE_X/2, (int)screenCoords.y + Grid.NODE_SIZE_Y/2, Grid.NODE_SIZE_X, Grid.NODE_SIZE_Y, ENVIRONMENT_LAYER));
           }
         }
       }
@@ -154,13 +154,13 @@ public class PhysicsManager
       for (int y = - NODE_COLLISION_LAYERS; y <= NODE_COLLISION_LAYERS; y++) {
         int target_x = center_x + x;
         int target_y = center_y + y;
-        if (target_x >= 0 && target_x < Grid.SIZE && target_y >= 0 && target_y < Grid.SIZE)
+        if (target_x >= 0 && target_x < Grid.SIZE_X && target_y >= 0 && target_y < Grid.SIZE_Y)
         {
           int node_value = grid_ref.nodes[target_x][target_y];
           if (node_value > 0)
           {
             PVector screenCoords = grid_to_screen_coords(target_x, target_y);   
-            AABB node_collider = new AABB((int)screenCoords.x + Grid.NODE_SIZE/2, (int)screenCoords.y + Grid.NODE_SIZE/2, Grid.NODE_SIZE, Grid.NODE_SIZE, byte(0));
+            AABB node_collider = new AABB((int)screenCoords.x + Grid.NODE_SIZE_X/2, (int)screenCoords.y + Grid.NODE_SIZE_Y/2, Grid.NODE_SIZE_X, Grid.NODE_SIZE_Y, byte(0));
 
             // Check collision with the grid node
             boolean did_collide = false;
@@ -272,14 +272,14 @@ public class PhysicsManager
     {
       colliders.add(entry.getValue());
     }
-    for (int x = 0; x < Grid.SIZE; x++)
+    for (int x = 0; x < Grid.SIZE_X; x++)
     {
-      for (int y = 0; y < Grid.SIZE; y++)
+      for (int y = 0; y < Grid.SIZE_Y; y++)
       {
         if (grid_ref.nodes[x][y] > 0)
         {
           PVector screenCoords = grid_to_screen_coords(x, y);        
-          colliders.add(new AABB((int)screenCoords.x + Grid.NODE_SIZE/2, (int)screenCoords.y + Grid.NODE_SIZE/2, Grid.NODE_SIZE, Grid.NODE_SIZE, ENVIRONMENT_LAYER));
+          colliders.add(new AABB((int)screenCoords.x + Grid.NODE_SIZE_X/2, (int)screenCoords.y + Grid.NODE_SIZE_Y/2, Grid.NODE_SIZE_X, Grid.NODE_SIZE_Y, ENVIRONMENT_LAYER));
         }
       }
     }

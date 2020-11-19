@@ -51,7 +51,7 @@ class GameState extends State
     n_lives = LIVES_PER_ROUND;
     grid = new Grid(round);
     spawn_player();
-    flag = new Flag(ARENA_CENTER_X + Flag.SIZE/2, ARENA_Y + ARENA_SIZE - Flag.SIZE + Flag.SIZE/2);
+    flag = new Flag(612, 830);
     enemies.clear();
     physics_manager.cleanup();
   }
