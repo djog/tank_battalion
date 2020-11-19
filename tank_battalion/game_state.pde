@@ -186,7 +186,7 @@ class GameState extends State
       if (rainbow_chance <= 20) { // 20 % change to be a rainbow tank for now
         is_rainbow=true;
       }
-      enemies.add(new Enemy((int)spawn_pos.x, (int)spawn_pos.y, true));
+      enemies.add(new Enemy((int)spawn_pos.x, (int)spawn_pos.y, is_rainbow));
     } else
     {
       println("ERROR: There is not enough room to spawn a new tank!");
