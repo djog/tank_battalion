@@ -16,7 +16,7 @@ static final String LEVEL_FOLDER = "../assets/levels/";
 static final int WINDOW_WIDTH = 1600;
 static final int WINDOW_HEIGHT = 896;
 
-static final String OPERATING_SYSTEM = System.getProperty("os.name");
+static final String OPERATING_SYSTEM = System.getProperty("os.name").toLowerCase();
 
 void settings()
 {
