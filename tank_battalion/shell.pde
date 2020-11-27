@@ -60,8 +60,8 @@ class Shell {
       }
 
       is_destroyed = true;
-      int size_x = Grid.NODE_SIZE_X;
-      int size_y = Grid.NODE_SIZE_Y;
+      int size_x = Grid.NODE_SIZE;
+      int size_y = Grid.NODE_SIZE;
       if (up || down) {
         size_x = Player.SIZE;
       } else {
