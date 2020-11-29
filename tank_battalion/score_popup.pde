@@ -2,7 +2,8 @@ import java.lang.*;
 
 class ScorePopup
 {
-  static final float LIFE_TIME = 0.8  ;
+  static final float LIFE_TIME = 0.8;
+  static final float SIZE_MULTIPLIER = 0.5;
   
   public boolean is_destroyed;
   
@@ -24,24 +25,22 @@ class ScorePopup
       is_destroyed = true;
     }
     
-    if (time < (0.3 * LIFE_TIME))
+    size = SIZE_MULTIPLIER * (-20 * time * time + 13 * time + 2); 
+    if (size <= 0.0)
     {
-      size += delta_time * 4;
-    }
-    else 
-    {
-      
-      size -= delta_time * 3;
-      if (size < 0.0)
-      {
-        size = 0.0;
-      }
+      size = 0.0;
     }
   }
    
   void draw() {
-    fill(200, 200, 0);
-    textSize(32 * size);
+    fill(250, 250, 0);
+    float text_size = 30 * size;
+    if (text_size <= 0)
+    {
+      text_size = 1;
+    }
+    textSize(text_size);
+    
     textAlign(CENTER, CENTER);
     text(new Integer(value).toString(), x, y);
   }
