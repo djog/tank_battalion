@@ -21,21 +21,28 @@ class Enemy {
   boolean is_rainbow;
   color tint = color(255, 0, 0);
   float tint_cooldown = 0.2f;
-  color color_blue = color(0, 0, 255);
-  color color_red = color(255, 0, 0);
+  IntList colors = new IntList();
+  int tint_index = 0;
 
   PImage enemy_up, enemy_down, enemy_left, enemy_right, actual_image;
 
   Enemy(int xpos, int ypos, boolean is_rainbow) {
     x = xpos;
     y = ypos;
-    this.is_rainbow = is_rainbow; 
+    this.is_rainbow = is_rainbow;
+    if(!is_rainbow){
+      tint = color(64, 232, 240);
+    }
     enemy_up = loadImage(SPRITES_FOLDER + "EnemyUp.png");
     enemy_down = loadImage(SPRITES_FOLDER + "EnemyDown.png");
     enemy_left = loadImage(SPRITES_FOLDER + "EnemyLeft.png");
     enemy_right = loadImage(SPRITES_FOLDER + "EnemyRight.png");
     actual_image = enemy_down;
     collider_id = physics_manager.get_collider_id();
+    colors.append(color(0, 0, 230));
+    colors.append(color(255, 0, 0));
+    colors.append(color(255, 235, 0));
+    colors.append(color(0, 210, 0));
   }
 
   void update(ArrayList<Shell> shells, float deltaTime, PVector player_pos, PVector flag_pos) {
@@ -59,15 +66,12 @@ class Enemy {
       shells.add(new Shell(x, y, direction, 6, SHELL_LAYER_MASK));
     }
 
-    if (tint_cooldown < 0) {
-      if (tint == color_blue) {
-        tint = color_red;
-      } else {
-        tint = color_blue;
-      }
+    if (tint_cooldown < 0 && is_rainbow) {
+      tint_index = (tint_index + 1) % 4;
+      tint = colors.get(tint_index);
       tint_cooldown = 0.2f;
     }
-
+    
     if (direction == 0) {
       actual_image = enemy_up;
       target_y -= move_speed;
@@ -279,9 +283,7 @@ class Enemy {
 
   void draw() {   
     imageMode(CENTER);
-    if (is_rainbow == true) {
-      tint(tint, 255);
-    }
+    tint(tint, 255);
     image(actual_image, x, y, SIZE, SIZE);
     tint(255, 255, 255, 255);
   }

@@ -280,6 +280,7 @@ class GameState extends State
     }
 
     // Draw enemies left
+    tint(color(64, 232, 240), 255);
     int x = 0;
     int y = 0;
     final float IMAGE_SIZE = Enemy.SIZE / 1.5;
@@ -297,5 +298,6 @@ class GameState extends State
         IMAGE_SIZE, IMAGE_SIZE);
       x++;
     }
+    tint(255, 255, 255, 255);
   }
 }
