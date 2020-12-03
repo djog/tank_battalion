@@ -1,26 +1,27 @@
 class Shell {
   static final int SIZE = 9;
   int x, y;
-  int move_speed = 12;
+  int move_speed;
   PImage shell_sprite;
   boolean up, down, left, right = false;
   int collider_id;
   boolean is_destroyed = false;
   byte layer_mask;
 
-  public Shell(int tx, int ty, int direction, byte layer_mask) {
+  public Shell(int tx, int ty, int direction, int move_speed, byte layer_mask) {
     x = tx;
     y = ty;
-    if (direction == 1) {
+    this.move_speed = move_speed;
+    if (direction == 0) {
       up = true;
       y -= Player.SIZE / 2;
-    } else if (direction == 2) {
+    } else if (direction == 1) {
       down = true;
       y += Player.SIZE / 2;
-    } else if (direction == 3) {
+    } else if (direction == 2) {
       left = true;
       x -= Player.SIZE / 2;
-    } else if (direction == 4) { 
+    } else if (direction == 3) { 
       right = true;
       x += Player.SIZE / 2;
     }

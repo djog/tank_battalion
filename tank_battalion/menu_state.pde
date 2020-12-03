@@ -14,6 +14,7 @@ class MenuState extends State
     play_button = new Button(width / 2, height /2 + BUTTONS_OFFSET, "PLAY");
     credits_button = new Button(width / 2, height /2 + BUTTONS_OFFSET + Button.HEIGHT + BUTTONS_SPACING, "CREDITS");
     quit_button = new Button(width / 2, height /2 + BUTTONS_OFFSET + 2*Button.HEIGHT + 2*BUTTONS_SPACING, "QUIT");
+    audio_manager.play_sound("start_music.wav"); 
   }
   
   @Override
@@ -22,7 +23,7 @@ class MenuState extends State
     credits_button.update();
     quit_button.update();
     if (play_button.is_pressed()) {
-      state_manager.switch_state(StateType.GAME);
+      state_manager.switch_state(StateType.DIFFICULTY_SELECTION);
     }
     if (credits_button.is_pressed()) {
       // TODO: Create credits state/screen - enhancement
@@ -38,8 +39,12 @@ class MenuState extends State
   {
     background(#060606);
     
+    // Set font
+    textFont(menu_font);
+    
     textSize(94);
     fill(#d34545);
+    textAlign(CENTER, CENTER);
     text("TANK BATTALION", width/2, height/2 - 240);
     textSize(32);
     fill(#F98383);
@@ -52,8 +57,6 @@ class MenuState extends State
     textAlign(RIGHT, BOTTOM);
     text("github.com/djog/djog_unos_2020", width - PADDING, height - PADDING);
     
-    // Set font
-    textFont(menu_font);
     
     
     play_button.draw();

@@ -13,8 +13,9 @@ abstract class State
 }
 
 enum StateType {
-  MENU, 
+    MENU, 
     GAME, 
+    DIFFICULTY_SELECTION,
     GAME_OVER,
 }
 
@@ -39,6 +40,8 @@ class StateManager {
       return new GameState();
     case GAME_OVER:
       return new GameOverState();
+    case DIFFICULTY_SELECTION:
+      return new DifficultyState();
     default:
       println("The state is not added to the build_state() metod!");
       return null;
@@ -47,6 +50,7 @@ class StateManager {
 
   public void switch_state(StateType state) {
     current_state.on_stop();
+    audio_manager.stop_all_sounds();
     current_state = this.build_state(state);
     current_state.on_start();
   }
