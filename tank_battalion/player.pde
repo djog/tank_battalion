@@ -93,7 +93,7 @@ class Player {
     }
     if (fire) {
       // Fire a shell
-      shells.add(new Shell(x, y, direction, SHELL_LAYER_MASK));
+      shells.add(new Shell(x, y, direction, 8, SHELL_LAYER_MASK));
       audio_manager.play_sound("shoot.wav"); 
       cooldown = FIRE_COOLDOWN;
       fire = false;

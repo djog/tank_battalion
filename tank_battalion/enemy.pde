@@ -2,8 +2,8 @@ class Enemy {
   static final int SIZE = 52;
   static final float MIN_ROTATE_DELAY = .2f;
   static final float MAX_ROTATE_DELAY = .8f;
-  static final float MIN_FIRE_DELAY = 1.0f;
-  static final float MAX_FIRE_DELAY = 3.0f;
+  static final float MIN_FIRE_DELAY = 2.0f;
+  static final float MAX_FIRE_DELAY = 4.0f;
 
   static final byte SHELL_LAYER_MASK = (DEFAULT_LAYER | ENVIRONMENT_LAYER | PLAYER_LAYER);
 
@@ -63,7 +63,7 @@ class Enemy {
     if (fire_timer > fire_delay) {
       fire_timer = 0.0f;
       fire_delay = random(MIN_FIRE_DELAY, MAX_ROTATE_DELAY);
-      shells.add(new Shell(x, y, direction, SHELL_LAYER_MASK));
+      shells.add(new Shell(x, y, direction, 6, SHELL_LAYER_MASK));
     }
 
     if (tint_cooldown < 0 && is_rainbow) {
