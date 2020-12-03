@@ -27,14 +27,10 @@ class GameState extends State
   Flag flag;
   ArrayList<Enemy> enemies = new ArrayList<Enemy>();
   ArrayList<Shell> shells = new ArrayList<Shell>();
-<<<<<<< HEAD
   ArrayList<PImage> brick_explosion = new ArrayList<PImage>();
   ArrayList<PImage> tank_explosion = new ArrayList<PImage>();
-
-=======
   ArrayList<ScorePopup> score_popups = new ArrayList<ScorePopup>();
   
->>>>>>> 62c59a0e26ae089baead152d0d33a433b2b09683
   float enemy_spawn_timer = random(MIN_SPAWN_DEALY, MAX_SPAWN_DEALY);
   boolean spawn_opponents = true;
   
@@ -270,7 +266,6 @@ class GameState extends State
     // Draw the player
     player.draw();
     
-<<<<<<< HEAD
     // Test explosion
     image(brick_explosion.get(b_explosion_index), 50, 50, 52, 52);
     if(t_explosion_index == 0){
@@ -280,13 +275,11 @@ class GameState extends State
       image(tank_explosion.get(t_explosion_index), 150, 150, 104, 104);
     }
 
-=======
     for (ScorePopup popup : score_popups)
     {
       popup.draw();
     }
     
->>>>>>> 62c59a0e26ae089baead152d0d33a433b2b09683
     physics_manager.draw_debug();
 
     // Draw the HUD
