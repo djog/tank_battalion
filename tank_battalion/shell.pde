@@ -1,5 +1,5 @@
 class Shell {
-  static final int SIZE = 9;
+  static final int SIZE = 10;
   int x, y;
   int move_speed;
   PImage shell_sprite;

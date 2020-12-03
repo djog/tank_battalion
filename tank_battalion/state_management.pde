@@ -16,6 +16,7 @@ enum StateType {
     MENU, 
     GAME, 
     DIFFICULTY_SELECTION,
+    CREDITS,
     GAME_OVER,
 }
 
@@ -38,6 +39,8 @@ class StateManager {
       return new MenuState();
     case GAME:
       return new GameState();
+    case CREDITS:
+      return new CreditsState();
     case GAME_OVER:
       return new GameOverState();
     case DIFFICULTY_SELECTION:

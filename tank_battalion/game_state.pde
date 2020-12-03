@@ -91,6 +91,10 @@ class GameState extends State
         spawn_opponents = !spawn_opponents;
         println("Toggle opponent spawning: " + spawn_opponents);
       }
+      if ((keyCode == 'U' || keyCode == 'u') && ENABLE_DEBUG_MODE)
+      {
+        player.upgrade();
+      }
     }
   }
 

@@ -9,7 +9,7 @@ class DifficultyState extends State
   @Override
   void on_start() {
     menu_font = createFont(FONTS_FOLDER + "RetroGaming.ttf", 128.0);
-    final int BUTTONS_OFFSET = 200;
+    final int BUTTONS_OFFSET = 140;
     final int BUTTONS_SPACING = 40;
     easy_button = new Button(width / 2, height /2 + BUTTONS_OFFSET, "EASY");
     normal_button = new Button(width / 2, height /2 + BUTTONS_OFFSET + Button.HEIGHT + BUTTONS_SPACING, "NORMAL");

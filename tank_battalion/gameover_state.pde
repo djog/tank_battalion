@@ -7,7 +7,7 @@ class GameOverState extends State
   @Override
   void on_start()
   {
-    final int BUTTONS_OFFSET = 70;
+    final int BUTTONS_OFFSET = 30;
     final int BUTTONS_SPACING = 40;
     play_again_button = new Button(width / 2, height /2 + BUTTONS_OFFSET, "PLAY AGAIN");
     menu_button = new Button(width / 2, height /2 + BUTTONS_OFFSET + Button.HEIGHT + BUTTONS_SPACING, "MENU");
