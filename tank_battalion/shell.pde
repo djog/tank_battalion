@@ -5,7 +5,7 @@ class Shell {
   PImage shell_sprite;
   boolean up, down, left, right = false;
   int collider_id;
-  boolean is_destroyed = false;
+  boolean is_destroyed, tank_explosion = false;
   byte layer_mask;
 
   public Shell(int tx, int ty, int direction, int move_speed, byte layer_mask) {
@@ -51,12 +51,14 @@ class Shell {
         {
           Enemy enemy = (Enemy)collider.parent;
           enemy.die();
+          tank_explosion = true;
         }
         // Damage player if collided with a player
         if (collider.parent_type == ColliderParentType.PLAYER)
         {
           Player player = (Player)collider.parent;
           player.die();
+          tank_explosion = true;
         }
       }
 
