@@ -168,7 +168,7 @@ class GameState extends State
     {
       if (n_lives > 0)
       {
-        // Repsawn player
+        // Respawn player
         spawn_player();
         n_lives--;
       } else
