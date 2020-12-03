@@ -27,9 +27,18 @@ class GameState extends State
   Flag flag;
   ArrayList<Enemy> enemies = new ArrayList<Enemy>();
   ArrayList<Shell> shells = new ArrayList<Shell>();
+  ArrayList<PImage> brick_explosion = new ArrayList<PImage>();
+  ArrayList<PImage> tank_explosion = new ArrayList<PImage>();
 
   float enemy_spawn_timer = random(MIN_SPAWN_DEALY, MAX_SPAWN_DEALY);
   boolean spawn_opponents = true;
+  
+  int b_explosion_index = 0;
+  float b_explosion_frame_time = 0.15f;
+  float b_explosion_timer = b_explosion_frame_time;
+  int t_explosion_index = 0;
+  float t_explosion_frame_time = 0.15f;
+  float t_explosion_timer = b_explosion_frame_time;
 
   @Override
     void on_start() {
@@ -37,6 +46,13 @@ class GameState extends State
     background_image = loadImage(SPRITES_FOLDER + "Background.png");
     tank_image = loadImage(SPRITES_FOLDER + "PlayerUp.png");
     enemy_image = loadImage(SPRITES_FOLDER + "EnemyUp.png");
+    brick_explosion.add(loadImage(SPRITES_FOLDER + "explosion_0.png"));
+    brick_explosion.add(loadImage(SPRITES_FOLDER + "explosion_1.png"));
+    brick_explosion.add(loadImage(SPRITES_FOLDER + "explosion_2.png"));
+    tank_explosion.add(loadImage(SPRITES_FOLDER + "explosion_1.png"));
+    tank_explosion.add(loadImage(SPRITES_FOLDER + "explosion_3.png"));
+    tank_explosion.add(loadImage(SPRITES_FOLDER + "explosion_4.png"));
+    tank_explosion.add(loadImage(SPRITES_FOLDER + "explosion_3.png"));
     game_font = createFont(FONTS_FOLDER + "RetroGaming.ttf", 48.0);
     game_data.reset_score();
     
@@ -145,6 +161,18 @@ class GameState extends State
 
     // Update flag
     flag.update();
+    
+    b_explosion_timer -= delta_time;
+    if(b_explosion_timer < 0){
+      b_explosion_index = (b_explosion_index + 1) % 3;
+      b_explosion_timer = b_explosion_frame_time;
+    }
+    
+    t_explosion_timer -= delta_time;
+    if(t_explosion_timer < 0){
+      t_explosion_index = (t_explosion_index + 1) % 4;
+      t_explosion_timer = t_explosion_frame_time;
+    }
   }
 
   void spawn_player()
@@ -219,6 +247,15 @@ class GameState extends State
 
     // Draw the player
     player.draw();
+    
+    // Test explosion
+    image(brick_explosion.get(b_explosion_index), 50, 50, 52, 52);
+    if(t_explosion_index == 0){
+      image(tank_explosion.get(t_explosion_index), 150, 150, 52, 52);
+    }
+    else{
+      image(tank_explosion.get(t_explosion_index), 150, 150, 104, 104);
+    }
 
     physics_manager.draw_debug();
 
