@@ -128,12 +128,8 @@ class GameState extends State
       explosion.update(delta_time);
       if (explosion.finished)
       {
-        if (explosion.type == 1) {
+        if (explosion.add_score) {
           int min_score = 1;
-          //if (enemy.is_rainbow) // Higher score for better tank types
-          //{
-          //  min_score = 10;
-          //}
           int score = 100 + 100 * floor(random(min_score, 15));
           score_popups.add(new ScorePopup(explosion.x, explosion.y, score));
           game_data.add_score(score);
@@ -160,10 +156,10 @@ class GameState extends State
       if (shell.is_destroyed) {
         if (shell.hit_tank)
         {
-          explosions.add(new Explosion(shell.x, shell.y, 1));
+          explosions.add(new Explosion(shell.x, shell.y, 1, !shell.hit_player));
         }
         else if (shell.hit_level) {
-          explosions.add(new Explosion(shell.x, shell.y, 0));
+          explosions.add(new Explosion(shell.x, shell.y, 0, false));
         }
         iterator.remove();
       }
