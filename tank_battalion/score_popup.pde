@@ -33,7 +33,7 @@ class ScorePopup
   }
    
   void draw() {
-    fill(250, 250, 0);
+    fill(255, 212, 59);
     float text_size = 30 * size;
     if (text_size <= 0)
     {

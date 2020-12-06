@@ -29,7 +29,7 @@ class GameState extends State
   ArrayList<Shell> shells = new ArrayList<Shell>();
   ArrayList<ScorePopup> score_popups = new ArrayList<ScorePopup>();
   ArrayList<Explosion> explosions = new ArrayList<Explosion>();
-  
+
   float enemy_spawn_timer = random(MIN_SPAWN_DEALY, MAX_SPAWN_DEALY);
   boolean spawn_opponents = true;
 
@@ -41,9 +41,9 @@ class GameState extends State
     enemy_image = loadImage(SPRITES_FOLDER + "EnemyUp.png");
     game_font = createFont(FONTS_FOLDER + "RetroGaming.ttf", 48.0);
     game_data.reset_score();
-    
+
     if (ENABLE_DEBUG_MODE) println("Playing difficulty: " + game_data.difficulty);
-    
+
     setup_round();
   }
 
@@ -111,7 +111,7 @@ class GameState extends State
       round++;
       setup_round();
     }
-    
+
     for (Iterator<ScorePopup> popup_it = score_popups.iterator(); popup_it.hasNext(); ) 
     {
       ScorePopup popup = popup_it.next();
@@ -121,14 +121,14 @@ class GameState extends State
         popup_it.remove();
       }
     }
-    
+
     for (Iterator<Explosion> explosion_it = explosions.iterator(); explosion_it.hasNext(); ) 
     {
       Explosion explosion = explosion_it.next();
       explosion.update(delta_time);
       if (explosion.finished)
       {
-        if(explosion.type == 1){
+        if (explosion.type == 1) {
           int min_score = 1;
           //if (enemy.is_rainbow) // Higher score for better tank types
           //{
@@ -141,12 +141,13 @@ class GameState extends State
         explosion_it.remove();
       }
     }
-    
+
     // Update enemies
     for (Iterator<Enemy> iterator = enemies.iterator(); iterator.hasNext(); ) {
       Enemy enemy = iterator.next();
       if (enemy.is_dead) {
         opponents_left--;
+        
         iterator.remove();
         continue;
       }
@@ -157,10 +158,11 @@ class GameState extends State
       Shell shell = iterator.next();
       shell.update(enemies);
       if (shell.is_destroyed) {
-        if(shell.tank_explosion){
+        if (shell.hit_tank)
+        {
           explosions.add(new Explosion(shell.x, shell.y, 1));
         }
-        else{
+        else if (shell.hit_level) {
           explosions.add(new Explosion(shell.x, shell.y, 0));
         }
         iterator.remove();
@@ -253,24 +255,25 @@ class GameState extends State
 
     // Flag draw
     flag.draw();
-    
+
     for (Shell shell : shells) {
       shell.draw();
     }
 
     // Draw the player
     player.draw();
-    
+
+    for (Explosion explosion : explosions) {
+      explosion.draw();
+    }
+
 
     for (ScorePopup popup : score_popups)
     {
       popup.draw();
     }
-    
-    for(Explosion explosion : explosions){
-      explosion.draw();
-    }
-    
+
+
     physics_manager.draw_debug();
 
     // Draw the HUD
