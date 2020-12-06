@@ -26,7 +26,7 @@ class MenuState extends State
       state_manager.switch_state(StateType.DIFFICULTY_SELECTION);
     }
     if (credits_button.is_pressed()) {
-      // TODO: Create credits state/screen - enhancement
+      state_manager.switch_state(StateType.CREDITS);
     }
     if (quit_button.is_pressed())
     {
