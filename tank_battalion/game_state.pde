@@ -28,6 +28,7 @@ class GameState extends State
   ArrayList<Enemy> enemies = new ArrayList<Enemy>();
   ArrayList<Shell> shells = new ArrayList<Shell>();
   ArrayList<ScorePopup> score_popups = new ArrayList<ScorePopup>();
+  ArrayList<Explosion> explosions = new ArrayList<Explosion>();
   
   float enemy_spawn_timer = random(MIN_SPAWN_DEALY, MAX_SPAWN_DEALY);
   boolean spawn_opponents = true;
@@ -121,18 +122,30 @@ class GameState extends State
       }
     }
     
+    for (Iterator<Explosion> explosion_it = explosions.iterator(); explosion_it.hasNext(); ) 
+    {
+      Explosion explosion = explosion_it.next();
+      explosion.update(delta_time);
+      if (explosion.finished)
+      {
+        if(explosion.type == 1){
+          int min_score = 1;
+          //if (enemy.is_rainbow) // Higher score for better tank types
+          //{
+          //  min_score = 10;
+          //}
+          int score = 100 + 100 * floor(random(min_score, 15));
+          score_popups.add(new ScorePopup(explosion.x, explosion.y, score));
+          game_data.add_score(score);
+        }
+        explosion_it.remove();
+      }
+    }
+    
     // Update enemies
     for (Iterator<Enemy> iterator = enemies.iterator(); iterator.hasNext(); ) {
       Enemy enemy = iterator.next();
       if (enemy.is_dead) {
-        int min_score = 1;
-        if (enemy.is_rainbow) // Higher score for better tank types
-        {
-          min_score = 10;
-        }
-        int score = 100 + 100 * floor(random(min_score, 15));
-        score_popups.add(new ScorePopup(enemy.x, enemy.y, score));
-        game_data.add_score(score);
         opponents_left--;
         iterator.remove();
         continue;
@@ -144,6 +157,12 @@ class GameState extends State
       Shell shell = iterator.next();
       shell.update(enemies);
       if (shell.is_destroyed) {
+        if(shell.tank_explosion){
+          explosions.add(new Explosion(shell.x, shell.y, 1));
+        }
+        else{
+          explosions.add(new Explosion(shell.x, shell.y, 0));
+        }
         iterator.remove();
       }
     }
@@ -153,7 +172,7 @@ class GameState extends State
     {
       if (n_lives > 0)
       {
-        // Repsawn player
+        // Respawn player
         spawn_player();
         n_lives--;
       } else
@@ -242,9 +261,14 @@ class GameState extends State
     // Draw the player
     player.draw();
     
+
     for (ScorePopup popup : score_popups)
     {
       popup.draw();
+    }
+    
+    for(Explosion explosion : explosions){
+      explosion.draw();
     }
     
     physics_manager.draw_debug();
