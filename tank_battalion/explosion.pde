@@ -11,10 +11,12 @@ class Explosion
   ArrayList<PImage> explosion = new ArrayList<PImage>();
   
   boolean finished = false;
+  boolean add_score;
   
-  Explosion(int x, int y, int type){
+  Explosion(int x, int y, int type, boolean add_score) {
     this.x = x;
     this.y = y;
+    this.add_score = add_score;
     this.type = type;
     if(type == 0){
       explosion.add(loadImage(SPRITES_FOLDER + "explosion_0.png"));
