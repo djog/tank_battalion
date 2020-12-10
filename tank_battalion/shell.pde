@@ -5,7 +5,7 @@ class Shell {
   PImage shell_sprite;
   boolean up, down, left, right = false;
   int collider_id;
-  boolean is_destroyed, hit_tank, hit_player, hit_level, hit_from_back = false;
+  boolean is_destroyed, hit_tank, hit_player, hit_level, hit_from_back, hit_flag = false;
   byte layer_mask;
 
   public Shell(int tx, int ty, int direction, int move_speed, byte layer_mask) {
@@ -76,7 +76,7 @@ class Shell {
           hit_level = true;
         }
         if(collider.parent_type == ColliderParentType.FLAG){
-          print("test");
+          hit_flag = true;
         }
       }
 

@@ -2,8 +2,9 @@ class Flag {
   static final int SIZE = 55;
 
   int x, y, hits, collider_id;
+  boolean game_over, white_flag = false;
 
-  PImage flag;
+  PImage flag, white_flag_sprite;
 
   Flag(int xpos, int ypos)
   {
@@ -11,8 +12,17 @@ class Flag {
     y = ypos;
 
     flag = loadImage(SPRITES_FOLDER + "Flag.png");
+    white_flag_sprite = loadImage(SPRITES_FOLDER + "white_flag.png");
     
     collider_id = physics_manager.get_collider_id();
+  }
+  
+  void hit(){
+    hits++;
+    if(hits == 2){
+      //state_manager.switch_state(StateType.GAME_OVER);
+      game_over = true;
+    }
   }
 
   void update() 
@@ -21,20 +31,23 @@ class Flag {
     { 
       //state_manager.switch_state(StateType.GAME_OVER);
       hits++;
-      print("test");
     }
     physics_manager.update_collider(collider_id, new AABB(x, y, SIZE, SIZE, ALL_LAYERS, ColliderParentType.FLAG, this));
   }
 
   void draw() {   
     imageMode(CENTER);
-    if(hits == 0){
-      tint(208, 192, 80, 255);
+    if(white_flag){
+      tint(255, 255, 255, 255);
+      image(white_flag_sprite, x, y, SIZE, SIZE);
+    } else {
+      if(hits == 0){
+        tint(208, 192, 80, 255);
+      } else {
+        tint(255, 115, 115, 255);
+      }
+      image(flag, x, y, SIZE, SIZE);
     }
-    else{
-      tint(255, 115, 115, 255);
-    }
-    image(flag, x, y, SIZE, SIZE);
     tint(255, 255, 255, 255);
   }
 }

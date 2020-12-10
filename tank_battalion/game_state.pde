@@ -60,6 +60,10 @@ class GameState extends State
 
   @Override
     void on_input(boolean is_key_down) {
+    if(flag.game_over){
+      return;
+    }
+    
     player.input(keyCode, is_key_down);
 
     if (is_key_down)
@@ -102,6 +106,30 @@ class GameState extends State
   @Override
     void on_update(float delta_time)
   {
+    for (Iterator<Explosion> explosion_it = explosions.iterator(); explosion_it.hasNext(); ) 
+    {
+      Explosion explosion = explosion_it.next();
+      explosion.update(delta_time);
+      if (explosion.finished)
+      {
+        if (explosion.add_score) {
+          int min_score = 1;
+          int score = 100 + 100 * floor(random(min_score, 15));
+          score_popups.add(new ScorePopup(explosion.x, explosion.y, score));
+          game_data.add_score(score);
+        }
+        explosion_it.remove();
+      }
+    }
+    
+    if(explosions.size() == 0 && flag.game_over){
+      flag.white_flag = true;
+    }
+    
+    if (flag.game_over){
+      return;
+    }
+    
     // Maybe spawn some new enemies
     if (opponents_left - enemies.size() > 0 && spawn_opponents)
       spawn_enemies(delta_time);
@@ -122,22 +150,6 @@ class GameState extends State
       if (popup.is_destroyed)
       {
         popup_it.remove();
-      }
-    }
-
-    for (Iterator<Explosion> explosion_it = explosions.iterator(); explosion_it.hasNext(); ) 
-    {
-      Explosion explosion = explosion_it.next();
-      explosion.update(delta_time);
-      if (explosion.finished)
-      {
-        if (explosion.add_score) {
-          int min_score = 1;
-          int score = 100 + 100 * floor(random(min_score, 15));
-          score_popups.add(new ScorePopup(explosion.x, explosion.y, score));
-          game_data.add_score(score);
-        }
-        explosion_it.remove();
       }
     }
 
@@ -166,6 +178,9 @@ class GameState extends State
           explosions.add(new Explosion(shell.x, shell.y, 1, !shell.hit_player));
         } else if (shell.hit_level) {
           explosions.add(new Explosion(shell.x, shell.y, 0, false));
+        } else if (shell.hit_flag) {
+          flag.hit();
+          explosions.add(new Explosion(flag.x, flag.y, 1, false));
         }
         iterator.remove();
       }
