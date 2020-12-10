@@ -154,6 +154,10 @@ class GameState extends State
       Shell shell = iterator.next();
       shell.update(enemies);
       if (shell.is_destroyed) {
+        if (shell.hit_from_back)
+        {
+          player.upgrade();
+        }
         if (shell.hit_tank)
         {
           explosions.add(new Explosion(shell.x, shell.y, 1, !shell.hit_player));

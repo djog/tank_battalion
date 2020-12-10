@@ -5,7 +5,7 @@ class Shell {
   PImage shell_sprite;
   boolean up, down, left, right = false;
   int collider_id;
-  boolean is_destroyed, hit_tank, hit_player, hit_level = false;
+  boolean is_destroyed, hit_tank, hit_player, hit_level, hit_from_back = false;
   byte layer_mask;
 
   public Shell(int tx, int ty, int direction, int move_speed, byte layer_mask) {
@@ -50,6 +50,16 @@ class Shell {
         if (collider.parent_type == ColliderParentType.ENEMY)
         {
           Enemy enemy = (Enemy)collider.parent;
+          if (enemy.direction == 2 && left) {
+            hit_from_back = true;
+          } else if (enemy.direction == 1 && down) {
+            hit_from_back = true;
+          } else if (enemy.direction == 3 && right) {
+            hit_from_back = true;
+          } else if (enemy.direction == 0 && up) {
+            hit_from_back = true;
+          }
+          
           enemy.die();
           hit_tank = true;
         }
