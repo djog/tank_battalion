@@ -1,40 +1,17 @@
-# djog_unos_2020
+# Tank Battalion
 
-DJOG Uno's 2020-2021.
+A recreation of the arcade game Tank Battalion by the DJOG Uno's 2020 team.
 
-## Goal
+## Goals
 
-* Re-create Tank Battalion
-* Learn how to program using Processing
-* Learn how to work with `git` en GitHub
-* Practice in teamwork
-
-## Pics of real game
-
-![](pics/Arena.png)
-![](pics/Background.png)
-![](pics/Original.png)
-![](pics/Original2.png)
-
-## Sprites to use
-
-![](assets/sprites/Bricks.png)
-![](assets/sprites/NoBricks.png)
-![](assets/sprites/EnemyDown.png)
-![](assets/sprites/EnemyLeft.png)
-![](assets/sprites/EnemyRight.png)
-![](assets/sprites/EnemyUp.png)
-![](assets/sprites/PlayerDown.png)
-![](assets/sprites/PlayerLeft.png)
-![](assets/sprites/PlayerRight.png)
-![](assets/sprites/PlayerUp.png)
-![](assets/sprites/Flag.png)
-![](assets/sprites/Shell.png)
-![](assets/sprites/Background.png)
+- [x] Re-create Tank Battalion
+- [x] Learned how to program using Processing
+- [x] Learned how to work with Git & GitHub
+- [x] Practiced with teamwork
 
 ## Code of Conduct
 
-See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+See: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
 In case it is undesirable to email Richel Bilderbeek,
 contact Carleen Baarda, the director of DJO.
@@ -43,14 +20,14 @@ contact Carleen Baarda, the director of DJO.
 
 Most recent at the top.
 
-![](pics/20200905.png)
+![](pics/20201206.png)
 
-![](pics/20200821.png)
+![](pics/20200905.png)
 
 ## Links
 
-* [git voor jonge tieners](https://github.com/richelbilderbeek/git_voor_jonge_tieners)
-* [djog.github.io/help](https://djog.github.io/help/)
+* [Git voor jonge tieners](https://github.com/richelbilderbeek/git_voor_jonge_tieners)
+* [Git Help](https://djog.github.io/help/)
 * [Tank Battalion Wikipedia page](https://en.wikipedia.org/wiki/Tank_Battalion)
-* [YouTube video](https://youtu.be/vNNPbVpZutw)
-* [Play the game online](https://www.retrogames.cc/msx1-games/tank-battalion.html)
+* [YouTube video of original game](https://youtu.be/vNNPbVpZutw)
+* [Play the original game (online emulator)](https://www.retrogames.cc/msx1-games/tank-battalion.html)

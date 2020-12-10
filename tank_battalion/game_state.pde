@@ -28,7 +28,8 @@ class GameState extends State
   ArrayList<Enemy> enemies = new ArrayList<Enemy>();
   ArrayList<Shell> shells = new ArrayList<Shell>();
   ArrayList<ScorePopup> score_popups = new ArrayList<ScorePopup>();
-  
+  ArrayList<Explosion> explosions = new ArrayList<Explosion>();
+
   float enemy_spawn_timer = random(MIN_SPAWN_DEALY, MAX_SPAWN_DEALY);
   boolean spawn_opponents = true;
 
@@ -40,9 +41,9 @@ class GameState extends State
     enemy_image = loadImage(SPRITES_FOLDER + "EnemyUp.png");
     game_font = createFont(FONTS_FOLDER + "RetroGaming.ttf", 48.0);
     game_data.reset_score();
-    
+
     if (ENABLE_DEBUG_MODE) println("Playing difficulty: " + game_data.difficulty);
-    
+
     setup_round();
   }
 
@@ -91,6 +92,10 @@ class GameState extends State
         spawn_opponents = !spawn_opponents;
         println("Toggle opponent spawning: " + spawn_opponents);
       }
+      if ((keyCode == 'U' || keyCode == 'u') && ENABLE_DEBUG_MODE)
+      {
+        player.upgrade();
+      }
     }
   }
 
@@ -106,7 +111,7 @@ class GameState extends State
       round++;
       setup_round();
     }
-    
+
     for (Iterator<ScorePopup> popup_it = score_popups.iterator(); popup_it.hasNext(); ) 
     {
       ScorePopup popup = popup_it.next();
@@ -116,20 +121,29 @@ class GameState extends State
         popup_it.remove();
       }
     }
-    
+
+    for (Iterator<Explosion> explosion_it = explosions.iterator(); explosion_it.hasNext(); ) 
+    {
+      Explosion explosion = explosion_it.next();
+      explosion.update(delta_time);
+      if (explosion.finished)
+      {
+        if (explosion.add_score) {
+          int min_score = 1;
+          int score = 100 + 100 * floor(random(min_score, 15));
+          score_popups.add(new ScorePopup(explosion.x, explosion.y, score));
+          game_data.add_score(score);
+        }
+        explosion_it.remove();
+      }
+    }
+
     // Update enemies
     for (Iterator<Enemy> iterator = enemies.iterator(); iterator.hasNext(); ) {
       Enemy enemy = iterator.next();
       if (enemy.is_dead) {
-        int min_score = 1;
-        if (enemy.is_rainbow) // Higher score for better tank types
-        {
-          min_score = 10;
-        }
-        int score = 100 + 100 * floor(random(min_score, 15));
-        score_popups.add(new ScorePopup(enemy.x, enemy.y, score));
-        game_data.add_score(score);
         opponents_left--;
+        
         iterator.remove();
         continue;
       }
@@ -140,6 +154,13 @@ class GameState extends State
       Shell shell = iterator.next();
       shell.update(enemies);
       if (shell.is_destroyed) {
+        if (shell.hit_tank)
+        {
+          explosions.add(new Explosion(shell.x, shell.y, 1, !shell.hit_player));
+        }
+        else if (shell.hit_level) {
+          explosions.add(new Explosion(shell.x, shell.y, 0, false));
+        }
         iterator.remove();
       }
     }
@@ -149,7 +170,7 @@ class GameState extends State
     {
       if (n_lives > 0)
       {
-        // Repsawn player
+        // Respawn player
         spawn_player();
         n_lives--;
       } else
@@ -230,19 +251,25 @@ class GameState extends State
 
     // Flag draw
     flag.draw();
-    
+
     for (Shell shell : shells) {
       shell.draw();
     }
 
     // Draw the player
     player.draw();
-    
+
+    for (Explosion explosion : explosions) {
+      explosion.draw();
+    }
+
+
     for (ScorePopup popup : score_popups)
     {
       popup.draw();
     }
-    
+
+
     physics_manager.draw_debug();
 
     // Draw the HUD
