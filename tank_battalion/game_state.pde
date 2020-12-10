@@ -188,7 +188,7 @@ class GameState extends State
 
   void spawn_player()
   {
-    player = new Player(ARENA_X + Player.SIZE, ARENA_Y + ARENA_SIZE - Player.SIZE);
+    player = new Player(ARENA_X + Player.SIZE, ARENA_Y + ARENA_SIZE - Player.SIZE / 2);
   }
 
   void spawn_enemies(float delta_time)

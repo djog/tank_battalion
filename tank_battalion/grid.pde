@@ -17,10 +17,10 @@ class Grid {
     }
     physics_manager.update_grid(this);
 
-    brick_1 = loadImage(SPRITES_FOLDER + "Brick_1.png");
-    brick_2 = loadImage(SPRITES_FOLDER + "Brick_2.png");
-    brick_3 = loadImage(SPRITES_FOLDER + "Brick_3.png");
-    brick_4 = loadImage(SPRITES_FOLDER + "Brick_4.png");
+    brick_1 = loadImage(SPRITES_FOLDER + "Brick_3.png");
+    brick_2 = loadImage(SPRITES_FOLDER + "Brick_4.png");
+    brick_3 = loadImage(SPRITES_FOLDER + "Brick_1.png");
+    brick_4 = loadImage(SPRITES_FOLDER + "Brick_2.png");
   }
 
   void draw() {
