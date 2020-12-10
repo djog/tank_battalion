@@ -75,7 +75,7 @@ class Enemy {
       shells.add(new Shell(x, y, direction, 6, SHELL_LAYER_MASK));
     }
 
-    if (tint_cooldown < 0 && is_rainbow) {
+    if (tint_cooldown < 0 && type == TankType.RAINBOW) {
       tint_index = (tint_index + 1) % 4;
       tint = colors.get(tint_index);
       tint_cooldown = 0.2f;
