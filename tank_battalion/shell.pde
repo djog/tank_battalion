@@ -75,6 +75,9 @@ class Shell {
         {
           hit_level = true;
         }
+        if(collider.parent_type == ColliderParentType.FLAG){
+          print("test");
+        }
       }
 
       is_destroyed = true;

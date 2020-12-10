@@ -11,6 +11,7 @@ enum ColliderParentType
   NONE, 
   PLAYER, 
   ENEMY,
+  FLAG,
   WALL,
 }
 
