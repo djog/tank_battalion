@@ -1,3 +1,10 @@
+enum TankType
+{
+  NORMAL,
+  RAINBOW,
+  RED
+}
+
 class Enemy {
   static final int SIZE = 52;
   static final float MIN_ROTATE_DELAY = .2f;
@@ -18,7 +25,7 @@ class Enemy {
   float fire_delay = 0.0f;
   int target_direction;
   int direction = 1;
-  boolean is_rainbow;
+  TankType type;
   color tint = color(255, 0, 0);
   float tint_cooldown = 0.2f;
   IntList colors = new IntList();
@@ -26,11 +33,13 @@ class Enemy {
 
   PImage enemy_up, enemy_down, enemy_left, enemy_right, actual_image;
 
-  Enemy(int xpos, int ypos, boolean is_rainbow) {
+  Enemy(int xpos, int ypos, TankType type) {
     x = xpos;
     y = ypos;
-    this.is_rainbow = is_rainbow;
-    if(!is_rainbow){
+    
+    this.type = type;
+    
+    if(type != TankType.RAINBOW) {
       tint = color(64, 232, 240);
     }
     enemy_up = loadImage(SPRITES_FOLDER + "EnemyUp.png");
