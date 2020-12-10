@@ -11,6 +11,7 @@ enum ColliderParentType
   NONE, 
   PLAYER, 
   ENEMY,
+  FLAG
 }
 
 class AABB // Axis Aligned Bounding Box

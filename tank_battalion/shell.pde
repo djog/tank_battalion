@@ -60,6 +60,9 @@ class Shell {
           player.die();
           tank_explosion = true;
         }
+        if(collider.parent_type == ColliderParentType.FLAG){
+          print("test");
+        }
       }
 
       is_destroyed = true;

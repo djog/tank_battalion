@@ -108,6 +108,9 @@ class GameState extends State
       setup_round();
     }
     
+    // Update flag
+    flag.update();
+    
     for (Iterator<ScorePopup> popup_it = score_popups.iterator(); popup_it.hasNext(); ) 
     {
       ScorePopup popup = popup_it.next();
@@ -179,9 +182,6 @@ class GameState extends State
     {
       player.update(shells, delta_time);
     }
-
-    // Update flag
-    flag.update();
   }
 
   void spawn_player()
