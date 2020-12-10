@@ -26,7 +26,7 @@ class Enemy {
   int target_direction;
   int direction = 1;
   TankType type;
-  color tint = color(255, 0, 0);
+  color tint = color(255, 255, 255);
   float tint_cooldown = 0.2f;
   IntList colors = new IntList();
   int tint_index = 0;
@@ -43,7 +43,7 @@ class Enemy {
       tint = color(64, 232, 240);
     }
     if (type == TankType.RED) {
-      tint = color(250, 60, 20);    
+      tint = color(255, 93, 93);    
     }
     
     enemy_up = loadImage(SPRITES_FOLDER + "EnemyUp.png");
