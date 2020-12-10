@@ -51,7 +51,7 @@ class GameState extends State
   void setup_round() {
     opponents_left = 13 + round * 3;
     n_lives = LIVES_PER_ROUND;
-    grid = new Grid(99);
+    grid = new Grid(round);
     spawn_player();
     flag = new Flag(ARENA_CENTER_X, ARENA_Y + ARENA_SIZE - ARENA_BORDER);
     enemies.clear();
