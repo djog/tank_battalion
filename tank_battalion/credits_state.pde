@@ -4,8 +4,8 @@ class CreditsState extends State
 
   Button back_button;
 
-  final String[] contributors = {"Rijk van Putten", "Rob Krüger", "Max Achternaamloos", 
-    "Sjoerd Achternaamloos", "Aram Achternaamloos", "Mart Achternaamloos"};
+  final String[] contributors = {"Rijk van Putten", "Rob Krüger", "Max Weertman", 
+    "Sjoerd Dijksterhuis", "Aram Petiet", "Mart Prenger"};
 
   @Override
     void on_start() {
