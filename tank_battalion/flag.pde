@@ -16,14 +16,6 @@ class Flag {
     
     collider_id = physics_manager.get_collider_id();
   }
-  
-  void hit(){
-    hits++;
-    if(hits == 2){
-      //state_manager.switch_state(StateType.GAME_OVER);
-      game_over = true;
-    }
-  }
 
   void update() 
   {

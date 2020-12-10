@@ -31,6 +31,7 @@ class GameState extends State
   ArrayList<Explosion> explosions = new ArrayList<Explosion>();
 
   float enemy_spawn_timer = random(MIN_SPAWN_DEALY, MAX_SPAWN_DEALY);
+  float game_over_timer = 3f;
   boolean spawn_opponents = true;
 
   @Override
@@ -122,11 +123,14 @@ class GameState extends State
       }
     }
     
-    if(explosions.size() == 0 && flag.game_over){
-      flag.white_flag = true;
-    }
-    
     if (flag.game_over){
+      game_over_timer -= delta_time;
+      if(game_over_timer < 0){
+        state_manager.switch_state(StateType.GAME_OVER);
+      }
+      if(explosions.size() == 0){
+        flag.white_flag = true;
+      }
       return;
     }
     
@@ -179,8 +183,11 @@ class GameState extends State
         } else if (shell.hit_level) {
           explosions.add(new Explosion(shell.x, shell.y, 0, false));
         } else if (shell.hit_flag) {
-          flag.hit();
-          explosions.add(new Explosion(flag.x, flag.y, 1, false));
+          flag.hits++;
+          if(flag.hits == 2){
+            explosions.add(new Explosion(flag.x, flag.y, 1, false));
+            flag.game_over = true;
+          }
         }
         iterator.remove();
       }
