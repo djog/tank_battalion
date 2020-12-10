@@ -8,7 +8,7 @@ class Grid {
 
   public Grid(int round) {
     nodes = new int[SIZE][SIZE];
-    String[] lines = loadStrings(LEVEL_FOLDER + "layout-" + round + ".ini");
+    String[] lines = loadStrings(LEVEL_FOLDER + get_file(round));
     for (int y = 0; y < SIZE; y++) {
       int[] node_values = int(split(lines[y], " "));
       for (int x = 0; x < SIZE; x++) {
@@ -40,6 +40,50 @@ class Grid {
         }
       }
     }
+  }
+}
+
+private static String get_file(int round){
+  switch(round){
+    case 1:
+    case 20:
+      return "layout-1.ini";
+      
+    case 2:
+    case 17:
+      return "layout-2.ini";
+      
+    case 3:
+    case 6:
+    case 9:
+    case 15:
+      return "layout-3.ini";
+    
+    case 4:
+    case 10:
+    case 14:
+      return "layout-4.ini";
+      
+    case 5:
+    case 12:
+      return "layout-5.ini";
+      
+    case 7:
+    case 16:
+    case 21:
+      return "layout-6.ini";
+      
+    case 8:
+    case 11:
+    case 18:
+    case 19:
+      return "layout-7.ini";
+      
+    case 22:
+      return "layout-8.ini";
+      
+    default:
+      return "null";
   }
 }
 
