@@ -11,7 +11,8 @@ enum ColliderParentType
   NONE, 
   PLAYER, 
   ENEMY,
-  FLAG
+  FLAG,
+  WALL,
 }
 
 class AABB // Axis Aligned Bounding Box
@@ -134,7 +135,7 @@ public class PhysicsManager
           if (node_value > 0)
           {
             PVector screenCoords = grid_to_screen_coords(target_x, target_y);        
-            node_colliders.add(new AABB((int)screenCoords.x + Grid.NODE_SIZE/2, (int)screenCoords.y + Grid.NODE_SIZE/2, Grid.NODE_SIZE, Grid.NODE_SIZE, ENVIRONMENT_LAYER));
+            node_colliders.add(new AABB((int)screenCoords.x + Grid.NODE_SIZE/2, (int)screenCoords.y + Grid.NODE_SIZE/2, Grid.NODE_SIZE, Grid.NODE_SIZE, ENVIRONMENT_LAYER, ColliderParentType.WALL, null));
           }
         }
       }
