@@ -39,9 +39,13 @@ class Enemy {
     
     this.type = type;
     
-    if(type != TankType.RAINBOW) {
+    if(type == TankType.NORMAL) {
       tint = color(64, 232, 240);
     }
+    if (type == TankType.RED) {
+      tint = color(250, 60, 20);    
+    }
+    
     enemy_up = loadImage(SPRITES_FOLDER + "EnemyUp.png");
     enemy_down = loadImage(SPRITES_FOLDER + "EnemyDown.png");
     enemy_left = loadImage(SPRITES_FOLDER + "EnemyLeft.png");
@@ -72,7 +76,9 @@ class Enemy {
     if (fire_timer > fire_delay) {
       fire_timer = 0.0f;
       fire_delay = random(MIN_FIRE_DELAY, MAX_ROTATE_DELAY);
-      shells.add(new Shell(x, y, direction, 6, SHELL_LAYER_MASK));
+      int move_speed = type == TankType.RED ? 16 : 6;
+      shells.add(new Shell(x, y, direction, move_speed
+      , SHELL_LAYER_MASK));
     }
 
     if (tint_cooldown < 0 && type == TankType.RAINBOW) {

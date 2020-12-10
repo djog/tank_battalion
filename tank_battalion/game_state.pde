@@ -143,7 +143,7 @@ class GameState extends State
       Enemy enemy = iterator.next();
       if (enemy.is_dead) {
         opponents_left--;
-        
+
         iterator.remove();
         continue;
       }
@@ -161,8 +161,7 @@ class GameState extends State
         if (shell.hit_tank)
         {
           explosions.add(new Explosion(shell.x, shell.y, 1, !shell.hit_player));
-        }
-        else if (shell.hit_level) {
+        } else if (shell.hit_level) {
           explosions.add(new Explosion(shell.x, shell.y, 0, false));
         }
         iterator.remove();
@@ -224,15 +223,20 @@ class GameState extends State
 
       // Spawn a new enemy
       enemy_spawn_timer = random(MIN_SPAWN_DEALY, MAX_SPAWN_DEALY);
-      int rainbow_chance =(int)random(0, 100);
+      int type_chance =(int)random(0, 100);
       boolean is_rainbow = false;
-      if (rainbow_chance <= 20) { // 20 % change to be a rainbow tank for now
+      boolean is_red = false;
+      if (type_chance <= 20) { // 20 % change to be a rainbow tank for now
         is_rainbow=true;
+      } else if (type_chance <= 40) {
+        is_red = true;
       }
       TankType type;
       if (is_rainbow)
       {
         type = TankType.RAINBOW;
+      } else if (is_red) {
+        type = TankType.RED;
       } else {
         type = TankType.NORMAL;
       }
