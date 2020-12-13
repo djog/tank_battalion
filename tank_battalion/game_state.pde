@@ -50,7 +50,7 @@ class GameState extends State
 
   // Setup the round according the the round variable
   void setup_round() {
-    opponents_left = 13 + round * 3;
+    opponents_left = 10 + round * 3;
     n_lives = LIVES_PER_ROUND;
     grid = new Grid(round);
     spawn_player();
@@ -213,7 +213,7 @@ class GameState extends State
 
   void spawn_player()
   {
-    player = new Player(ARENA_X + Player.SIZE, ARENA_Y + ARENA_SIZE - Player.SIZE / 2);
+    player = new Player(ARENA_X + Player.SIZE/2 + 4, ARENA_Y + ARENA_SIZE - Player.SIZE / 2 - 4);
   }
 
   void spawn_enemies(float delta_time)
@@ -248,9 +248,10 @@ class GameState extends State
       int type_chance =(int)random(0, 100);
       boolean is_rainbow = false;
       boolean is_red = false;
-      if (type_chance <= 20) { // 20 % change to be a rainbow tank for now
+      // 15% chance to be a rainbow tank or red tank
+      if (type_chance <= 15) {
         is_rainbow=true;
-      } else if (type_chance <= 40) {
+      } else if (type_chance <= 30) {
         is_red = true;
       }
       TankType type;
@@ -335,12 +336,12 @@ class GameState extends State
 
     // Draw the Round
     fill(255, 255, 255);
-    text("ROUND " + round, width - 300, 750);
+    text("ROUND " + round, width - 300, height - 100);
 
     // Draw the lives left
     for (int i = 0; i < n_lives; i++)
     {
-      image(tank_image, width - 340 + i * (Player.SIZE + 10), 600, Player.SIZE, Player.SIZE);
+      image(tank_image, width - 340 + i * (Player.SIZE + 10), height - 200, Player.SIZE, Player.SIZE);
     }
 
     // Draw enemies left
