@@ -18,11 +18,10 @@ contact Carleen Baarda, the director of DJO.
 
 ## Screenshots
 
-Most recent at the top.
 
-![](pics/20201206.png)
-
-![](pics/20200905.png)
+![](pics/20201213.png)
+![](pics/menu.png)
+![](pics/gameover.png)
 
 ## Links
 
