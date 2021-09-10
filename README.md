@@ -4,12 +4,12 @@ A recreation of the arcade game Tank Battalion by the DJOG Uno's 2020 team in pr
 
 ## Download
 
-- [**Windows (64-bit)**](https://drive.google.com/file/d/15mamrIVURvDZWZ9cmPaCihfxW2cZGMN7)
+- [**Windows (64-bit)**](https://dl.rijkvp.nl/Tank-Battalion_Windows64.zip)
 
-- [**Linux (64-bit)**](https://drive.google.com/file/d/1iA8HHxbwiic3z7kysODHYwkHkqVHDSZg)
+- [**Linux (64-bit)**](https://dl.rijkvp.nl/Tank-Battalion_Linux64.tar)
 
 Unzip the archive and run the executable to play!
-Make sure you've a JRE installed if you're using Linux.
+Make sure you've a JRE installed if you're using Linux. The Windows download comes bundled with a JRE. 
 
 ## Screenshots
 
