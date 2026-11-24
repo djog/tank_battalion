@@ -1,2 +1,5 @@
 # Ignore autosaves
 *.autosave
+
+# Generated when building the website
+site/
