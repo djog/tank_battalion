@@ -27,18 +27,13 @@ jobs:
           tar xzf processing.tgz -C "$RUNNER_TEMP"
           rm processing.tgz
 
-      # Find the download link of each library in Processing's own library index
+      # Download links as in Processing's library index,
+      # https://github.com/processing/processing-contributions/blob/main/contributions.yaml
       - name: Install the Processing libraries the game uses
         run: |
           mkdir -p ~/sketchbook/libraries
-          curl --fail --silent --show-error --location --output contribs.txt https://download.processing.org/contribs
-          for name in Sound; do
-            url=$(awk -v name="$name" -F= '$1=="name"{found=($2==name)} found && $1=="download"{print $2; exit}' contribs.txt)
-            echo "Library $name: $url"
-            curl --fail --silent --show-error --location --output library.zip "$url"
-            unzip -q -o library.zip -d ~/sketchbook/libraries
-            rm library.zip
-          done
+          curl --fail --silent --show-error --location --output sound.zip https://github.com/processing/processing-sound/releases/latest/download/sound.zip
+          unzip -q -o sound.zip -d ~/sketchbook/libraries
           ls ~/sketchbook/libraries
 
       # processing-java needs the sketch folder to have the same name
