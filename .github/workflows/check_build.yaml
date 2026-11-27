@@ -1,0 +1,52 @@
+# Check that the Processing sketch can be built
+name: Check build
+
+on:
+  push:
+    paths:
+      - .github/workflows/check_build.yaml
+      - "**.pde"
+  pull_request:
+    paths:
+      - .github/workflows/check_build.yaml
+      - "**.pde"
+  workflow_dispatch:
+
+env:
+  PROCESSING_URL: https://github.com/processing/processing4/releases/download/processing-1293-4.3/processing-4.3-linux-x64.tgz
+
+jobs:
+  check_build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install Processing
+        run: |
+          curl --fail --silent --show-error --location --output processing.tgz "$PROCESSING_URL"
+          tar xzf processing.tgz -C "$RUNNER_TEMP"
+          rm processing.tgz
+
+      # Find the download link of each library in Processing's own library index
+      - name: Install the Processing libraries the game uses
+        run: |
+          mkdir -p ~/sketchbook/libraries
+          curl --fail --silent --show-error --location --output contribs.txt https://download.processing.org/contribs
+          for name in Sound; do
+            url=$(awk -v name="$name" -F= '$1=="name"{found=($2==name)} found && $1=="download"{print $2; exit}' contribs.txt)
+            echo "Library $name: $url"
+            curl --fail --silent --show-error --location --output library.zip "$url"
+            unzip -q -o library.zip -d ~/sketchbook/libraries
+            rm library.zip
+          done
+          ls ~/sketchbook/libraries
+
+      # processing-java needs the sketch folder to have the same name
+      # as the sketch's main .pde file
+      - name: Build the sketch
+        run: |
+          xvfb-run -a "$RUNNER_TEMP/processing-4.3/processing-java" \
+            --sketch="${{ github.workspace }}/tank_battalion" \
+            --output="$RUNNER_TEMP/build" \
+            --force \
+            --build
